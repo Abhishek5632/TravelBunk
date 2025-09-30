@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelBunk - Find Your Travel Tribe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <h2>TravelBunk</h2>
+       
+      </div>
+  
+      <ul class="nav-menu">
+        <!-- Always visible -->
+        <li><a href="#home">Home</a></li>
+      <li><a href="contact.html">Contact</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="local-services.html">Local Services</a></li>
+        <li id="auth-section"></li>
+        <!-- Profile Dropdown (all extra links) -->
+        <li class="profile-menu">
+          
+          <div id="profileDropdown" class="dropdown-content">
+            <a href="contact.html">Contact</a>
+            <a href="about.html">About</a>
+            <a href="explore.html">Explore Trips</a>
+            
+            <a href="signin.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="profile.html">My Profile</a>
+            <a href="#">Settings</a>
+            <a href="#" id="logoutBtn">Logout</a>
+          </div>
+        </li>
+      </ul>
+  
+      <!-- Mobile Menu Icon -->
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Bunk the Ordinary. <br>Travel Together.</h1>
+                <p class="hero-subtitle">Find your travel tribe, plan trips, and make memories — with TravelBunk.</p>
+                <div class="hero-buttons">
+                    <a href="find-companion.html" class="btn btn-primary">Find a Companion</a>
+                    <a href="explore.html" class="btn btn-secondary">Plan a Trip</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-icons">
+                    <i class="fas fa-plane icon-plane"></i>
+                    <i class="fas fa-map icon-map"></i>
+                    <i class="fas fa-backpack icon-backpack"></i>
+                    <i class="fas fa-camera icon-camera"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3>Create a Profile</h3>
+                    <p>Tell us about yourself, your travel style, and dream destinations</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Match with TravelBuddies</h3>
+                    <p>Our algorithm connects you with like-minded travelers</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Chat & Plan Your Trip</h3>
+                    <p>Connect, chat, and plan your perfect adventure together</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companion Matching Preview -->
+    <section id="find-companion" class="companion-matching">
+        <div class="container">
+            <h2 class="section-title">Meet Your Next Travel Buddy</h2>
+            <div class="companions-grid">
+                <div class="companion-card">
+                    <div class="companion-avatar">
+                        <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=500&q=80" alt="Priya">
+                        <div class="online-status"></div>
+                    </div>
+                    <div class="companion-info">
+                        <h3>Priya, 22</h3>
+                        <p class="destination"><i class="fas fa-map-marker-alt"></i> Goa • Dec 15-20</p>
+                        <div class="interests">
+                            <span class="tag">Beach Vibes</span>
+                            <span class="tag">Photography</span>
+                        </div>
+                        <button class="btn btn-outline">Connect</button>
+                    </div>
+                </div>
+                <div class="companion-card">
+                    <div class="companion-avatar">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Arjun">
+                        <div class="online-status"></div>
+                    </div>
+                    <div class="companion-info">
+                        <h3>Arjun, 24</h3>
+                        <p class="destination"><i class="fas fa-map-marker-alt"></i> Manali • Jan 5-12</p>
+                        <div class="interests">
+                            <span class="tag">Adventure</span>
+                            <span class="tag">Trekking</span>
+                        </div>
+                        <button class="btn btn-outline">Connect</button>
+                    </div>
+                </div>
+                <div class="companion-card">
+                    <div class="companion-avatar">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" alt="Sneha">
+                        <div class="online-status offline"></div>
+                    </div>
+                    <div class="companion-info">
+                        <h3>Sneha, 21</h3>
+                        <p class="destination"><i class="fas fa-map-marker-alt"></i> Rishikesh • This Weekend</p>
+                        <div class="interests">
+                            <span class="tag">Spiritual</span>
+                            <span class="tag">Budget Travel</span>
+                        </div>
+                        <button class="btn btn-outline">Connect</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trip Rooms Section -->
+    <section id="explore-trips" class="trip-rooms">
+        <div class="container">
+            <h2 class="section-title">Join Trip Rooms</h2>
+            <p class="section-subtitle">Connect with groups planning similar adventures</p>
+            <div class="rooms-grid">
+                <div class="room-card">
+                    <div class="room-image">
+                        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=250&fit=crop" alt="Goa Beach">
+                        <div class="room-badges">
+                            <span class="badge budget">Budget Friendly</span>
+                        </div>
+                    </div>
+                    <div class="room-content">
+                        <h3>Goa Beach Getaway</h3>
+                        <p><i class="fas fa-users"></i> 12 members • <i class="fas fa-calendar"></i> Dec 20-25</p>
+                        <p class="room-description">Chill beach vibes, local food, and sunset parties 🌅</p>
+                        <button class="btn btn-primary">Join Room</button>
+                    </div>
+                </div>
+                <div class="room-card">
+                    <div class="room-image">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop" alt="Manali Trek">
+                        <div class="room-badges">
+                            <span class="badge adventure">Adventure</span>
+                        </div>
+                    </div>
+                    <div class="room-content">
+                        <h3>Manali Snow Trek</h3>
+                        <p><i class="fas fa-users"></i> 8 members • <i class="fas fa-calendar"></i> Jan 10-15</p>
+                        <p class="room-description">Epic mountain views and snow adventures ❄️</p>
+                        <button class="btn btn-primary">Join Room</button>
+                    </div>
+                </div>
+                <div class="room-card">
+                    <div class="room-image">
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=400&h=250&fit=crop" alt="Workation">
+                        <div class="room-badges">
+                            <span class="badge workation">Workation</span>
+                        </div>
+                    </div>
+                    <div class="room-content">
+                        <h3>Coorg Workation</h3>
+                        <p><i class="fas fa-users"></i> 15 members • <i class="fas fa-calendar"></i> Flexible</p>
+                        <p class="room-description">Work from coffee plantations ☕ WiFi guaranteed!</p>
+                        <button class="btn btn-primary">Join Room</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Explore by Budget Section -->
+   <section class="explore-budget">
+    <div class="container">
+        <h2 class="section-title">Where can you go with your budget?</h2>
+        <div class="budget-slider">
+            <input type="range" min="1000" max="50000" value="3000" step="500" class="slider" id="budgetRange">
+            <div class="budget-display">
+                <span>₹</span><span id="budgetValue">3,000</span>
+            </div>
+        </div>
+        <div class="destinations-grid" id="destinationsGrid">
+
+            <!-- ₹1k–3k -->
+            <div class="destination-card" data-min="1000" data-max="3000">
+                <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop&q=80" alt="Rishikesh">
+                <div class="destination-info">
+                    <h3>Rishikesh</h3>
+                    <p class="price">₹1,500 - ₹3,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-bed"></i> Hostel</span>
+                        <span><i class="fas fa-water"></i> Rafting</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card" data-min="2000" data-max="3000">
+                <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=300&h=200&fit=crop&q=80" alt="Hampi">
+                <div class="destination-info">
+                    <h3>Hampi</h3>
+                    <p class="price">₹2,200 - ₹3,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-landmark"></i> Ruins</span>
+                        <span><i class="fas fa-bicycle"></i> Bike Rental</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ₹3k–6k -->
+            <div class="destination-card" data-min="3000" data-max="6000">
+                <img src="https://images.unsplash.com/photo-1524492449090-1a065f9a6c8b?w=300&h=200&fit=crop&q=80" alt="Jaipur">
+                <div class="destination-info">
+                    <h3>Jaipur</h3>
+                    <p class="price">₹3,500 - ₹5,500</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-landmark"></i> Forts</span>
+                        <span><i class="fas fa-utensils"></i> Street Food</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card" data-min="3000" data-max="6000">
+                <img src="https://images.unsplash.com/photo-1602002418816-43a3a09f89c1?w=300&h=200&fit=crop&q=80" alt="Varanasi">
+                <div class="destination-info">
+                    <h3>Varanasi</h3>
+                    <p class="price">₹3,000 - ₹6,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-praying-hands"></i> Ghats</span>
+                        <span><i class="fas fa-water"></i> Boat Ride</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ₹6k–9k -->
+            <div class="destination-card" data-min="6000" data-max="9000">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop&q=80" alt="Goa">
+                <div class="destination-info">
+                    <h3>Goa</h3>
+                    <p class="price">₹6,000 - ₹9,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-umbrella-beach"></i> Beaches</span>
+                        <span><i class="fas fa-motorcycle"></i> Bike</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card" data-min="6000" data-max="9000">
+                <img src="https://images.unsplash.com/photo-1603436328467-c7c55262e2b6?w=300&h=200&fit=crop&q=80" alt="Kasol">
+                <div class="destination-info">
+                    <h3>Kasol</h3>
+                    <p class="price">₹6,500 - ₹9,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-mountain"></i> Trekking</span>
+                        <span><i class="fas fa-campground"></i> Camping</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ₹9k–12k -->
+            <div class="destination-card" data-min="9000" data-max="12000">
+                <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=200&fit=crop&q=80" alt="Manali">
+                <div class="destination-info">
+                    <h3>Manali</h3>
+                    <p class="price">₹9,000 - ₹12,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-mountain"></i> Snow</span>
+                        <span><i class="fas fa-fire"></i> Bonfire</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ₹12k–15k -->
+            <div class="destination-card" data-min="12000" data-max="15000">
+                <img src="https://images.unsplash.com/photo-1508264165352-258a6f6c47d1?w=300&h=200&fit=crop&q=80" alt="Ladakh">
+                <div class="destination-info">
+                    <h3>Leh-Ladakh</h3>
+                    <p class="price">₹12,000 - ₹15,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-motorcycle"></i> Bike Trip</span>
+                        <span><i class="fas fa-road"></i> Mountain Passes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ₹15k–18k -->
+            <div class="destination-card" data-min="15000" data-max="18000">
+                <img src="https://images.unsplash.com/photo-1549893079-842a19fcbf2b?w=300&h=200&fit=crop&q=80" alt="Sikkim">
+                <div class="destination-info">
+                    <h3>Sikkim</h3>
+                    <p class="price">₹15,000 - ₹18,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-snowflake"></i> Himalayas</span>
+                        <span><i class="fas fa-spa"></i> Monasteries</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ₹18k–21k -->
+            <div class="destination-card" data-min="18000" data-max="21000">
+                <img src="https://images.unsplash.com/photo-1546484959-fb3fc6f95f1d?w=300&h=200&fit=crop&q=80" alt="Bali">
+                <div class="destination-info">
+                    <h3>Bali</h3>
+                    <p class="price">₹18,000 - ₹21,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-water"></i> Beaches</span>
+                        <span><i class="fas fa-spa"></i> Culture</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ₹21k–24k -->
+            <div class="destination-card" data-min="21000" data-max="24000">
+                <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=300&h=200&fit=crop&q=80" alt="Dubai">
+                <div class="destination-info">
+                    <h3>Dubai</h3>
+                    <p class="price">₹21,000 - ₹24,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-city"></i> Skyscrapers</span>
+                        <span><i class="fas fa-camel"></i> Desert Safari</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ₹24k–30k -->
+            <div class="destination-card" data-min="24000" data-max="30000">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop&q=80" alt="Thailand">
+                <div class="destination-info">
+                    <h3>Thailand</h3>
+                    <p class="price">₹25,000 - ₹30,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-umbrella-beach"></i> Islands</span>
+                        <span><i class="fas fa-utensils"></i> Street Food</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ₹30k–50k -->
+            <div class="destination-card" data-min="30000" data-max="50000">
+                <img src="https://images.unsplash.com/photo-1616965919360-b2a5a0f8bb6b?w=300&h=200&fit=crop&q=80" alt="Lakshadweep">
+                <div class="destination-info">
+                    <h3>Lakshadweep</h3>
+                    <p class="price">₹30,000 - ₹45,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-water"></i> Beaches</span>
+                        <span><i class="fas fa-ship"></i> Scuba Diving</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card" data-min="30000" data-max="50000">
+                <img src="https://images.unsplash.com/photo-1614252232734-5b3bb3d8a4f4?w=300&h=200&fit=crop&q=80" alt="Kashmir Luxury">
+                <div class="destination-info">
+                    <h3>Kashmir Luxury</h3>
+                    <p class="price">₹32,000 - ₹48,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-mountain"></i> Snow Resorts</span>
+                        <span><i class="fas fa-ship"></i> Shikara Ride</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card" data-min="30000" data-max="50000">
+                <img src="https://images.unsplash.com/photo-1589558928670-0d4e1c5e8b64?w=300&h=200&fit=crop&q=80" alt="Kerala Houseboat">
+                <div class="destination-info">
+                    <h3>Kerala Luxury Houseboat</h3>
+                    <p class="price">₹35,000 - ₹50,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-water"></i> Backwaters</span>
+                        <span><i class="fas fa-fish"></i> Seafood</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card" data-min="30000" data-max="50000">
+                <img src="https://images.unsplash.com/photo-1616077166974-cbdb98a5a2c6?w=300&h=200&fit=crop&q=80" alt="Coorg Resort">
+                <div class="destination-info">
+                    <h3>Coorg Luxury Retreat</h3>
+                    <p class="price">₹30,000 - ₹45,000</p>
+                    <div class="destination-features">
+                        <span><i class="fas fa-spa"></i> Spa Retreat</span>
+                        <span><i class="fas fa-coffee"></i> Coffee Plantations</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const budgetRange = document.getElementById("budgetRange");
+        const budgetValue = document.getElementById("budgetValue");
+        const destinations = document.querySelectorAll(".destination-card");
+
+        function filterDestinations(value){
+          budgetValue.textContent = parseInt(value).toLocaleString();
+          destinations.forEach(card=>{
+            const min = parseInt(card.dataset.min);
+            const max = parseInt(card.dataset.max);
+            card.style.display = (value >= min && value <= max) ? "block" : "none";
+          });
+        }
+
+        filterDestinations(budgetRange.value);
+        budgetRange.addEventListener("input",()=>filterDestinations(budgetRange.value));
+      });
+    </script>
+
+  
+
+    <!-- Social Feed / Testimonials -->
+    <section class="social-feed">
+        <div class="container">
+            <h2 class="section-title">What Our Travel Tribe Says</h2>
+            <div class="rating-banner">
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <span class="rating-text">4.8⭐ from 5,000+ users</span>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&h=60&fit=crop&crop=face" alt="User">
+                        <div class="user-info">
+                            <h4>Kavya</h4>
+                            <span>@kavya_wanderlust</span>
+                        </div>
+                    </div>
+                    <p>"Met my roommate on TravelBunk! Now we're planning our Europe backpacking trip together 🎒✈️"</p>
+                    <div class="social-stats">
+                        <span><i class="fas fa-heart"></i> 234</span>
+                        <span><i class="fas fa-comment"></i> 45</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face" alt="User">
+                        <div class="user-info">
+                            <h4>Rohit</h4>
+                            <span>@rohit_explores</span>
+                        </div>
+                    </div>
+                    <p>"Budget Goa trip with strangers turned friends ❤️ TravelBunk made it happen! Already planning the next one"</p>
+                    <div class="social-stats">
+                        <span><i class="fas fa-heart"></i> 189</span>
+                        <span><i class="fas fa-comment"></i> 32</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=60&h=60&fit=crop&crop=face" alt="User">
+                        <div class="user-info">
+                            <h4>Ananya</h4>
+                            <span>@solo_ananya</span>
+                        </div>
+                    </div>
+                    <p>"As a solo female traveler, the safety features gave me confidence. Found amazing travel sisters! 👯‍♀️"</p>
+                    <div class="social-stats">
+                        <span><i class="fas fa-heart"></i> 312</span>
+                        <span><i class="fas fa-comment"></i> 67</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety Features Section -->
+    <section class="safety-features">
+        <div class="container">
+            <h2 class="section-title">Your Safety is Our Priority</h2>
+            <div class="safety-grid">
+                <div class="safety-card">
+                    <div class="safety-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Verified Profiles</h3>
+                    <p>All users go through our verification process with ID and phone number</p>
+                </div>
+                <div class="safety-card">
+                    <div class="safety-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Zone Alerts</h3>
+                    <p>Real-time alerts about unsafe areas and travel warnings</p>
+                </div>
+                <div class="safety-card">
+                    <div class="safety-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Secure Chat</h3>
+                    <p>End-to-end encrypted chat with your travel companions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Download / CTA -->
+    <section class="app-cta">
+        <div class="container">
+            <h2 class="section-title">Take TravelBunk Everywhere</h2>
+            <p class="section-subtitle">Download our app for iOS and Android</p>
+            <div class="app-buttons">
+                <a href="#" class="btn btn-primary"><i class="fab fa-apple"></i> App Store</a>
+                <a href="#" class="btn btn-primary"><i class="fab fa-google-play"></i> Google Play</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 TravelBunk. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Icon -->
+    <div class="chat-icon">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Profile Dropdown Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const authSection = document.getElementById("auth-section");
+            let user = JSON.parse(localStorage.getItem("user"));
+    
+            if(user){
+                authSection.innerHTML = `
+                    <div class="user-profile-dropdown">
+                        <span class="user-profile" id="profileToggle">👤 ${user.firstName || user.email} <i class="fas fa-caret-down"></i></span>
+                        <div class="dropdown-content" id="profileDropdown">
+                            <a href="profile.html">My Profile</a>
+                            <a href="#">Settings</a>
+                            <a href="#" id="logoutBtn">Logout</a>
+                        </div>
+                    </div>
+                `;
+    
+                const profileToggle = document.getElementById("profileToggle");
+                const profileDropdown = document.getElementById("profileDropdown");
+    
+                profileDropdown.style.display = "none";
+    
+                profileToggle.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    profileDropdown.style.display = profileDropdown.style.display === "none" ? "block" : "none";
+                });
+    
+                document.addEventListener("click", () => {
+                    profileDropdown.style.display = "none";
+                });
+    
+                document.getElementById("logoutBtn").addEventListener("click", e => {
+                    e.preventDefault();
+                    localStorage.removeItem("user");
+                    window.location.reload();
+                });
+            }
+    
+            // Budget slider update + filtering
+            const budgetRange = document.getElementById("budgetRange");
+            const budgetValue = document.getElementById("budgetValue");
+            const destinations = document.querySelectorAll(".destination-card");
+    
+            budgetRange.addEventListener("input", () => {
+                const budget = parseInt(budgetRange.value);
+                budgetValue.textContent = budget.toLocaleString();
+    
+                destinations.forEach(card => {
+                    const priceText = card.querySelector(".price").textContent;
+                    // Extract numbers like ₹2500 - ₹3500
+                    const matches = priceText.match(/₹([\d,]+)\s*-\s*₹([\d,]+)/);
+                    if (matches) {
+                        const min = parseInt(matches[1].replace(/,/g, ""));
+                        const max = parseInt(matches[2].replace(/,/g, ""));
+                        if (budget >= min && budget <= max) {
+                            card.style.display = "block";
+                        } else {
+                            card.style.display = "none";
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const profileToggle = document.getElementById("profileToggle");
+          const profileMenu = document.querySelector(".profile-menu");
+      
+          profileToggle.addEventListener("click", () => {
+            profileMenu.classList.toggle("active");
+          });
+      
+          // Close dropdown when clicking outside
+          document.addEventListener("click", (e) => {
+            if (!profileMenu.contains(e.target)) {
+              profileMenu.classList.remove("active");
+            }
+          });
+        });
+      </script>
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const authSection = document.getElementById("auth-section");
+          const user = JSON.parse(localStorage.getItem("user"));
+        
+          if (user) {
+            // Show profile dropdown with name/email
+            authSection.innerHTML = `
+              <div class="user-profile-dropdown">
+                <span class="user-profile" id="profileToggle">
+                  👤 ${user.firstName || user.email} <i class="fas fa-caret-down"></i>
+                </span>
+                <div class="dropdown-content" id="profileDropdown">
+                  <a href="profile.html">My Profile</a>
+                  <a href="#">Trips</a>
+                  <a href="#">Blogs</a>
+                  <a href="#">Settings</a>
+                  <a href="#" id="dropdownLogout">Logout</a>
+                </div>
+              </div>
+            `;
+        
+            const profileToggle = document.getElementById("profileToggle");
+            const profileDropdown = document.getElementById("profileDropdown");
+        
+            profileDropdown.style.display = "none";
+        
+            profileToggle.addEventListener("click", (e) => {
+              e.stopPropagation();
+              profileDropdown.style.display =
+                profileDropdown.style.display === "none" ? "block" : "none";
+            });
+        
+            document.addEventListener("click", () => {
+              profileDropdown.style.display = "none";
+            });
+        
+            document.getElementById("dropdownLogout").addEventListener("click", () => {
+              localStorage.removeItem("user");
+              window.location.href = "index.html";
+            });
+          } else {
+            // Show Login / Signup if no user
+            authSection.innerHTML = `
+              <a href="signin.html" class="login-btn">Login</a>
+              <a href="signup.html" class="signup-btn">Sign Up</a>
+            `;
+          }
+        });
+        </script>
+        
+</body>
+</html>

@@ -1,0 +1,120 @@
+[
+  {
+    "firstName": "new ",
+    "lastName": "project",
+    "email": "it23077@glbitm.ac.in",
+    "phone": "772937979243",
+    "age": "23-27",
+    "travelStyle": "relaxed",
+    "password": "abhi1234",
+    "confirmPassword": "abhi1234",
+    "aadhaar": "123456789012",
+    "terms": "on",
+    "newsletter": "on"
+  },
+  {
+    "firstName": "Aditya ",
+    "lastName": "sharma",
+    "email": "adityasharma94610@gmail.com",
+    "phone": "772937979243",
+    "age": "18-22",
+    "travelStyle": "budget",
+    "password": "Aditya@00",
+    "confirmPassword": "Aditya@00",
+    "aadhaar": "123456789012",
+    "terms": "on",
+    "newsletter": "on"
+  },
+  {
+    "firstName": "aditya",
+    "lastName": "saabh",
+    "email": "teranaamliya@gmail.com",
+    "phone": "772937979243",
+    "age": "33+",
+    "travelStyle": "party",
+    "password": "sharmamchai",
+    "confirmPassword": "sharmamchai",
+    "aadhaar": "123456789012",
+    "terms": "on",
+    "newsletter": "on"
+  },
+  {
+    "firstName": "Abhishek ",
+    "lastName": "Boss",
+    "email": "abhishekdixit9833@gmail.com",
+    "phone": "772937979243",
+    "age": "18-22",
+    "travelStyle": "budget",
+    "password": "12349833",
+    "aadhaar": "123456789012",
+    "newsletter": "on",
+    "college": "Gl bajaj",
+    "trips": [],
+    "blogs": [
+      {
+        "title": "abhishek",
+        "content": "Ah! Got it 😅 — you want to <strong data-start=\"28\" data-end=\"78\">keep all your profile page styling and content</strong> and just <strong data-start=\"88\" data-end=\"131\">add a “Read More” feature for each blog</strong> so the user can expand the content and see images/videos. Here’s the <strong data-start=\"201\" data-end=\"237\">updated section for Recent Blogs</strong> with that feature included, without changing anything else in your page:",
+        "image": [
+          "anna-hecker-ulWwX5Y1NDs-unsplash.jpg"
+        ],
+        "video": null,
+        "date": "20/09/2025, 11:58:51"
+      },
+      {
+        "title": "abhishek",
+        "content": "<br>",
+        "image": null,
+        "video": null,
+        "date": "21/09/2025, 17:29:19"
+      }
+    ],
+    "badges": [],
+    "totalDistance": 0,
+    "rating": "N/A",
+    "bio": "wants to explore!!"
+  },
+  {
+    "firstName": "new ",
+    "lastName": "project",
+    "email": "abhishek9833@gmail.com",
+    "phone": "772937979243",
+    "age": "18-22",
+    "travelStyle": "adventure",
+    "password": "12345632",
+    "aadhaar": "123456789012",
+    "newsletter": "on",
+    "college": "",
+    "trips": [],
+    "blogs": [],
+    "badges": [],
+    "totalDistance": 0,
+    "rating": "N/A",
+    "bio": ""
+  },
+  {
+    "firstName": "Abhishek dada",
+    "lastName": "bhai",
+    "email": "dixit9833@gmail.com",
+    "phone": "772937979243",
+    "age": "18-22",
+    "travelStyle": "adventure",
+    "password": "123456",
+    "aadhaar": "123456789012",
+    "newsletter": "on",
+    "college": "gl bajaj",
+    "trips": [],
+    "blogs": [
+      {
+        "title": "abhishek",
+        "content": "saxasxsaxsza",
+        "image": null,
+        "video": null,
+        "date": "27/09/2025, 18:42:37"
+      }
+    ],
+    "badges": [],
+    "totalDistance": 0,
+    "rating": "N/A",
+    "bio": ""
+  }
+]

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | TravelMate</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:#F4F9F9;color:#2D3436;line-height:1.6;}
+    .navbar{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 20px rgba(0,191,166,0.1);}
+    .nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;height:70px;}
+    .nav-logo h2{color:#00BFA6;font-size:1.8rem;font-weight:700;}
+    .nav-menu{display:flex;list-style:none;gap:2rem;}
+    .nav-menu li a{text-decoration:none;color:#2D3436;font-weight:500;position:relative;}
+    .nav-menu li a:hover{color:#00BFA6;}
+    .nav-menu li a::after{content:'';position:absolute;width:0;height:2px;background:#00BFA6;bottom:-5px;left:0;transition:0.3s;}
+    .nav-menu li a:hover::after{width:100%;}
+    .hamburger{display:none;flex-direction:column;cursor:pointer;}
+    .hamburger span{width:25px;height:3px;background:#2D3436;margin:3px 0;border-radius:2px;}
+    .page-hero{background:linear-gradient(135deg,#00BFA6,#FDCB6E);padding:150px 20px 80px;text-align:center;color:white;}
+    .page-hero h1{font-size:3rem;font-weight:700;margin-bottom:1rem;}
+    .page-hero p{font-size:1.2rem;opacity:0.9;}
+    .page-content{max-width:1200px;margin:0 auto;padding:80px 20px;}
+    .page-content h2{font-size:2rem;margin-bottom:1rem;color:#00BFA6;}
+    .about-section{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:80px;}
+    .about-section img{width:100%;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.1);}
+    .about-section p{font-size:1.1rem;color:#444;}
+    .team{padding:40px 0;}
+    .team-members{display:flex;gap:30px;flex-wrap:wrap;justify-content:center;}
+    .team-member{background:white;padding:25px;border-radius:12px;text-align:center;width:280px;box-shadow:0 4px 12px rgba(0,0,0,0.05);transition:transform 0.3s;}
+    .team-member:hover{transform:translateY(-8px);}
+    .team-member img{width:120px;height:120px;object-fit:cover;border-radius:50%;margin-bottom:15px;border:4px solid #00BFA6;}
+    .team-member h3{margin-bottom:8px;color:#00BFA6;}
+    .team-member p{font-size:0.95rem;color:#555;}
+    .footer{background:#2D3436;color:white;text-align:center;padding:3rem 20px;}
+    .footer p{color:#ccc;margin-top:1rem;}
+    @media(max-width:768px){
+      .nav-menu{position:fixed;top:70px;left:-100%;flex-direction:column;background:white;width:100%;padding:2rem 0;transition:0.3s;box-shadow:0 10px 27px rgba(0,0,0,0.05);}
+      .nav-menu.active{left:0;}
+      .hamburger{display:flex;}
+      .page-hero h1{font-size:2.2rem;}
+      .about-section{grid-template-columns:1fr;}
+    }
+    .floating-icons{margin-top:40px;display:flex;gap:25px;justify-content:center;font-size:2rem;}
+    .floating-icons span{animation:float 6s ease-in-out infinite;}
+    .floating-icons span:nth-child(2){animation-delay:1s;}
+    .floating-icons span:nth-child(3){animation-delay:2s;}
+    .floating-icons span:nth-child(4){animation-delay:3s;}
+    @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-15px);}100%{transform:translateY(0);}}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo"><h2>TravelMate</h2></div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <!-- <li><a href="explore.html">Explore</a></li> -->
+        <li><a href="find-companion.html">Find Companion</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <h1>About Us</h1>
+    <p>Learn more about TravelMate and the people behind it</p>
+    <div class="floating-icons">
+      <span>🌍</span>
+      <span>✈️</span>
+      <span>🏖️</span>
+      <span>🏔️</span>
+    </div>
+  </section>
+
+  <section class="page-content">
+    <div class="about-section">
+      <img src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Travel">
+      <div>
+        <h2>Our Mission</h2>
+        <p>At TravelMate, our mission is to connect travelers around the world, making every journey safer, more memorable, and full of meaningful connections. Whether you're looking for a travel buddy, hidden gems, or trusted guides, TravelMate is here to make it happen.</p>
+      </div>
+    </div>
+
+    <div class="team">
+      <h2>Meet Our Companions</h2>
+      <div class="team-members">
+        <div class="team-member">
+          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Priya">
+          <h3>Priya</h3>
+          <p>Priya is an enthusiastic traveler who loves exploring new cultures and making friends along the journey.</p>
+        </div>
+        <div class="team-member">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Rahul">
+          <h3>Rahul</h3>
+          <p>Rahul is passionate about trekking and mountain adventures. He believes every hike brings new life lessons.</p>
+        </div>
+        <div class="team-member">
+          <img src="https://images.unsplash.com/photo-1546961329-78bef0414d7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Aisha">
+          <h3>Aisha</h3>
+          <p>Aisha loves beaches and sunsets. Her goal is to discover the best coastal gems around the world.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <h3>TravelMate</h3>
+    <p>&copy; 2025 TravelMate. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const hamburger=document.querySelector(".hamburger");
+    const navMenu=document.querySelector(".nav-menu");
+    hamburger.addEventListener("click",()=>{ navMenu.classList.toggle("active"); });
+  </script>
+</body>
+</html>

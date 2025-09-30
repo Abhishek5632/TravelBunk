@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Travel Companion | TravelMate</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet" />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:#F4F9F9;color:#2D3436;line-height:1.6;}
+    /* Navbar Style (from Blog page) */
+    .navbar{
+      background:rgba(255,255,255,0.95);
+      backdrop-filter:blur(10px);
+      position:fixed;top:0;width:100%;z-index:1000;
+      box-shadow:0 2px 20px rgba(0,191,166,0.1);
+    }
+    .nav-container{
+      max-width:1200px;margin:0 auto;padding:0 20px;
+      display:flex;align-items:center;height:70px;
+    }
+    @media (min-width: 769px) {
+      .nav-container {
+        justify-content: flex-start;
+      }
+      .nav-logo {
+        margin-right: auto;
+      }
+      .nav-menu {
+        margin-left: auto;
+      }
+    }
+    .nav-logo h2{color:#00BFA6;font-size:1.8rem;font-weight:700;}
+    .nav-menu{display:flex;list-style:none;gap:2rem;}
+    .nav-menu li a{
+      text-decoration:none;color:#2D3436;font-weight:500;
+      font-size:1rem;position:relative;
+    }
+    .nav-menu li a:hover{color:#00BFA6;}
+    .nav-menu li a::after{
+      content:'';position:absolute;width:0;height:2px;background:#00BFA6;
+      bottom:-5px;left:0;transition:0.3s;
+    }
+    .nav-menu li a:hover::after{width:100%;}
+    .hamburger{display:none;flex-direction:column;cursor:pointer;}
+    .hamburger span{width:25px;height:3px;background:#2D3436;margin:3px 0;border-radius:2px;}
+    @media (min-width: 769px) {
+  .nav-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+  .nav-logo {
+    margin-right: auto !important;
+  }
+  .nav-menu {
+    margin-left: auto !important;
+  }
+}
+
+    
+    /* Hero */
+    .page-hero{background:linear-gradient(135deg,#00BFA6,#FDCB6E);padding:150px 20px 80px;text-align:center;color:white;}
+    .page-hero h1{font-size:3rem;font-weight:700;margin-bottom:1rem;}
+    .page-hero p{font-size:1.2rem;opacity:0.9;}
+    .floating-icons{margin-top:40px;display:flex;gap:25px;justify-content:center;font-size:2rem;}
+    .floating-icons span{animation:float 6s ease-in-out infinite;}
+    .floating-icons span:nth-child(2){animation-delay:1s;}
+    .floating-icons span:nth-child(3){animation-delay:2s;}
+    .floating-icons span:nth-child(4){animation-delay:3s;}
+    @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-15px);}100%{transform:translateY(0);}}
+    /* Content */
+    .container{max-width:900px;margin:40px auto;padding:20px;}
+    h1{text-align:center;margin-bottom:20px;color:#00BFA6;font-weight:700;letter-spacing:1px;}
+    h2{font-size:2rem;text-align:center;margin-bottom:1.5rem;font-weight:600;color:#00BFA6;}
+    .companion-form{background:white;padding:30px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.05);margin-bottom:30px;transition:0.3s;}
+    label{display:block;font-weight:500;margin:15px 0 5px;}
+    input,textarea,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1rem;background:#f7f9fa;transition:border-color 0.3s;}
+    input:focus,textarea:focus,select:focus{border-color:#00BFA6;outline:none;}
+    .radio-group{display:flex;gap:15px;margin:10px 0;}
+    .radio-group label{display:flex;align-items:center;gap:5px;font-weight:500;}
+    button{margin-top:15px;background:#00BFA6;color:white;padding:12px 20px;border:none;border-radius:6px;font-size:1rem;cursor:pointer;transition:0.3s;}
+    button:hover{background:#01967f;}
+    .companions{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:22px;}
+    .card{background:white;padding:24px;border-radius:11px;box-shadow:0 4px 10px rgba(0,0,0,0.05);text-align:center;transition:0.3s;}
+    .card:hover{transform:translateY(-6px) scale(1.015);box-shadow:0 12px 32px rgba(0,191,166,0.17);}
+    .card img{width:92px;height:92px;border-radius:50%;object-fit:cover;margin-bottom:15px;border:4px solid #eaf7f4;box-shadow:0 2px 8px rgba(0,191,166,0.08);background:#f7faf9;}
+    .card strong{color:#00BFA6;font-weight:600;letter-spacing:0.2px;}
+    .card em{display:block;margin:6px 0 2px;color:#888;font-style:normal;font-size:0.98em;}
+    .footer{background:#2D3436;color:white;text-align:center;padding:3rem 20px;margin-top:40px;}
+    .footer p{color:#ccc;margin-top:1rem;}
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo"><h2>TravelMate</h2></div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <!-- <li><a href="explore.html">Explore</a></li> -->
+        <li><a href="find-companion.html">Find Companion</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <h1>Travel Companion</h1>
+    <p>Find or add travel companions easily</p>
+    <div class="floating-icons">
+      <span>✈️</span>
+      <span>🏔️</span>
+      <span>🌊</span>
+      <span>🏛️</span>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <div class="container">
+    <div class="text-center mb-3">
+      <input id="modeToggle" type="checkbox" checked data-toggle="toggle" data-on="Find Companions" data-off="Add Profile" data-onstyle="success" data-offstyle="info"/>
+    </div>
+    <form class="companion-form" id="mainForm">
+      <h2 id="formTitle">Filter Companions</h2>
+      <div class="form-group">
+        <label>Companion Type</label>
+        <div class="radio-group">
+          <label><input type="radio" name="type" value="college" checked /> From College</label>
+          <label><input type="radio" name="type" value="general" /> General Traveler</label>
+        </div>
+      </div>
+      <div class="form-group hidden" id="nameGroup">
+        <label>Name</label>
+        <input type="text" id="nameInput" />
+      </div>
+      <div class="form-group hidden" id="ageGroup">
+        <label>Age</label>
+        <input type="number" id="ageInput" />
+      </div>
+      <div class="form-group hidden" id="genderGroup">
+        <label>Gender</label>
+        <select id="genderInput">
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Source</label>
+        <input type="text" id="sourceInput" />
+      </div>
+      <div class="form-group">
+        <label>Destination</label>
+        <input type="text" id="destinationInput" />
+      </div>
+      <div class="form-group">
+        <label>Date &amp; Time</label>
+        <input type="datetime-local" id="dateInput" />
+      </div>
+      <div class="form-group" id="collegeField">
+        <label>College Name</label>
+        <input type="text" id="collegeInput" />
+      </div>
+      <button type="submit" id="submitBtn">Filter</button>
+    </form>
+    <h2>Available Companions</h2>
+    <div class="companions" id="companions-list"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <h3>TravelMate</h3>
+    <p>&copy; 2025 TravelMate. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Responsive hamburger toggle
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("active");
+    });
+
+    // Travel Companion main JS
+    let mode = "filter";
+    const mainForm = document.getElementById("mainForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const nameGroup = document.getElementById("nameGroup");
+    const ageGroup = document.getElementById("ageGroup");
+    const genderGroup = document.getElementById("genderGroup");
+    const collegeField = document.getElementById("collegeField");
+    const typeRadios = mainForm.type;
+    const sourceInput = document.getElementById("sourceInput");
+    const destinationInput = document.getElementById("destinationInput");
+    const dateInput = document.getElementById("dateInput");
+    const collegeInput = document.getElementById("collegeInput");
+    const nameInput = document.getElementById("nameInput");
+    const ageInput = document.getElementById("ageInput");
+    const genderInput = document.getElementById("genderInput");
+
+    let companions = [
+      {type:"college",name:"Priya",age:22,gender:"Female",college:"abc college",source:"delhi",destination:"goa",datetime:"2025-12-15T10:00",photo:"https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=facearea&w=200&h=200&facepad=2"},
+      {type:"college",name:"Arjun",age:24,gender:"Male",college:"xyz university",source:"mumbai",destination:"manali",datetime:"2025-01-05T08:00",photo:"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=facearea&w=200&h=200&facepad=2"},
+      {type:"general",name:"Rahul",age:23,gender:"Male",source:"delhi",destination:"jaipur",datetime:"2025-02-10T08:30",photo:"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=facearea&w=200&h=200&facepad=2"},
+      {type:"general",name:"Meera",age:22,gender:"Female",source:"mumbai",destination:"manali",datetime:"2025-01-06T09:00",photo:"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=facearea&w=200&h=200&facepad=2"},
+      {type:"college",name:"Sneha",age:21,gender:"Female",college:"abc college",source:"delhi",destination:"rishikesh",datetime:"2025-12-20T09:00",photo:"https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=facearea&w=200&h=200&facepad=2"},
+      {type:"general",name:"Vikram",age:27,gender:"Male",source:"delhi",destination:"rajasthan",datetime:"2025-02-22T10:00",photo:"https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=facearea&w=200&h=200&facepad=2"}
+    ];
+
+    function renderCompanions(type="",college="",destination="",date="",source=""){
+      const list = document.getElementById("companions-list");
+      list.innerHTML="";
+      let filtered = companions.filter(c=>{
+        let mt=type?c.type===type:true;
+        let mc=college&&c.type==="college"?c.college.toLowerCase()===college.toLowerCase():true;
+        let md=destination?c.destination.toLowerCase()===destination.toLowerCase():true;
+        let ms=source?c.source.toLowerCase()===source.toLowerCase():true;
+        let mdte=date?c.datetime===date:true;
+        return mt&&mc&&md&&ms&&mdte;
+      });
+      if(filtered.length===0){list.innerHTML="<div class='card'><strong>No companions found</strong></div>";return;}
+      filtered.forEach(c=>{
+        const div=document.createElement("div");
+        div.className="card";
+        div.innerHTML=`<img src="${c.photo}" alt="${c.name}" />
+        <strong>${c.name}</strong> (${c.gender}, ${c.age})<br>
+        From <strong>${c.source.charAt(0).toUpperCase()+c.source.slice(1)}</strong> to <strong>${c.destination.charAt(0).toUpperCase()+c.destination.slice(1)}</strong><br>
+        ${c.datetime?"On "+new Date(c.datetime).toLocaleString()+"<br>":""}
+        ${c.type==="college"?`<em>College: ${c.college}</em>`:`<em>General Traveler</em>`}`;
+        list.appendChild(div);
+      });
+    }
+
+    $("#modeToggle").change(function(){
+      if($(this).prop("checked")){
+        mode="filter";
+        mainForm.querySelector("#formTitle").textContent="Filter Companions";
+        submitBtn.textContent="Filter";
+        nameGroup.style.display="none";
+        ageGroup.style.display="none";
+        genderGroup.style.display="none";
+      }else{
+        mode="add";
+        mainForm.querySelector("#formTitle").textContent="Add Your Travel Profile";
+        submitBtn.textContent="Add Profile";
+        nameGroup.style.display="block";
+        ageGroup.style.display="block";
+        genderGroup.style.display="block";
+      }
+    });
+
+    mainForm.addEventListener("submit",e=>{
+      e.preventDefault();
+      const type=Array.from(typeRadios).find(r=>r.checked).value;
+      const source=sourceInput.value.trim();
+      const destination=destinationInput.value.trim();
+      const college=collegeInput.value.trim();
+      const datetime=dateInput.value;
+      if(mode==="filter"){
+        renderCompanions(type,college,destination,datetime,source);
+      }else{
+        const name=nameInput.value||"Anonymous";
+        const age=ageInput.value||"-";
+        const gender=genderInput.value;
+        const photo="https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=facearea&w=200&h=200&facepad=2";
+        companions.push({type,name,age,gender,source,destination,datetime,college,photo});
+        mainForm.reset();
+        renderCompanions();
+      }
+    });
+
+    renderCompanions();
+  </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - TravelBunk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="auth.css">
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a href="index.html"><h2>TravelBunk</h2></a>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="index.html#home">Home</a></li>
+      <li><a href="index.html#find-companion">Find Companion</a></li>
+      <li><a href="index.html#explore-trips">Explore Trips</a></li>
+      <li><a href="index.html#blog">Blog</a></li>
+      <li class="nav-cta">
+        <a href="signin.html" class="login-btn">Login</a>
+        <a href="signup.html" class="signup-btn active">Sign Up</a>
+      </li>
+    </ul>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<section class="auth-section">
+<div class="auth-container">
+  <div class="auth-visual">
+    <div class="visual-content">
+      <h2>Join the Travel Tribe! 🌍</h2>
+      <p>Connect with amazing travel buddies and explore the world together</p>
+    </div>
+  </div>
+  
+  <div class="auth-form-container">
+    <div class="auth-form">
+      <h1>Create Your Account</h1>
+      <p class="auth-subtitle">Start your travel journey today!</p>
+      
+      <form id="signupForm" class="form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+            <label for="college">College Name (Optional)</label>
+            <input type="text" id="college" name="college" placeholder="Enter your college">
+          </div>
+          
+        
+        <div class="form-group">
+          <label for="age">Age</label>
+          <select id="age" name="age" required>
+            <option value="">Select your age range</option>
+            <option value="18-22">18-22</option>
+            <option value="23-27">23-27</option>
+            <option value="28-32">28-32</option>
+            <option value="33+">33+</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="travelStyle">Travel Style</label>
+          <select id="travelStyle" name="travelStyle" required>
+            <option value="">What's your vibe?</option>
+            <option value="budget">Budget Explorer 💰</option>
+            <option value="adventure">Adventure Seeker 🏔️</option>
+            <option value="cultural">Culture Enthusiast 🏛️</option>
+            <option value="relaxed">Chill Traveler 🏖️</option>
+            <option value="party">Party Hopper 🎉</option>
+            <option value="solo">Solo to Group 👥</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+          <small>At least 8 characters with numbers and letters</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </div>
+
+        <div class="form-group">
+          <label for="aadhaar">Aadhaar Number</label>
+          <input type="text" id="aadhaar" name="aadhaar" required maxlength="12" pattern="\d{12}" placeholder="Enter 12-digit Aadhaar">
+          <small id="aadhaarMessage" style="display:block; margin-top:5px;"></small>
+        </div>
+        
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="terms" name="terms" required>
+            <span class="checkmark"></span>
+            I agree to the <a href="#" class="link">Terms & Conditions</a> and <a href="#" class="link">Privacy Policy</a>
+          </label>
+        </div>
+        
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="newsletter" name="newsletter">
+            <span class="checkmark"></span>
+            Send me travel tips and companion matches via email
+          </label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-full">Create My Account 🚀</button>
+        <p class="auth-switch">
+          Already have an account? <a href="signin.html" class="link">Sign In</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+</section>
+
+<script src="auth.js"></script>
+</body>
+</html>

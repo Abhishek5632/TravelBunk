@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile - TravelBunk</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+body { font-family: 'Poppins', sans-serif; margin: 0; background: #f4f6f8; }
+.navbar { background: #243b55; color: #fff; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.navbar a { color: #fff; margin-left: 1rem; text-decoration: none; }
+.profile-container { display: flex; max-width: 1200px; margin: 2rem auto; gap: 2rem; }
+.sidebar { background: #fff; padding: 2rem; width: 250px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.sidebar h2 { margin-top: 0; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar ul li { margin: 1rem 0; }
+.sidebar ul li a { text-decoration: none; color: #243b55; font-weight: 500; }
+.profile-main { flex: 1; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.profile-card { display: flex; flex-direction: column; gap: 1rem; }
+.profile-card h2 { margin: 0; color: #243b55; }
+.profile-card p { margin: 0.2rem 0; }
+.section-title { margin-top: 2rem; color: #243b55; border-bottom: 2px solid #243b55; display: inline-block; padding-bottom: 0.3rem; }
+.blog-list, .trips-list { margin-top: 1rem; }
+.blog-item, .trip-item { background: #f0f4f8; padding: 0.8rem 1rem; border-radius: 8px; margin-bottom: 0.5rem; }
+.logout-btn { display: inline-block; margin-top: 1rem; padding: 0.5rem 1rem; background: #ff4d4f; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+.logout-btn:hover { background: #e04344; }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-logo"><h2>TravelBunk</h2></div>
+    <div class="nav-links" id="auth-section"></div>
+</nav>
+
+<div class="profile-container">
+    <div class="sidebar">
+        <h2>Profile Menu</h2>
+        <ul>
+            <li><a href="#basicInfo">Basic Info</a></li>
+            <li><a href="#trips">Trips</a></li>
+            <li><a href="#rating">Rating</a></li>
+            <li><a href="#blogs">Blogs</a></li>
+        </ul>
+    </div>
+    <div class="profile-main" id="profileContent">
+        <!-- Filled dynamically by JS -->
+    </div>
+</div>
+
+<script>
+let user = JSON.parse(localStorage.getItem("user"));
+const authSection = document.getElementById("auth-section");
+
+if(!user){
+    alert("Please login first!");
+    window.location.href = "signin.html";
+} else {
+    authSection.innerHTML = `<span>👤 ${user.firstName || user.email}</span> | <button id="logoutBtn" class="logout-btn">Logout</button>`;
+    document.getElementById("logoutBtn").addEventListener("click", e => {
+        e.preventDefault();
+        localStorage.removeItem("user");
+        window.location.href = "index.html";
+    });
+
+    const profileContent = document.getElementById("profileContent");
+    profileContent.innerHTML = `
+        <div id="basicInfo" class="profile-card">
+            <h2>${user.firstName || user.email}</h2>
+            <p><strong>Email:</strong> ${user.email}</p>
+        </div>
+
+        <div id="trips" class="trips-section">
+            <h3 class="section-title">Trips Done</h3>
+            <div class="trips-list">
+                ${user.trips && user.trips.length > 0 ? user.trips.map(t => `<div class="trip-item">${t}</div>`).join("") : `<p>No trips yet</p>`}
+            </div>
+        </div>
+
+        <div id="rating" class="rating-section">
+            <h3 class="section-title">Rating</h3>
+            <p>${user.rating || "N/A"}</p>
+        </div>
+
+        <div id="blogs" class="blogs-section">
+            <h3 class="section-title">Blogs</h3>
+            <div class="blog-list">
+                ${user.blogs && user.blogs.length > 0 ? user.blogs.map(b => `<div class="blog-item">${b}</div>`).join("") : `<p>No blogs yet</p>`}
+            </div>
+        </div>
+    `;
+}
+</script>
+</body>
+</html>
