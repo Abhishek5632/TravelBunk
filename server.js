@@ -108,7 +108,12 @@ app.post("/api/update-profile", (req, res) => {
         college,
         bio,
         aadhaar,
-        newsletter
+        newsletter,
+        trips,
+        blogs,
+        badges,
+        totalDistance,
+        rating
     } = req.body;
 
     if (!email) return res.json({ success: false, message: "Missing email" });
@@ -117,20 +122,27 @@ app.post("/api/update-profile", (req, res) => {
     const idx = users.findIndex(u => u.email === email);
     if (idx === -1) return res.json({ success: false, message: "User not found" });
 
-    if (firstName !== undefined) users[idx].firstName = firstName;
-    if (lastName !== undefined) users[idx].lastName = lastName;
-    if (phone !== undefined) users[idx].phone = phone;
-    if (age !== undefined) users[idx].age = age;
-    if (travelStyle !== undefined) users[idx].travelStyle = travelStyle;
-    if (college !== undefined) users[idx].college = college;
-    if (bio !== undefined) users[idx].bio = bio;
-    if (aadhaar !== undefined) users[idx].aadhaar = aadhaar;
-    if (newsletter !== undefined) users[idx].newsletter = newsletter;
+    const user = users[idx];
+
+    if (firstName !== undefined) user.firstName = firstName;
+    if (lastName !== undefined) user.lastName = lastName;
+    if (phone !== undefined) user.phone = phone;
+    if (age !== undefined) user.age = age;
+    if (travelStyle !== undefined) user.travelStyle = travelStyle;
+    if (college !== undefined) user.college = college;
+    if (bio !== undefined) user.bio = bio;
+    if (aadhaar !== undefined) user.aadhaar = aadhaar;
+    if (newsletter !== undefined) user.newsletter = newsletter;
+    if (trips !== undefined) user.trips = trips;
+    if (blogs !== undefined) user.blogs = blogs;
+    if (badges !== undefined) user.badges = badges;
+    if (totalDistance !== undefined) user.totalDistance = totalDistance;
+    if (rating !== undefined) user.rating = rating;
 
     saveUsers(users);
     console.log("✏️ Profile updated:", email);
 
-    res.json({ success: true, user: users[idx] });
+    res.json({ success: true, user });
 });
 
 // ----------------- Add Blog API -----------------
@@ -162,17 +174,28 @@ app.get("/api/blogs/:email", (req, res) => {
     res.json({ success: true, blogs: user.blogs || [] });
 });
 
-// ----------------- Travel Companion APIs -----------------
+// ----------------- Add Trip API -----------------
 app.post("/api/add-trip", (req, res) => {
-    const { email, college, date, destination } = req.body;
-    if (!email || !college || !date || !destination) return res.json({ success: false, message: "Missing fields" });
+    const { email, college, startDate, endDate, destination } = req.body;
+    if (!email || !startDate || !endDate || !destination) {
+        return res.json({ success: false, message: "Missing fields" });
+    }
 
     let users = loadUsers();
     const idx = users.findIndex(u => u.email === email);
     if (idx === -1) return res.json({ success: false, message: "User not found" });
 
     if (!users[idx].trips) users[idx].trips = [];
-    users[idx].trips.push({ college, date, destination });
+
+    const newTrip = {
+        college: college || users[idx].college || "",
+        destination,
+        startDate,
+        endDate,
+        createdAt: new Date().toLocaleString()
+    };
+
+    users[idx].trips.push(newTrip);
 
     saveUsers(users);
     console.log("🚌 Trip added for:", email);
@@ -180,20 +203,43 @@ app.post("/api/add-trip", (req, res) => {
     res.json({ success: true, trips: users[idx].trips });
 });
 
+// ----------------- Fetch User Trips -----------------
+app.get("/api/trips/:email", (req, res) => {
+    const email = req.params.email;
+    const users = loadUsers();
+    const user = users.find(u => u.email === email);
+    if (!user) return res.json({ success: false, message: "User not found" });
+
+    res.json({ success: true, trips: user.trips || [] });
+});
+
+// ----------------- Companions API -----------------
 app.get("/api/companions", (req, res) => {
-    const { college, date, destination, email } = req.query;
+    const { college, startDate, endDate, destination, email } = req.query;
     const users = loadUsers();
 
-    const companions = users.filter(
-        u =>
-            u.college === college &&
-            u.trips &&
-            u.trips.some(t => t.date === date && t.destination === destination) &&
-            u.email !== email
-    );
+    const companions = users.filter(u => {
+        if (u.email === email || !u.trips) return false;
+
+        return u.trips.some(t => {
+            const matchesDest = t.destination.toLowerCase() === destination.toLowerCase();
+            const matchesCollege = college ? (u.college || "").toLowerCase() === college.toLowerCase() : true;
+
+            // date range overlap logic
+            const tripStart = new Date(t.startDate);
+            const tripEnd = new Date(t.endDate);
+            const reqStart = new Date(startDate);
+            const reqEnd = new Date(endDate);
+
+            const matchesDate = tripStart <= reqEnd && tripEnd >= reqStart;
+
+            return matchesDest && matchesCollege && matchesDate;
+        });
+    });
 
     res.json({ success: true, companions });
 });
+
 
 // ----------------- Serve HTML Pages -----------------
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));

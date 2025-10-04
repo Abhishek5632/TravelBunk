@@ -134,156 +134,182 @@
 </div>
 
 <script>
-const authSection = document.getElementById("auth-section");
-let user = JSON.parse(localStorage.getItem("user"));
-
-// Navbar Auth
-if(user){
-  authSection.innerHTML = `
-    <div class="user-profile-dropdown">
-      <span class="user-profile" id="profileToggle">👤 ${user.firstName || user.email} <i class="fas fa-caret-down"></i></span>
-      <div class="dropdown-content" id="profileDropdown">
-        <a href="profile.html">My Profile</a>
-        <a href="#">Trips</a>
-        <a href="#">Blogs</a>
-        <a href="#">Settings</a>
-        <a href="#" id="dropdownLogout">Logout</a>
+  const authSection = document.getElementById("auth-section");
+  let user = JSON.parse(localStorage.getItem("user"));
+  
+  // Navbar Auth
+  if(user){
+    authSection.innerHTML = `
+      <div class="user-profile-dropdown">
+        <span class="user-profile" id="profileToggle">👤 ${user.firstName || user.email} <i class="fas fa-caret-down"></i></span>
+        <div class="dropdown-content" id="profileDropdown">
+          <a href="profile.html">My Profile</a>
+          <a href="#">Trips</a>
+          <a href="#">Blogs</a>
+          <a href="#">Settings</a>
+          <a href="#" id="dropdownLogout">Logout</a>
+        </div>
       </div>
-    </div>
-  `;
-  const profileToggle = document.getElementById("profileToggle");
-  const profileDropdown = document.getElementById("profileDropdown");
-  profileDropdown.style.display="none";
-  profileToggle.addEventListener("click",()=>{ profileDropdown.style.display = profileDropdown.style.display==="none"?"block":"none"; });
-  document.addEventListener("click",(e)=>{ if(!profileToggle.contains(e.target)) profileDropdown.style.display="none"; });
-  document.getElementById("dropdownLogout").addEventListener("click",()=>{
+    `;
+    const profileToggle = document.getElementById("profileToggle");
+    const profileDropdown = document.getElementById("profileDropdown");
+    profileDropdown.style.display="none";
+    profileToggle.addEventListener("click",()=>{ profileDropdown.style.display = profileDropdown.style.display==="none"?"block":"none"; });
+    document.addEventListener("click",(e)=>{ if(!profileToggle.contains(e.target)) profileDropdown.style.display="none"; });
+    document.getElementById("dropdownLogout").addEventListener("click",()=>{
+      localStorage.removeItem("user");
+      window.location.href="index.html";
+    });
+  }
+  
+  // Fetch latest trips and blogs dynamically
+ async function fetchLatestUser(){
+  if(!user) return;
+  try {
+    const [tripsRes, blogsRes] = await Promise.all([
+      fetch(`/api/trips/${user.email}`),
+      fetch(`/api/blogs/${user.email}`)
+    ]);
+
+    const tripsData = await tripsRes.json();
+    const blogsData = await blogsRes.json();
+
+    if(tripsData.success) user.trips = tripsData.trips;
+    if(blogsData.success) user.blogs = blogsData.blogs;
+
+    localStorage.setItem("user", JSON.stringify(user));
+    populateProfile();
+  } catch(err){
+    console.error("Failed to fetch latest user data:", err);
+    populateProfile(); // fallback
+  }
+}
+
+  // Populate profile
+  function populateProfile(){
+    if(!user) return;
+    document.getElementById("profileName").innerText = `${user.firstName || ''} ${user.lastName || ''}`.trim() || "User";
+    document.getElementById("profileEmail").innerText = user.email;
+    document.getElementById("profileBio").innerText = user.bio || "Travel enthusiast. Love exploring new cultures!";
+    document.getElementById("totalTrips").innerText = user.trips ? user.trips.length : 0;
+    document.getElementById("avgRating").innerText = user.rating || "N/A";
+    document.getElementById("totalDistance").innerText = user.totalDistance ? user.totalDistance+" km" : "0 km";
+    document.getElementById("profileCollege").innerText = "College: " + (user.college || "N/A");
+  
+    // Recent Trips
+    const recentTrips = document.getElementById("recentTrips");
+    recentTrips.innerHTML = "";
+    if(user.trips && user.trips.length){
+      user.trips.slice(-4).reverse().forEach(t=>{
+        const div = document.createElement("div");
+        div.className="card";
+        div.innerHTML=`<h5>${t.destination}</h5><p>${t.college} | ${t.startDate} - ${t.endDate}</p>`;
+        recentTrips.appendChild(div);
+      });
+    } else recentTrips.innerHTML='<div class="card"><h5>No trips yet</h5></div>';
+  
+    // Recent Blogs
+    const recentBlogs = document.getElementById("recentBlogs");
+    recentBlogs.innerHTML="";
+    if(user.blogs && user.blogs.length){
+      user.blogs.slice(-4).reverse().forEach((b,index)=>{
+        const div = document.createElement("div");
+        div.className="card";
+        let preview = b.content.length>100?b.content.slice(0,100)+"...":b.content;
+        div.innerHTML=`
+          <h5>${b.title}</h5>
+          <p id="blogPreview-${index}">${preview}</p>
+          <img id="blogImage-${index}" src="${b.image||''}" style="width:100%;border-radius:10px;margin-top:5px;display:none;">
+          <video id="blogVideo-${index}" src="${b.video||''}" controls style="width:100%;border-radius:10px;margin-top:5px;display:none;"></video>
+          ${b.content.length>100||b.image||b.video?`<span class="read-toggle" id="readToggle-${index}" style="color:#00BFA6;cursor:pointer;font-weight:600;">Read More</span>`:''}
+        `;
+        recentBlogs.appendChild(div);
+        const readToggleBtn = document.getElementById(`readToggle-${index}`);
+        const imgEl = document.getElementById(`blogImage-${index}`);
+        const videoEl = document.getElementById(`blogVideo-${index}`);
+        if(b.image && b.image.length){imgEl.src=b.image[0];}
+        if(b.video && b.video.length){videoEl.src=b.video[0];}
+        if(readToggleBtn){
+          let expanded=false;
+          readToggleBtn.addEventListener("click",()=>{
+            if(!expanded){
+              document.getElementById(`blogPreview-${index}`).innerText=b.content;
+              if(b.image) imgEl.style.display="block";
+              if(b.video) videoEl.style.display="block";
+              readToggleBtn.innerText="Read Less";
+              expanded=true;
+            } else {
+              document.getElementById(`blogPreview-${index}`).innerText=preview;
+              if(b.image) imgEl.style.display="none";
+              if(b.video) videoEl.style.display="none";
+              readToggleBtn.innerText="Read More";
+              expanded=false;
+            }
+          });
+        }
+      });
+    } else recentBlogs.innerHTML='<div class="card"><h5>No blogs yet</h5></div>';
+  }
+  
+  // Logout
+  document.getElementById("logoutBtn").addEventListener("click",()=>{
     localStorage.removeItem("user");
     window.location.href="index.html";
   });
-}
+  
+  // Write Blog
+  document.getElementById("writeBlogBtn").addEventListener("click",()=>{ window.location.href="write-blog.html"; });
+  
+  // Edit Profile Modal
+  const editBtn=document.getElementById("editProfileBtn");
+  const editModal=document.getElementById("editProfileModal");
+  const editForm=document.getElementById("editProfileForm");
+  editBtn.addEventListener("click",()=>{
+    if(!user) return;
+    editModal.style.display="flex";
+    document.getElementById("editFirstName").value=user.firstName||"";
+    document.getElementById("editLastName").value=user.lastName||"";
+    document.getElementById("editCollege").value=user.college||"";
+    document.getElementById("editBio").value=user.bio||"";
+  });
+  function closeEditModal(){ editModal.style.display="none"; }
+  
+  editForm.addEventListener("submit", async function(e){
+    e.preventDefault();
+    if(!user) return;
+    const updatedData={
+      email: user.email,
+      firstName: document.getElementById("editFirstName").value,
+      lastName: document.getElementById("editLastName").value,
+      college: document.getElementById("editCollege").value,
+      bio: document.getElementById("editBio").value
+    };
+    try {
+      const res = await fetch("/api/update-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData)
+      });
+      const result = await res.json();
+      if(result.success){
+        user=result.user;
+        localStorage.setItem("user",JSON.stringify(user));
+        fetchLatestUser(); // Fetch trips & blogs fresh
+        closeEditModal();
+        alert("Profile updated successfully!");
+      } else alert(result.message || "Failed to update profile");
+    } catch(err){
+      console.error(err);
+      alert("Server error. Try again.");
+    }
+  });
+  
+  // Load fresh data immediately
+  fetchLatestUser();
+  window.populateProfile = populateProfile; // make it globally accessible
 
-// Populate Profile Data
-function populateProfile(){
-  if(!user) return;
-  document.getElementById("profileName").innerText = `${user.firstName || ''} ${user.lastName || ''}`.trim() || "User";
-  document.getElementById("profileEmail").innerText = user.email;
-  document.getElementById("profileBio").innerText = user.bio || "Travel enthusiast. Love exploring new cultures!";
-  document.getElementById("totalTrips").innerText = user.trips ? user.trips.length : 0;
-  document.getElementById("avgRating").innerText = user.rating || "N/A";
-  document.getElementById("totalDistance").innerText = user.totalDistance ? user.totalDistance+" km" : "0 km";
-  document.getElementById("profileCollege").innerText = "College: " + (user.college || "N/A");
-
-  // Trips
-  const recentTrips = document.getElementById("recentTrips");
-  recentTrips.innerHTML = "";
-  if(user.trips && user.trips.length){
-    user.trips.slice(-4).reverse().forEach(t=>{
-      const div = document.createElement("div");
-      div.className="card";
-      div.innerHTML=`<h5>${t.destination}</h5><p>${t.college} | ${t.date}</p>`;
-      recentTrips.appendChild(div);
-    });
-  } else recentTrips.innerHTML='<div class="card"><h5>No trips yet</h5></div>';
-
-  // Blogs
-  const recentBlogs = document.getElementById("recentBlogs");
-  recentBlogs.innerHTML="";
-  if(user.blogs && user.blogs.length){
-    user.blogs.slice(-4).reverse().forEach((b,index)=>{
-      const div = document.createElement("div");
-      div.className="card";
-      let preview = b.content.length>100?b.content.slice(0,100)+"...":b.content;
-      div.innerHTML=`
-        <h5>${b.title}</h5>
-        <p id="blogPreview-${index}">${preview}</p>
-        <img id="blogImage-${index}" src="${b.image||''}" style="width:100%;border-radius:10px;margin-top:5px;display:none;">
-        <video id="blogVideo-${index}" src="${b.video||''}" controls style="width:100%;border-radius:10px;margin-top:5px;display:none;"></video>
-        ${b.content.length>100||b.image||b.video?`<span class="read-toggle" id="readToggle-${index}" style="color:#00BFA6;cursor:pointer;font-weight:600;">Read More</span>`:''}
-      `;
-      recentBlogs.appendChild(div);
-      const readToggleBtn = document.getElementById(`readToggle-${index}`);
-      const imgEl = document.getElementById(`blogImage-${index}`);
-      const videoEl = document.getElementById(`blogVideo-${index}`);
-      if(b.image && b.image.length){imgEl.src=b.image[0];}
-      if(b.video && b.video.length){videoEl.src=b.video[0];}
-      if(readToggleBtn){
-        let expanded=false;
-        readToggleBtn.addEventListener("click",()=>{
-          if(!expanded){
-            document.getElementById(`blogPreview-${index}`).innerText=b.content;
-            if(b.image) imgEl.style.display="block";
-            if(b.video) videoEl.style.display="block";
-            readToggleBtn.innerText="Read Less";
-            expanded=true;
-          } else {
-            document.getElementById(`blogPreview-${index}`).innerText=preview;
-            if(b.image) imgEl.style.display="none";
-            if(b.video) videoEl.style.display="none";
-            readToggleBtn.innerText="Read More";
-            expanded=false;
-          }
-        });
-      }
-    });
-  } else recentBlogs.innerHTML='<div class="card"><h5>No blogs yet</h5></div>';
-}
-populateProfile();
-
-// Logout
-document.getElementById("logoutBtn").addEventListener("click",()=>{
-  localStorage.removeItem("user");
-  window.location.href="index.html";
-});
-
-// Write Blog
-document.getElementById("writeBlogBtn").addEventListener("click",()=>{ window.location.href="write-blog.html"; });
-
-// Edit Profile Modal
-const editBtn=document.getElementById("editProfileBtn");
-const editModal=document.getElementById("editProfileModal");
-const editForm=document.getElementById("editProfileForm");
-editBtn.addEventListener("click",()=>{
-  if(!user) return;
-  editModal.style.display="flex";
-  document.getElementById("editFirstName").value=user.firstName||"";
-  document.getElementById("editLastName").value=user.lastName||"";
-  document.getElementById("editCollege").value=user.college||"";
-  document.getElementById("editBio").value=user.bio||"";
-});
-function closeEditModal(){ editModal.style.display="none"; }
-
-editForm.addEventListener("submit", async function(e){
-  e.preventDefault();
-  if(!user) return;
-
-  const updatedData={
-    email: user.email,
-    firstName: document.getElementById("editFirstName").value,
-    lastName: document.getElementById("editLastName").value,
-    college: document.getElementById("editCollege").value,
-    bio: document.getElementById("editBio").value
-  };
-
-  try {
-    const res = await fetch("/api/update-profile", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedData)
-    });
-    const result = await res.json();
-    if(result.success){
-      user=result.user;
-      localStorage.setItem("user",JSON.stringify(user));
-      populateProfile();
-      closeEditModal();
-      alert("Profile updated successfully!");
-    } else alert(result.message || "Failed to update profile");
-  } catch(err){
-    console.error(err);
-    alert("Server error. Try again.");
-  }
-});
-</script>
+  </script>
+  
 
 </body>
 </html>

@@ -1,120 +1,78 @@
 [
   {
-    "firstName": "new ",
-    "lastName": "project",
-    "email": "it23077@glbitm.ac.in",
-    "phone": "772937979243",
-    "age": "23-27",
-    "travelStyle": "relaxed",
-    "password": "abhi1234",
-    "confirmPassword": "abhi1234",
-    "aadhaar": "123456789012",
-    "terms": "on",
-    "newsletter": "on"
-  },
-  {
-    "firstName": "Aditya ",
-    "lastName": "sharma",
-    "email": "adityasharma94610@gmail.com",
-    "phone": "772937979243",
-    "age": "18-22",
-    "travelStyle": "budget",
-    "password": "Aditya@00",
-    "confirmPassword": "Aditya@00",
-    "aadhaar": "123456789012",
-    "terms": "on",
-    "newsletter": "on"
-  },
-  {
-    "firstName": "aditya",
-    "lastName": "saabh",
-    "email": "teranaamliya@gmail.com",
-    "phone": "772937979243",
-    "age": "33+",
-    "travelStyle": "party",
-    "password": "sharmamchai",
-    "confirmPassword": "sharmamchai",
-    "aadhaar": "123456789012",
-    "terms": "on",
-    "newsletter": "on"
-  },
-  {
-    "firstName": "Abhishek ",
+    "firstName": "Abhishek",
     "lastName": "Boss",
     "email": "abhishekdixit9833@gmail.com",
     "phone": "772937979243",
     "age": "18-22",
-    "travelStyle": "budget",
+    "travelStyle": "relaxed",
     "password": "12349833",
     "aadhaar": "123456789012",
     "newsletter": "on",
-    "college": "Gl bajaj",
-    "trips": [],
+    "college": "gl bajaj",
+    "trips": [
+      {
+        "college": "gl bajaj",
+        "date": "2005-10-10",
+        "destination": "asas"
+      },
+      {
+        "college": "gl bajaj",
+        "date": "2005-09-10",
+        "destination": "manali"
+      },
+      {
+        "college": "gl bajaj",
+        "date": "1111-10-12",
+        "destination": "goa"
+      },
+      {
+        "college": "gl bajaj",
+        "date": "0100-10-10",
+        "destination": "manali"
+      },
+      {
+        "college": "abc college",
+        "date": "0101-10-10",
+        "destination": "jaipur"
+      }
+    ],
     "blogs": [
       {
-        "title": "abhishek",
-        "content": "Ah! Got it 😅 — you want to <strong data-start=\"28\" data-end=\"78\">keep all your profile page styling and content</strong> and just <strong data-start=\"88\" data-end=\"131\">add a “Read More” feature for each blog</strong> so the user can expand the content and see images/videos. Here’s the <strong data-start=\"201\" data-end=\"237\">updated section for Recent Blogs</strong> with that feature included, without changing anything else in your page:",
-        "image": [
-          "anna-hecker-ulWwX5Y1NDs-unsplash.jpg"
-        ],
+        "title": "blog 1",
+        "content": "abcdefghijklmnopqrstuvwxyz<div><br></div>",
+        "image": null,
         "video": null,
-        "date": "20/09/2025, 11:58:51"
+        "date": "04/10/2025, 15:50:27"
+      },
+      {
+        "title": "blog 1",
+        "content": "ascxsc",
+        "image": null,
+        "video": null,
+        "date": "04/10/2025, 16:03:11"
       },
       {
         "title": "abhishek",
-        "content": "<br>",
+        "content": "sdcscs",
         "image": null,
         "video": null,
-        "date": "21/09/2025, 17:29:19"
+        "date": "04/10/2025, 16:08:47"
+      },
+      {
+        "title": "abhishek",
+        "content": "asxasxzX",
+        "date": "04/10/2025, 16:22:07"
+      },
+      {
+        "title": "abhishekasxsaxsa",
+        "content": "qqqqqq",
+        "date": "04/10/2025, 16:22:20"
       }
     ],
     "badges": [],
     "totalDistance": 0,
     "rating": "N/A",
     "bio": "wants to explore!!"
-  },
-  {
-    "firstName": "new ",
-    "lastName": "project",
-    "email": "abhishek9833@gmail.com",
-    "phone": "772937979243",
-    "age": "18-22",
-    "travelStyle": "adventure",
-    "password": "12345632",
-    "aadhaar": "123456789012",
-    "newsletter": "on",
-    "college": "",
-    "trips": [],
-    "blogs": [],
-    "badges": [],
-    "totalDistance": 0,
-    "rating": "N/A",
-    "bio": ""
-  },
-  {
-    "firstName": "Abhishek dada",
-    "lastName": "bhai",
-    "email": "dixit9833@gmail.com",
-    "phone": "772937979243",
-    "age": "18-22",
-    "travelStyle": "adventure",
-    "password": "123456",
-    "aadhaar": "123456789012",
-    "newsletter": "on",
-    "college": "gl bajaj",
-    "trips": [],
-    "blogs": [
-      {
-        "title": "abhishek",
-        "content": "saxasxsaxsza",
-        "image": null,
-        "video": null,
-        "date": "27/09/2025, 18:42:37"
-      }
-    ],
-    "badges": [],
-    "totalDistance": 0,
-    "rating": "N/A",
-    "bio": ""
   }
 ]
