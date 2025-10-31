@@ -1,134 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Explore Trips | TravelMate</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Poppins',sans-serif;background:#f9f9f9;line-height:1.6;}
-.navbar{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 20px rgba(0,191,166,0.1);}
-.nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;height:70px;}
-.nav-logo h2{color:#00BFA6;font-size:1.8rem;font-weight:700;}
-.nav-menu{display:flex;list-style:none;gap:2rem;}
-.nav-menu li a{text-decoration:none;color:#2D3436;font-weight:500;font-size:1rem;position:relative;}
-.nav-menu li a:hover{color:#00BFA6;}
-.nav-menu li a::after{content:'';position:absolute;width:0;height:2px;background:#00BFA6;bottom:-5px;left:0;transition:0.3s;}
-.nav-menu li a:hover::after{width:100%;}
-.hamburger{display:none;flex-direction:column;cursor:pointer;}
-.hamburger span{width:25px;height:3px;background:#2D3436;margin:3px 0;border-radius:2px;}
-@media(max-width:768px){.nav-menu{position:fixed;top:70px;left:-100%;flex-direction:column;background:white;width:100%;padding:2rem 0;transition:0.3s;box-shadow:0 10px 27px rgba(0,0,0,0.05);}
-.nav-menu.active{left:0;}.hamburger{display:flex;}}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Trip | TravelBunk</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;line-height:1.6;background:#f9f9f9;}
 
-.container{max-width:700px;margin:120px auto 50px;padding:20px;background:white;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-.container h2{color:#00BFA6;margin-bottom:20px;}
-.container input, .container button{width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #ccc;}
-.container button{background:#00BFA6;color:white;border:none;cursor:pointer;}
-.container button:hover{background:#01967f;}
-</style>
+    /* Navbar */
+    .navbar{
+      background:rgba(255,255,255,0.95);
+      backdrop-filter:blur(10px);
+      position:fixed;top:0;width:100%;z-index:1000;
+      box-shadow:0 2px 20px rgba(0,191,166,0.1);
+    }
+    .nav-container{
+      max-width:1200px;margin:0 auto;padding:0 20px;
+      display:flex;justify-content:space-between;align-items:center;height:70px;
+    }
+    .nav-logo h2{color:#00BFA6;font-size:1.8rem;font-weight:700;}
+    .nav-menu{display:flex;list-style:none;gap:2rem;}
+    .nav-menu li a{
+      text-decoration:none;color:#2D3436;font-weight:500;
+      font-size:1rem;position:relative;
+    }
+    .nav-menu li a:hover{color:#00BFA6;}
+    .nav-menu li a::after{
+      content:'';position:absolute;width:0;height:2px;background:#00BFA6;
+      bottom:-5px;left:0;transition:0.3s;
+    }
+    .nav-menu li a:hover::after{width:100%;}
+    .hamburger{display:none;flex-direction:column;cursor:pointer;}
+    .hamburger span{width:25px;height:3px;background:#2D3436;margin:3px 0;border-radius:2px;}
+    @media(max-width:768px){
+      .nav-menu{
+        position:fixed;top:70px;left:-100%;
+        flex-direction:column;background:white;
+        width:100%;padding:2rem 0;transition:0.3s;
+        box-shadow:0 10px 27px rgba(0,0,0,0.05);
+      }
+      .nav-menu.active{left:0;}
+      .hamburger{display:flex;}
+    }
+
+    /* Hero Header */
+    .hero{
+      padding:120px 20px 50px;
+      text-align:center;
+      background:#00BFA6;color:white;
+    }
+    .hero h1{font-size:2.5rem;margin-bottom:10px;}
+    .hero p{font-size:1.1rem;}
+    .floating-icons{margin-top:20px;display:flex;gap:25px;justify-content:center;font-size:2rem;}
+    .floating-icons span{animation:float 6s ease-in-out infinite;}
+    .floating-icons span:nth-child(2){animation-delay:1s;}
+    .floating-icons span:nth-child(3){animation-delay:2s;}
+    @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-15px);}100%{transform:translateY(0);}}
+
+    /* Container (Form Area) */
+    .container{
+      max-width:600px;
+      margin:80px auto 50px;
+      background:white;
+      border-radius:15px;
+      padding:30px 25px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.1);
+      text-align:center;
+    }
+    .container h2{color:#00BFA6;margin-bottom:15px;font-size:1.8rem;}
+    form input, form button{
+      width:100%;padding:12px 15px;margin:10px 0;
+      border-radius:8px;border:1px solid #ccc;font-size:1rem;
+    }
+    form input:focus{
+      border-color:#00BFA6;outline:none;
+      box-shadow:0 0 6px rgba(0,191,166,0.3);
+    }
+    form button{
+      background:#00BFA6;color:white;border:none;
+      font-weight:600;cursor:pointer;transition:0.3s;
+    }
+    form button:hover{background:#01967f;}
+    #message{margin-top:15px;font-size:0.95rem;font-weight:500;}
+    
+    /* Footer */
+    .footer{
+      background:#2D3436;color:white;text-align:center;padding:3rem 20px;margin-top:40px;
+    }
+    .footer p{color:#ccc;margin-top:1rem;}
+  </style>
 </head>
 <body>
 
-<nav class="navbar">
-<div class="nav-container">
-  <div class="nav-logo"><h2>TravelMate</h2></div>
-  <ul class="nav-menu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="find-companion.html">Find Companion</a></li>
-    <li><a href="explore.html">Explore Trips</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
-  <div class="hamburger"><span></span><span></span><span></span></div>
-</div>
-</nav>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo"><h2>TravelBunk</h2></div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="find-companion.html">Find Companion</a></li>
+        <li><a href="explore-trips.html">Explore Trips</a></li>
+        <li><a href="profile.html">Profile</a></li>
+      </ul>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
 
-<div class="container">
-<h2>Add Your Trip</h2>
-<input type="text" id="email" placeholder="Your Email">
-<input type="text" id="college" placeholder="College (if student)">
-<input type="date" id="date">
-<input type="text" id="destination" placeholder="Destination">
-<button id="addTripBtn">Add Trip</button>
-<p id="msg"></p>
-</div>
+  <!-- Hero -->
+  <section class="hero">
+    <h1>🧳 Plan Your Next Journey</h1>
+    <p>Add your trip details and find perfect companions to travel with!</p>
+    <div class="floating-icons">
+      <span>✈️</span><span>🏝️</span><span>🏕️</span><span>🚗</span>
+    </div>
+  </section>
 
-<script>
-const hamburger=document.querySelector(".hamburger");
-const navMenu=document.querySelector(".nav-menu");
-hamburger.addEventListener("click",()=>{ navMenu.classList.toggle("active"); });
+  <!-- Form Section -->
+  <section class="container">
+    <h2>Add a New Trip</h2>
+    <form id="addTripForm">
+      <input type="email" id="email" placeholder="Your Email" required readonly>
+      <input type="text" id="college" placeholder="College (optional)">
+      <input type="date" id="date" required>
+      <input type="text" id="destination" placeholder="Destination" required>
+      <button type="submit">Add Trip</button>
+    </form>
+    <p id="message"></p>
+  </section>
 
-const user = JSON.parse(localStorage.getItem("user"));
-if(user){
-  document.getElementById("email").value = user.email;
-  document.getElementById("email").disabled = true; // prevent editing
-}
+  <!-- Footer -->
+  <footer class="footer">
+    <h3>TravelBunk</h3>
+    <p>&copy; 2025 TravelBunk. All rights reserved.</p>
+  </footer>
 
-document.getElementById("addTripBtn").addEventListener("click", async ()=>{
-    const email=document.getElementById("email").value.trim();
-    const college=document.getElementById("college").value.trim();
-    const date=document.getElementById("date").value;
-    const destination=document.getElementById("destination").value.trim();
-    const msg=document.getElementById("msg");
+  <script>
+    // Navbar toggle
+    const hamburger=document.querySelector(".hamburger");
+    const navMenu=document.querySelector(".nav-menu");
+    hamburger.addEventListener("click",()=>navMenu.classList.toggle("active"));
 
-    if(!email || !date || !destination){
-        msg.style.color="red"; msg.textContent="Please fill all required fields!";
-        return;
+    // Check logged in user
+    const user=JSON.parse(localStorage.getItem("user"))||null;
+    const emailField=document.getElementById("email");
+    const msg=document.getElementById("message");
+
+    if(!user){
+      msg.style.color="red";
+      msg.textContent="❌ Please login first to add trips.";
+      document.querySelector("button").disabled=true;
+    }else{
+      emailField.value=user.email;
     }
 
-    try {
-      const res = await fetch("/api/add-trip", {
+    // Add Trip Function
+    document.getElementById("addTripForm").addEventListener("submit",async(e)=>{
+      e.preventDefault();
+      if(!user)return;
+
+      const trip={
+        email:user.email,
+        college:document.getElementById("college").value.trim(),
+        date:document.getElementById("date").value,
+        destination:document.getElementById("destination").value.trim()
+      };
+
+      if(!trip.date||!trip.destination){
+        msg.style.color="red";
+        msg.textContent="⚠️ Please fill all required fields!";
+        return;
+      }
+
+      try{
+        const res=await fetch("/api/add-trip",{
           method:"POST",
           headers:{"Content-Type":"application/json"},
-          body: JSON.stringify({ email, college, date, destination })
-      });
-
-      const data = await res.json();
-      if(data.success){
-    msg.style.color="green";
-    msg.textContent="✅ Trip added successfully!";
-    document.getElementById("college").value="";
-    document.getElementById("date").value="";
-    document.getElementById("destination").value="";
-
-    // Update profile page instantly
-    if(window.opener){
-        // Request profile page to fetch fresh data
-        if(typeof window.opener.fetchLatestUser === "function"){
-            window.opener.fetchLatestUser();
-        }
-    }
-}
-
-    msg.style.color="green";
-    msg.textContent="✅ Trip added successfully!";
-    document.getElementById("college").value="";
-    document.getElementById("date").value="";
-    document.getElementById("destination").value="";
-
-    // Update profile page instantly if open
-    if(localStorage.getItem("user")){
-        const profileUser = JSON.parse(localStorage.getItem("user"));
-        if(!profileUser.trips) profileUser.trips = [];
-        profileUser.trips.push({ college, date, destination });
-        localStorage.setItem("user", JSON.stringify(profileUser));
-
-        // Call populateProfile on profile page if function exists
-        if(window.opener && typeof window.opener.populateProfile === "function"){
-            window.opener.populateProfile();
-        }
-    }
-
-else{
+          body:JSON.stringify(trip)
+        });
+        const data=await res.json();
+        if(data.success){
+          msg.style.color="green";
+          msg.textContent="✅ Trip added successfully!";
+          user.trips=data.trips;
+          localStorage.setItem("user", JSON.stringify(user));
+          document.getElementById("addTripForm").reset();
+          emailField.value=user.email;
+        }else{
           msg.style.color="red";
           msg.textContent="❌ "+data.message;
+        }
+      }catch(err){
+        msg.style.color="red";
+        msg.textContent="⚠️ Server error. Try again later!";
+        console.error(err);
       }
-    } catch(err){
-      console.error(err);
-      msg.style.color="red";
-      msg.textContent="❌ Server error!";
-    }
-});
-</script>
+    });
+  </script>
 
 </body>
 </html>

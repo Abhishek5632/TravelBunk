@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Users by Trip</title>
+<style>
+body { font-family: Arial; margin: 20px; }
+input, button { padding: 5px 10px; margin: 5px; }
+table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+</style>
+</head>
+<body>
+
+<h2>Find Users by Trip</h2>
+
+<label>Date: <input type="date" id="tripDate"></label>
+<label>Destination: <input type="text" id="destination"></label>
+<button onclick="findUsers()">Search</button>
+
+<table id="resultsTable" style="display:none">
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Age</th>
+<th>Travel Style</th>
+<th>College</th>
+<th>Date</th>
+<th>Destination</th>
+</tr>
+</thead>
+<tbody id="resultsBody"></tbody>
+</table>
+
+<script>
+async function findUsers() {
+    const date = document.getElementById("tripDate").value;
+    const destination = document.getElementById("destination").value;
+
+    if (!date || !destination) {
+        alert("Please enter both date and destination");
+        return;
+    }
+
+    const res = await fetch("/api/find-users-by-trip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date, destination })
+    });
+
+    const data = await res.json();
+    const tbody = document.getElementById("resultsBody");
+    tbody.innerHTML = "";
+
+    if (!data.success || data.users.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='8'>No users found</td></tr>";
+    } else {
+        data.users.forEach(user => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${user.firstName} ${user.lastName}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phone}</td>
+                    <td>${user.age}</td>
+                    <td>${user.travelStyle}</td>
+                    <td>${user.college}</td>
+                    <td>${user.date}</td>
+                    <td>${user.destination}</td>
+                </tr>
+            `;
+        });
+    }
+
+    document.getElementById("resultsTable").style.display = "table";
+}
+</script>
+
+</body>
+</html>

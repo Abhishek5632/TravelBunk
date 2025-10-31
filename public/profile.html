@@ -1,75 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile | TravelBunk</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    *{margin:0; padding:0; box-sizing:border-box;}
-    body{font-family:'Poppins',sans-serif; background:#f4f9f9; color:#2D3436; line-height:1.6;}
-    a{text-decoration:none; color:inherit;}
-    ul{list-style:none; padding-left:0;}
-    .navbar{background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); position: fixed; top:0; width:100%; z-index:1000; box-shadow:0 2px 10px rgba(0,0,0,0.05);}
-    .nav-container{max-width:1200px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:center; height:70px;}
-    .nav-logo h2{color:#00BFA6; font-size:1.9rem; font-weight:700;}
-    .nav-menu{display:flex; list-style:none; gap:2rem; align-items:center;}
-    .nav-menu li a{text-decoration:none; color:#2D3436; font-weight:500; transition:0.3s;}
-    .nav-menu li a:hover{color:#00BFA6;}
-    .user-profile-dropdown{position:relative; cursor:pointer;}
-    .user-profile-dropdown .user-profile{font-weight:500; display:flex; align-items:center; gap:5px;}
-    .user-profile-dropdown .dropdown-content{display:none; position:absolute; right:0; top:40px; background:white; min-width:220px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); padding:15px; z-index:100; transition:0.3s;}
-    .user-profile-dropdown .dropdown-content a{display:block; padding:10px 12px; border-radius:8px; margin:4px 0; color:#2D3436; font-weight:500; transition:0.3s;}
-    .user-profile-dropdown .dropdown-content a:hover{background:linear-gradient(135deg,#00BFA6,#FDCB6E); color:white;}
-    .page-hero{background: linear-gradient(135deg,#00BFA6,#FDCB6E); padding:150px 20px 80px; text-align:center; color:white; border-bottom-left-radius:50px; border-bottom-right-radius:50px;}
-    .page-hero h1{font-size:3rem; font-weight:700; margin-bottom:1rem;}
-    .page-hero p{font-size:1.2rem; font-weight:500; opacity:0.9;}
-    .page-content{max-width:1000px; margin:0 auto; padding:80px 20px;}
-    .profile-card{background:white; padding:40px; border-radius:20px; box-shadow:0 8px 25px rgba(0,0,0,0.08); max-width:800px; margin:0 auto; text-align:center; transition:0.3s;}
-    .profile-card:hover{box-shadow:0 12px 30px rgba(0,0,0,0.12);}
-    .profile-card img{width:160px; height:160px; border-radius:50%; object-fit:cover; margin-bottom:20px; border:4px solid #00BFA6; transition:0.3s;}
-    .profile-card img:hover{transform:scale(1.05);}
-    .profile-card h2{color:#00BFA6; font-size:2rem; margin-bottom:10px;}
-    .profile-card p{margin:6px 0; color:#555; font-weight:500;}
-    .profile-card hr{border:0; border-top:1px solid #eee; margin:20px 0;}
-    .profile-card .btn{margin-top:10px; padding:12px 30px; border:none; border-radius:12px; background:linear-gradient(135deg,#00BFA6,#FDCB6E); color:white; font-size:1rem; cursor:pointer; font-weight:600; transition:0.3s;}
-    .profile-card .btn:hover{opacity:0.9; transform:translateY(-2px);}
-    .section{margin-bottom:40px; text-align:left;}
-    .section h3{color:#00BFA6; margin-bottom:15px; font-size:1.3rem;}
-    .section ul li{background:#f1f1f1; padding:12px 15px; margin:6px 0; border-radius:12px; font-weight:500; transition:0.3s;}
-    .section ul li:hover{background:#e0f7f4;}
-    .stats-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:15px; margin-top:20px;}
-    .stat-card{background:linear-gradient(135deg,#00BFA6,#FDCB6E); color:white; padding:15px; border-radius:15px; text-align:center; transition:0.3s;}
-    .stat-card:hover{opacity:0.9; transform:translateY(-2px);}
-    .stat-card h4{margin-bottom:8px; font-size:1rem; font-weight:500;}
-    .stat-card p{font-size:1.2rem; font-weight:700;}
-    .cards-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-top:15px;}
-    .card{background:white; padding:15px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.05); transition:0.3s; cursor:pointer;}
-    .card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.1);}
-    .card h5{color:#00BFA6; margin-bottom:6px;}
-    .card p{color:#555; font-size:0.95rem;}
-    @media(max-width:768px){.nav-menu{gap:1rem; flex-wrap:wrap;}.page-hero h1{font-size:2.2rem;}.profile-card{padding:30px;}}
-    .modal {display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center;}
-    .modal-content {background-color: #1e1e2f; margin: auto; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; color: #fff; box-shadow: 0 0 15px rgba(0,0,0,0.5); position: relative;}
-    .modal-content h2 {margin-top: 0; text-align: center;}
-    .close-btn {position: absolute; top: 10px; right: 15px; color: #fff; font-size: 24px; cursor: pointer;}
-    .modal-content input {width: 100%; padding: 8px 10px; margin: 8px 0; border-radius: 6px; border: none; outline: none; font-size: 14px;}
-    .modal-content button {width: 100%; padding: 10px; margin-top: 12px; border: none; border-radius: 6px; background-color: #4CAF50; color: white; font-size: 16px; cursor: pointer;}
-    .modal-content button:hover {background-color: #45a049;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile | TravelMate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0; padding:0; box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif; background:#f4f9f9; color:#2D3436; line-height:1.6;}
+a{text-decoration:none; color:inherit;}
+ul{list-style:none; padding-left:0;}
+.navbar{background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); position: fixed; top:0; width:100%; z-index:1000; box-shadow:0 2px 10px rgba(0,0,0,0.05);}
+.nav-container{max-width:1200px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:center; height:70px;}
+.nav-logo h2{color:#00BFA6; font-size:1.9rem; font-weight:700;}
+.nav-menu{display:flex; list-style:none; gap:2rem; align-items:center;}
+.nav-menu li a{text-decoration:none; color:#2D3436; font-weight:500; transition:0.3s;}
+.nav-menu li a:hover{color:#00BFA6;}
+.user-profile-dropdown{position:relative; cursor:pointer;}
+.user-profile-dropdown .user-profile{font-weight:500; display:flex; align-items:center; gap:5px;}
+.user-profile-dropdown .dropdown-content{display:none; position:absolute; right:0; top:40px; background:white; min-width:220px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); padding:15px; z-index:100; transition:0.3s;}
+.user-profile-dropdown .dropdown-content a{display:block; padding:10px 12px; border-radius:8px; margin:4px 0; color:#2D3436; font-weight:500; transition:0.3s;}
+.user-profile-dropdown .dropdown-content a:hover{background:linear-gradient(135deg,#00BFA6,#FDCB6E); color:white;}
+.page-hero{background: linear-gradient(135deg,#00BFA6,#FDCB6E); padding:150px 20px 80px; text-align:center; color:white; border-bottom-left-radius:50px; border-bottom-right-radius:50px;}
+.page-hero h1{font-size:3rem; font-weight:700; margin-bottom:1rem;}
+.page-hero p{font-size:1.2rem; font-weight:500; opacity:0.9;}
+.page-content{max-width:1000px; margin:0 auto; padding:80px 20px;}
+.profile-card{background:white; padding:40px; border-radius:20px; box-shadow:0 8px 25px rgba(0,0,0,0.08); max-width:800px; margin:0 auto; text-align:center; transition:0.3s;}
+.profile-card:hover{box-shadow:0 12px 30px rgba(0,0,0,0.12);}
+.profile-card img{width:160px; height:160px; border-radius:50%; object-fit:cover; margin-bottom:20px; border:4px solid #00BFA6; transition:0.3s;}
+.profile-card img:hover{transform:scale(1.05);}
+.profile-card h2{color:#00BFA6; font-size:2rem; margin-bottom:10px;}
+.profile-card p{margin:6px 0; color:#555; font-weight:500;}
+.profile-card hr{border:0; border-top:1px solid #eee; margin:20px 0;}
+.profile-card .btn{margin-top:10px; padding:12px 30px; border:none; border-radius:12px; background:linear-gradient(135deg,#00BFA6,#FDCB6E); color:white; font-size:1rem; cursor:pointer; font-weight:600; transition:0.3s;}
+.profile-card .btn:hover{opacity:0.9; transform:translateY(-2px);}
+.section{margin-bottom:40px; text-align:left;}
+.section h3{color:#00BFA6; margin-bottom:15px; font-size:1.3rem;}
+.section ul li{background:#f1f1f1; padding:12px 15px; margin:6px 0; border-radius:12px; font-weight:500; transition:0.3s;}
+.section ul li:hover{background:#e0f7f4;}
+.stats-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:15px; margin-top:20px;}
+.stat-card{background:linear-gradient(135deg,#00BFA6,#FDCB6E); color:white; padding:15px; border-radius:15px; text-align:center; transition:0.3s;}
+.stat-card:hover{opacity:0.9; transform:translateY(-2px);}
+.stat-card h4{margin-bottom:8px; font-size:1rem; font-weight:500;}
+.stat-card p{font-size:1.2rem; font-weight:700;}
+.cards-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-top:15px;}
+.card{background:white; padding:15px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.05); transition:0.3s; cursor:pointer;}
+.card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.1);}
+.card h5{color:#00BFA6; margin-bottom:6px;}
+.card p{color:#555; font-size:0.95rem;}
+@media(max-width:768px){.nav-menu{gap:1rem; flex-wrap:wrap;}.page-hero h1{font-size:2.2rem;}.profile-card{padding:30px;}}
+.modal {display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center;}
+.modal-content {background-color: #1e1e2f; margin: auto; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; color: #fff; box-shadow: 0 0 15px rgba(0,0,0,0.5); position: relative;}
+.modal-content h2 {margin-top: 0; text-align: center;}
+.close-btn {position: absolute; top: 10px; right: 15px; color: #fff; font-size: 24px; cursor: pointer;}
+.modal-content input {width: 100%; padding: 8px 10px; margin: 8px 0; border-radius: 6px; border: none; outline: none; font-size: 14px;}
+.modal-content button {width: 100%; padding: 10px; margin-top: 12px; border: none; border-radius: 6px; background-color: #4CAF50; color: white; font-size: 16px; cursor: pointer;}
+.modal-content button:hover {background-color: #45a049;}
+</style>
 </head>
 <body>
 
 <nav class="navbar">
   <div class="nav-container">
-    <div class="nav-logo"><h2>TravelBunk</h2></div>
+    <div class="nav-logo"><h2>TravelMate</h2></div>
     <ul class="nav-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="find-companion.html">Find Companion</a></li>
-      <li><a href="blog.html">Blog</a></li>
+      <li><a href="explore.html">Explore Trips</a></li>
       <li class="nav-cta" id="auth-section"></li>
     </ul>
   </div>
@@ -119,6 +119,7 @@
   </div>
 </section>
 
+<!-- Edit Profile Modal -->
 <div class="modal" id="editProfileModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeEditModal()">&times;</span>
@@ -134,182 +135,117 @@
 </div>
 
 <script>
-  const authSection = document.getElementById("auth-section");
-  let user = JSON.parse(localStorage.getItem("user"));
-  
-  // Navbar Auth
-  if(user){
-    authSection.innerHTML = `
-      <div class="user-profile-dropdown">
-        <span class="user-profile" id="profileToggle">👤 ${user.firstName || user.email} <i class="fas fa-caret-down"></i></span>
-        <div class="dropdown-content" id="profileDropdown">
-          <a href="profile.html">My Profile</a>
-          <a href="#">Trips</a>
-          <a href="#">Blogs</a>
-          <a href="#">Settings</a>
-          <a href="#" id="dropdownLogout">Logout</a>
-        </div>
+const authSection = document.getElementById("auth-section");
+let user = JSON.parse(localStorage.getItem("user"));
+
+// Navbar auth
+if(user){
+  authSection.innerHTML = `
+    <div class="user-profile-dropdown">
+      <span class="user-profile" id="profileToggle">👤 ${user.firstName || user.email} <i class="fas fa-caret-down"></i></span>
+      <div class="dropdown-content" id="profileDropdown">
+        <a href="profile.html">My Profile</a>
+        <a href="#">Trips</a>
+        <a href="#">Blogs</a>
+        <a href="#">Settings</a>
+        <a href="#" id="dropdownLogout">Logout</a>
       </div>
-    `;
-    const profileToggle = document.getElementById("profileToggle");
-    const profileDropdown = document.getElementById("profileDropdown");
-    profileDropdown.style.display="none";
-    profileToggle.addEventListener("click",()=>{ profileDropdown.style.display = profileDropdown.style.display==="none"?"block":"none"; });
-    document.addEventListener("click",(e)=>{ if(!profileToggle.contains(e.target)) profileDropdown.style.display="none"; });
-    document.getElementById("dropdownLogout").addEventListener("click",()=>{
-      localStorage.removeItem("user");
-      window.location.href="index.html";
-    });
-  }
-  
-  // Fetch latest trips and blogs dynamically
- async function fetchLatestUser(){
-  if(!user) return;
-  try {
-    const [tripsRes, blogsRes] = await Promise.all([
-      fetch(`/api/trips/${user.email}`),
-      fetch(`/api/blogs/${user.email}`)
-    ]);
-
-    const tripsData = await tripsRes.json();
-    const blogsData = await blogsRes.json();
-
-    if(tripsData.success) user.trips = tripsData.trips;
-    if(blogsData.success) user.blogs = blogsData.blogs;
-
-    localStorage.setItem("user", JSON.stringify(user));
-    populateProfile();
-  } catch(err){
-    console.error("Failed to fetch latest user data:", err);
-    populateProfile(); // fallback
-  }
-}
-
-  // Populate profile
-  function populateProfile(){
-    if(!user) return;
-    document.getElementById("profileName").innerText = `${user.firstName || ''} ${user.lastName || ''}`.trim() || "User";
-    document.getElementById("profileEmail").innerText = user.email;
-    document.getElementById("profileBio").innerText = user.bio || "Travel enthusiast. Love exploring new cultures!";
-    document.getElementById("totalTrips").innerText = user.trips ? user.trips.length : 0;
-    document.getElementById("avgRating").innerText = user.rating || "N/A";
-    document.getElementById("totalDistance").innerText = user.totalDistance ? user.totalDistance+" km" : "0 km";
-    document.getElementById("profileCollege").innerText = "College: " + (user.college || "N/A");
-  
-    // Recent Trips
-    const recentTrips = document.getElementById("recentTrips");
-    recentTrips.innerHTML = "";
-    if(user.trips && user.trips.length){
-      user.trips.slice(-4).reverse().forEach(t=>{
-        const div = document.createElement("div");
-        div.className="card";
-        div.innerHTML=`<h5>${t.destination}</h5><p>${t.college} | ${t.startDate} - ${t.endDate}</p>`;
-        recentTrips.appendChild(div);
-      });
-    } else recentTrips.innerHTML='<div class="card"><h5>No trips yet</h5></div>';
-  
-    // Recent Blogs
-    const recentBlogs = document.getElementById("recentBlogs");
-    recentBlogs.innerHTML="";
-    if(user.blogs && user.blogs.length){
-      user.blogs.slice(-4).reverse().forEach((b,index)=>{
-        const div = document.createElement("div");
-        div.className="card";
-        let preview = b.content.length>100?b.content.slice(0,100)+"...":b.content;
-        div.innerHTML=`
-          <h5>${b.title}</h5>
-          <p id="blogPreview-${index}">${preview}</p>
-          <img id="blogImage-${index}" src="${b.image||''}" style="width:100%;border-radius:10px;margin-top:5px;display:none;">
-          <video id="blogVideo-${index}" src="${b.video||''}" controls style="width:100%;border-radius:10px;margin-top:5px;display:none;"></video>
-          ${b.content.length>100||b.image||b.video?`<span class="read-toggle" id="readToggle-${index}" style="color:#00BFA6;cursor:pointer;font-weight:600;">Read More</span>`:''}
-        `;
-        recentBlogs.appendChild(div);
-        const readToggleBtn = document.getElementById(`readToggle-${index}`);
-        const imgEl = document.getElementById(`blogImage-${index}`);
-        const videoEl = document.getElementById(`blogVideo-${index}`);
-        if(b.image && b.image.length){imgEl.src=b.image[0];}
-        if(b.video && b.video.length){videoEl.src=b.video[0];}
-        if(readToggleBtn){
-          let expanded=false;
-          readToggleBtn.addEventListener("click",()=>{
-            if(!expanded){
-              document.getElementById(`blogPreview-${index}`).innerText=b.content;
-              if(b.image) imgEl.style.display="block";
-              if(b.video) videoEl.style.display="block";
-              readToggleBtn.innerText="Read Less";
-              expanded=true;
-            } else {
-              document.getElementById(`blogPreview-${index}`).innerText=preview;
-              if(b.image) imgEl.style.display="none";
-              if(b.video) videoEl.style.display="none";
-              readToggleBtn.innerText="Read More";
-              expanded=false;
-            }
-          });
-        }
-      });
-    } else recentBlogs.innerHTML='<div class="card"><h5>No blogs yet</h5></div>';
-  }
-  
-  // Logout
-  document.getElementById("logoutBtn").addEventListener("click",()=>{
+    </div>
+  `;
+  const profileToggle = document.getElementById("profileToggle");
+  const profileDropdown = document.getElementById("profileDropdown");
+  profileDropdown.style.display="none";
+  profileToggle.addEventListener("click",()=>{ profileDropdown.style.display = profileDropdown.style.display==="none"?"block":"none"; });
+  document.addEventListener("click",(e)=>{ if(!profileToggle.contains(e.target)) profileDropdown.style.display="none"; });
+  document.getElementById("dropdownLogout").addEventListener("click",()=>{
     localStorage.removeItem("user");
     window.location.href="index.html";
   });
-  
-  // Write Blog
-  document.getElementById("writeBlogBtn").addEventListener("click",()=>{ window.location.href="write-blog.html"; });
-  
-  // Edit Profile Modal
-  const editBtn=document.getElementById("editProfileBtn");
-  const editModal=document.getElementById("editProfileModal");
-  const editForm=document.getElementById("editProfileForm");
-  editBtn.addEventListener("click",()=>{
-    if(!user) return;
-    editModal.style.display="flex";
-    document.getElementById("editFirstName").value=user.firstName||"";
-    document.getElementById("editLastName").value=user.lastName||"";
-    document.getElementById("editCollege").value=user.college||"";
-    document.getElementById("editBio").value=user.bio||"";
-  });
-  function closeEditModal(){ editModal.style.display="none"; }
-  
-  editForm.addEventListener("submit", async function(e){
-    e.preventDefault();
-    if(!user) return;
-    const updatedData={
-      email: user.email,
-      firstName: document.getElementById("editFirstName").value,
-      lastName: document.getElementById("editLastName").value,
-      college: document.getElementById("editCollege").value,
-      bio: document.getElementById("editBio").value
-    };
-    try {
-      const res = await fetch("/api/update-profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedData)
-      });
-      const result = await res.json();
-      if(result.success){
-        user=result.user;
-        localStorage.setItem("user",JSON.stringify(user));
-        fetchLatestUser(); // Fetch trips & blogs fresh
-        closeEditModal();
-        alert("Profile updated successfully!");
-      } else alert(result.message || "Failed to update profile");
-    } catch(err){
-      console.error(err);
-      alert("Server error. Try again.");
-    }
-  });
-  
-  // Load fresh data immediately
-  fetchLatestUser();
-  window.populateProfile = populateProfile; // make it globally accessible
+}
 
-  </script>
-  
+// Fetch latest trips & blogs (mocked)
+async function fetchLatestUser(){
+  if(!user) return;
+  try {
+    const tripsData = {success:true,trips:user.trips||[]};
+    const blogsData = {success:true,blogs:user.blogs||[]};
+    if(tripsData.success) user.trips = tripsData.trips;
+    if(blogsData.success) user.blogs = blogsData.blogs;
+    localStorage.setItem("user", JSON.stringify(user));
+    populateProfile();
+  } catch(err){ console.error(err); populateProfile(); }
+}
+
+function populateProfile(){
+  if(!user) return;
+  document.getElementById("profileName").innerText = `${user.firstName||''} ${user.lastName||''}`.trim()||"User";
+  document.getElementById("profileEmail").innerText = user.email;
+  document.getElementById("profileBio").innerText = user.bio || "Travel enthusiast. Love exploring new cultures!";
+  document.getElementById("totalTrips").innerText = user.trips ? user.trips.length : 0;
+  document.getElementById("avgRating").innerText = user.rating || "N/A";
+  document.getElementById("totalDistance").innerText = user.totalDistance ? user.totalDistance+" km" : "0 km";
+  document.getElementById("profileCollege").innerText = "College: " + (user.college || "N/A");
+
+  const recentTrips = document.getElementById("recentTrips");
+  recentTrips.innerHTML = "";
+  if(user.trips && user.trips.length){
+    user.trips.slice(-4).reverse().forEach(t=>{
+      const div = document.createElement("div");
+      div.className="card";
+      div.innerHTML=`<h5>${t.destination}</h5><p>${t.college||''} | ${t.startDate}${t.endDate? ' - '+t.endDate:''}</p>`;
+      recentTrips.appendChild(div);
+    });
+  } else recentTrips.innerHTML='<div class="card"><h5>No trips yet</h5></div>';
+
+  const recentBlogs = document.getElementById("recentBlogs");
+  recentBlogs.innerHTML = "";
+  if(user.blogs && user.blogs.length){
+    user.blogs.slice(-4).reverse().forEach(b=>{
+      const div=document.createElement("div");
+      div.className="card";
+      div.innerHTML=`<h5>${b.title}</h5><p>${b.content.slice(0,100)}...</p>`;
+      recentBlogs.appendChild(div);
+    });
+  } else recentBlogs.innerHTML='<div class="card"><h5>No blogs yet</h5></div>';
+}
+
+// Logout
+document.getElementById("logoutBtn").addEventListener("click",()=>{
+  localStorage.removeItem("user");
+  window.location.href="index.html";
+});
+
+// Write Blog
+document.getElementById("writeBlogBtn").addEventListener("click",()=>{ window.location.href="write-blog.html"; });
+
+// Edit Profile Modal
+const editBtn=document.getElementById("editProfileBtn");
+const editModal=document.getElementById("editProfileModal");
+const editForm=document.getElementById("editProfileForm");
+editBtn.addEventListener("click",()=>{
+  if(!user) return;
+  editModal.style.display="flex";
+  document.getElementById("editFirstName").value=user.firstName||"";
+  document.getElementById("editLastName").value=user.lastName||"";
+  document.getElementById("editCollege").value=user.college||"";
+  document.getElementById("editBio").value=user.bio||"";
+});
+function closeEditModal(){ editModal.style.display="none"; }
+
+editForm.addEventListener("submit",function(e){
+  e.preventDefault();
+  if(!user) return;
+  user.firstName=document.getElementById("editFirstName").value;
+  user.lastName=document.getElementById("editLastName").value;
+  user.college=document.getElementById("editCollege").value;
+  user.bio=document.getElementById("editBio").value;
+  localStorage.setItem("user",JSON.stringify(user));
+  populateProfile();
+  closeEditModal();
+});
+
+fetchLatestUser();
+</script>
 
 </body>
 </html>

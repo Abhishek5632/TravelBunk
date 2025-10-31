@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About | TravelMate</title>
   <style>
@@ -25,15 +25,38 @@
     .about-section{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:80px;}
     .about-section img{width:100%;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.1);}
     .about-section p{font-size:1.1rem;color:#444;}
-    .team{padding:40px 0;}
+    .features{background:white;padding:60px 20px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.05);margin-bottom:60px;}
+    .features h2{text-align:center;margin-bottom:2rem;}
+    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;}
+    .feature{background:#F9FFFD;padding:25px;border-left:5px solid #00BFA6;border-radius:10px;transition:transform 0.3s;}
+    .feature:hover{transform:translateY(-5px);}
+    .feature h3{color:#00BFA6;margin-bottom:10px;}
+    .team{padding:60px 0;}
+    .team h2{text-align:center;margin-bottom:2rem;}
     .team-members{display:flex;gap:30px;flex-wrap:wrap;justify-content:center;}
     .team-member{background:white;padding:25px;border-radius:12px;text-align:center;width:280px;box-shadow:0 4px 12px rgba(0,0,0,0.05);transition:transform 0.3s;}
     .team-member:hover{transform:translateY(-8px);}
     .team-member img{width:120px;height:120px;object-fit:cover;border-radius:50%;margin-bottom:15px;border:4px solid #00BFA6;}
     .team-member h3{margin-bottom:8px;color:#00BFA6;}
     .team-member p{font-size:0.95rem;color:#555;}
+    .vision{background:#E8FFFB;padding:60px 20px;margin-top:60px;border-radius:12px;text-align:center;}
+    .vision h2{color:#00BFA6;margin-bottom:1rem;}
+    .vision p{max-width:800px;margin:0 auto;font-size:1.1rem;color:#444;}
+
+    /* Local Collaboration Section */
+    .collaboration{padding:80px 20px;background:white;border-radius:12px;margin-top:60px;box-shadow:0 4px 15px rgba(0,0,0,0.05);}
+    .collaboration h2{text-align:center;color:#00BFA6;margin-bottom:1.5rem;}
+    .collaboration p{text-align:center;max-width:900px;margin:0 auto 40px;font-size:1.1rem;color:#555;}
+    .partners{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;text-align:center;}
+    .partner{background:#F4F9F9;padding:25px;border-radius:12px;transition:transform 0.3s;}
+    .partner:hover{transform:translateY(-8px);}
+    .partner img{width:80px;height:80px;object-fit:contain;margin-bottom:15px;}
+    .partner h3{color:#00BFA6;margin-bottom:8px;}
+    .partner p{font-size:0.95rem;color:#444;}
+
     .footer{background:#2D3436;color:white;text-align:center;padding:3rem 20px;}
     .footer p{color:#ccc;margin-top:1rem;}
+
     @media(max-width:768px){
       .nav-menu{position:fixed;top:70px;left:-100%;flex-direction:column;background:white;width:100%;padding:2rem 0;transition:0.3s;box-shadow:0 10px 27px rgba(0,0,0,0.05);}
       .nav-menu.active{left:0;}
@@ -41,6 +64,7 @@
       .page-hero h1{font-size:2.2rem;}
       .about-section{grid-template-columns:1fr;}
     }
+
     .floating-icons{margin-top:40px;display:flex;gap:25px;justify-content:center;font-size:2rem;}
     .floating-icons span{animation:float 6s ease-in-out infinite;}
     .floating-icons span:nth-child(2){animation-delay:1s;}
@@ -56,23 +80,18 @@
       <ul class="nav-menu">
         <li><a href="index.html">Home</a></li>
         <li><a href="blog.html">Blog</a></li>
-        <!-- <li><a href="explore.html">Explore</a></li> -->
         <li><a href="find-companion.html">Find Companion</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="about.html">About</a></li>
       </ul>
       <div class="hamburger"><span></span><span></span><span></span></div>
     </div>
   </nav>
 
   <section class="page-hero">
-    <h1>About Us</h1>
-    <p>Learn more about TravelMate and the people behind it</p>
+    <h1>About TravelMate</h1>
+    <p>Connecting travelers, creating memories, and making every trip safer & more meaningful.</p>
     <div class="floating-icons">
-      <span>🌍</span>
-      <span>✈️</span>
-      <span>🏖️</span>
-      <span>🏔️</span>
+      <span>🌍</span><span>✈️</span><span>🏖️</span><span>🏔️</span>
     </div>
   </section>
 
@@ -80,28 +99,83 @@
     <div class="about-section">
       <img src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Travel">
       <div>
-        <h2>Our Mission</h2>
-        <p>At TravelMate, our mission is to connect travelers around the world, making every journey safer, more memorable, and full of meaningful connections. Whether you're looking for a travel buddy, hidden gems, or trusted guides, TravelMate is here to make it happen.</p>
+        <h2>Who We Are</h2>
+        <p>TravelMate is your ultimate companion for smarter and more social travel. We believe that traveling is not just about destinations—it’s about experiences, friendships, and stories that stay with you forever. Our platform helps travelers connect with like-minded explorers, discover new routes, and share adventures together.</p>
+      </div>
+    </div>
+
+    <div class="features">
+      <h2>What We Do</h2>
+      <div class="feature-grid">
+        <div class="feature">
+          <h3>🧭 Find Travel Companions</h3>
+          <p>Meet travelers who share your interests and journey routes. Whether solo or group, find your perfect travel match easily.</p>
+        </div>
+        <div class="feature">
+          <h3>📍 Explore Destinations</h3>
+          <p>Discover hidden gems, local experiences, and personalized routes curated for adventure seekers and peace lovers alike.</p>
+        </div>
+        <div class="feature">
+          <h3>💬 Share Experiences</h3>
+          <p>Post your stories, travel tips, and experiences on our blog to inspire thousands of fellow travelers around the globe.</p>
+        </div>
+        <div class="feature">
+          <h3>🛡️ Safety & Trust</h3>
+          <p>We prioritize your safety by verifying profiles and providing travel insights, ensuring every trip feels secure and reliable.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="vision">
+      <h2>Our Vision</h2>
+      <p>We aim to build a world where no one travels alone—where each journey brings people closer and creates meaningful connections across cultures. Through technology and community, we’re transforming the way people explore the world.</p>
+    </div>
+
+    <!-- Local Service Collaboration -->
+    <div class="collaboration">
+      <h2>Local Service Collaboration</h2>
+      <p>We proudly collaborate with local partners across the globe to deliver authentic, safe, and enriching experiences for our travelers. From local guides to transport providers and homestays, TravelMate believes in empowering communities while enhancing your travel journey.</p>
+      <div class="partners">
+        <div class="partner">
+          <img src="https://cdn-icons-png.flaticon.com/512/854/854878.png" alt="Guide">
+          <h3>Local Guides</h3>
+          <p>Experienced guides who share insider stories, secret trails, and cultural insights to make your trip unforgettable.</p>
+        </div>
+        <div class="partner">
+          <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Hotels">
+          <h3>Hotels & Homestays</h3>
+          <p>Comfortable stays partnered with trusted accommodations that reflect local charm and hospitality.</p>
+        </div>
+        <div class="partner">
+          <img src="https://cdn-icons-png.flaticon.com/512/3097/3097331.png" alt="Transport">
+          <h3>Transport Providers</h3>
+          <p>Safe and verified local transport options — making sure your journey between destinations is smooth and reliable.</p>
+        </div>
+        <div class="partner">
+          <img src="https://cdn-icons-png.flaticon.com/512/535/535188.png" alt="Cultural Events">
+          <h3>Cultural Partners</h3>
+          <p>We work with local event organizers and communities to give travelers a taste of real traditions and experiences.</p>
+        </div>
       </div>
     </div>
 
     <div class="team">
-      <h2>Meet Our Companions</h2>
+      <h2>Meet Our Team</h2>
       <div class="team-members">
         <div class="team-member">
           <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Priya">
-          <h3>Priya</h3>
-          <p>Priya is an enthusiastic traveler who loves exploring new cultures and making friends along the journey.</p>
+          <h3>Priya Sharma</h3>
+          <p>Co-founder & Community Manager — passionate about connecting people and creating unforgettable travel moments.</p>
         </div>
         <div class="team-member">
           <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Rahul">
-          <h3>Rahul</h3>
-          <p>Rahul is passionate about trekking and mountain adventures. He believes every hike brings new life lessons.</p>
+          <h3>Rahul Verma</h3>
+          <p>Lead Explorer — adventure lover and trekking enthusiast who brings innovative travel ideas to life.</p>
         </div>
         <div class="team-member">
           <img src="https://images.unsplash.com/photo-1546961329-78bef0414d7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Aisha">
-          <h3>Aisha</h3>
-          <p>Aisha loves beaches and sunsets. Her goal is to discover the best coastal gems around the world.</p>
+          <h3>Aisha Khan</h3>
+          <p>Experience Curator — discovering the best destinations, experiences, and hidden gems around the world.</p>
         </div>
       </div>
     </div>

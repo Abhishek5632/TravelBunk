@@ -1,243 +1,187 @@
 import express from "express";
-import fs from "fs";
+import cors from "cors";
+import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import { MongoClient, ObjectId } from "mongodb";
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-const usersFile = path.join(__dirname, "users.json");
+// ----------------- MongoDB Connection -----------------
+const uri = process.env.MONGO_URI || "your_atlas_cluster_connection_string_here";
+const client = new MongoClient(uri);
+let usersCollection;
 
-// ----------------- Ensure users.json exists -----------------
-if (!fs.existsSync(usersFile)) {
-    fs.writeFileSync(usersFile, "[]");
-    console.log("✅ Created users.json");
+async function connectDB() {
+  try {
+    await client.connect();
+    const db = client.db("travel_bunk");
+    usersCollection = db.collection("users");
+    console.log("✅ Connected to MongoDB Atlas");
+  } catch (err) {
+    console.error("❌ MongoDB connection failed:", err);
+  }
 }
-
-// ----------------- Helper Functions -----------------
-function loadUsers() {
-    try {
-        if (fs.existsSync(usersFile)) {
-            return JSON.parse(fs.readFileSync(usersFile, "utf-8"));
-        }
-        return [];
-    } catch (err) {
-        console.error("❌ Error reading users.json:", err);
-        return [];
-    }
-}
-
-function saveUsers(users) {
-    try {
-        fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
-        console.log("✅ Saved users.json at", usersFile);
-    } catch (err) {
-        console.error("❌ Error writing users.json:", err);
-    }
-}
+connectDB();
 
 // ----------------- Signup API -----------------
-app.post("/api/signup", (req, res) => {
-    const data = req.body;
-    if (!data.firstName || !data.email || !data.password) {
-        return res.json({ success: false, message: "Missing fields" });
-    }
+app.post("/api/signup", async (req, res) => {
+  const data = req.body;
+  if (!data.firstName || !data.email || !data.password) {
+    return res.json({ success: false, message: "Missing fields" });
+  }
 
-    let users = loadUsers();
+  const existingUser = await usersCollection.findOne({ email: data.email });
+  if (existingUser) {
+    return res.json({ success: false, message: "Email already exists" });
+  }
 
-    if (users.find(u => u.email === data.email)) {
-        return res.json({ success: false, message: "Email already exists" });
-    }
+  const newUser = {
+    firstName: data.firstName,
+    lastName: data.lastName || "",
+    email: data.email,
+    phone: data.phone || "",
+    age: data.age || "",
+    travelStyle: data.travelStyle || "",
+    password: data.password,
+    aadhaar: data.aadhaar || "",
+    newsletter: data.newsletter || false,
+    college: data.college || "",
+    trips: [],
+    blogs: [],
+    badges: [],
+    totalDistance: 0,
+    rating: "N/A",
+    bio: data.bio || ""
+  };
 
-    const newUser = {
-        firstName: data.firstName,
-        lastName: data.lastName || "",
-        email: data.email,
-        phone: data.phone || "",
-        age: data.age || "",
-        travelStyle: data.travelStyle || "",
-        password: data.password,
-        aadhaar: data.aadhaar || "",
-        newsletter: data.newsletter || false,
-        college: data.college || "",
-        trips: [],
-        blogs: [],
-        badges: [],
-        totalDistance: 0,
-        rating: "N/A",
-        bio: data.bio || ""
-    };
-
-    users.push(newUser);
-
-    try {
-        saveUsers(users);
-        console.log("👤 New user registered:", newUser.email);
-        res.json({ success: true, user: newUser });
-    } catch (err) {
-        console.error("❌ Error saving new user:", err);
-        res.json({ success: false, message: "Failed to save user" });
-    }
+  await usersCollection.insertOne(newUser);
+  console.log("👤 New user registered:", data.email);
+  res.json({ success: true, user: newUser });
 });
 
 // ----------------- Login API -----------------
-app.post("/api/login", (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) return res.json({ success: false, message: "Missing fields" });
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) return res.json({ success: false, message: "Missing fields" });
 
-    const users = loadUsers();
-    const user = users.find(u => u.email === email && u.password === password);
-    if (!user) return res.json({ success: false, message: "Invalid email or password" });
+  const user = await usersCollection.findOne({ email, password });
+  if (!user) return res.json({ success: false, message: "Invalid email or password" });
 
-    res.json({ success: true, user });
+  res.json({ success: true, user });
 });
 
 // ----------------- Update Profile API -----------------
-app.post("/api/update-profile", (req, res) => {
-    const {
-        email,
-        firstName,
-        lastName,
-        phone,
-        age,
-        travelStyle,
-        college,
-        bio,
-        aadhaar,
-        newsletter,
-        trips,
-        blogs,
-        badges,
-        totalDistance,
-        rating
-    } = req.body;
+app.post("/api/update-profile", async (req, res) => {
+  const { email, ...updates } = req.body;
+  if (!email) return res.json({ success: false, message: "Missing email" });
 
-    if (!email) return res.json({ success: false, message: "Missing email" });
+  const result = await usersCollection.updateOne(
+    { email },
+    { $set: updates }
+  );
 
-    let users = loadUsers();
-    const idx = users.findIndex(u => u.email === email);
-    if (idx === -1) return res.json({ success: false, message: "User not found" });
+  if (result.modifiedCount === 0)
+    return res.json({ success: false, message: "No changes or user not found" });
 
-    const user = users[idx];
-
-    if (firstName !== undefined) user.firstName = firstName;
-    if (lastName !== undefined) user.lastName = lastName;
-    if (phone !== undefined) user.phone = phone;
-    if (age !== undefined) user.age = age;
-    if (travelStyle !== undefined) user.travelStyle = travelStyle;
-    if (college !== undefined) user.college = college;
-    if (bio !== undefined) user.bio = bio;
-    if (aadhaar !== undefined) user.aadhaar = aadhaar;
-    if (newsletter !== undefined) user.newsletter = newsletter;
-    if (trips !== undefined) user.trips = trips;
-    if (blogs !== undefined) user.blogs = blogs;
-    if (badges !== undefined) user.badges = badges;
-    if (totalDistance !== undefined) user.totalDistance = totalDistance;
-    if (rating !== undefined) user.rating = rating;
-
-    saveUsers(users);
-    console.log("✏️ Profile updated:", email);
-
-    res.json({ success: true, user });
+  const updatedUser = await usersCollection.findOne({ email });
+  console.log("✏️ Profile updated:", email);
+  res.json({ success: true, user: updatedUser });
 });
 
 // ----------------- Add Blog API -----------------
-app.post("/api/add-blog", (req, res) => {
-    const { email, blog } = req.body;
-    if (!email || !blog || !blog.title || !blog.content) {
-        return res.json({ success: false, message: "Missing fields" });
-    }
+app.post("/api/add-blog", async (req, res) => {
+  const { email, blog } = req.body;
+  if (!email || !blog || !blog.title || !blog.content) {
+    return res.json({ success: false, message: "Missing fields" });
+  }
 
-    let users = loadUsers();
-    const idx = users.findIndex(u => u.email === email);
-    if (idx === -1) return res.json({ success: false, message: "User not found" });
+  const blogData = { ...blog, date: new Date().toLocaleString() };
 
-    if (!users[idx].blogs) users[idx].blogs = [];
-    users[idx].blogs.push({ ...blog, date: new Date().toLocaleString() });
+  await usersCollection.updateOne(
+    { email },
+    { $push: { blogs: blogData } }
+  );
 
-    saveUsers(users);
-    console.log("📝 Blog added by:", email);
-
-    res.json({ success: true, blogs: users[idx].blogs });
+  console.log("📝 Blog added by:", email);
+  const user = await usersCollection.findOne({ email });
+  res.json({ success: true, blogs: user.blogs });
 });
 
 // ----------------- Fetch User Blogs -----------------
-app.get("/api/blogs/:email", (req, res) => {
-    const email = req.params.email;
-    const users = loadUsers();
-    const user = users.find(u => u.email === email);
-    if (!user) return res.json({ success: false, message: "User not found" });
-    res.json({ success: true, blogs: user.blogs || [] });
+app.get("/api/blogs/:email", async (req, res) => {
+  const email = req.params.email;
+  const user = await usersCollection.findOne({ email });
+  if (!user) return res.json({ success: false, message: "User not found" });
+  res.json({ success: true, blogs: user.blogs || [] });
+});
+
+// ----------------- Get All Users -----------------
+app.get("/api/users", async (req, res) => {
+  const users = await usersCollection.find({}).toArray();
+  res.json(users);
 });
 
 // ----------------- Add Trip API -----------------
-app.post("/api/add-trip", (req, res) => {
-    const { email, college, startDate, endDate, destination } = req.body;
-    if (!email || !startDate || !endDate || !destination) {
-        return res.json({ success: false, message: "Missing fields" });
+app.post("/api/add-trip", async (req, res) => {
+  const { email, college, date, destination } = req.body;
+  if (!email || !date || !destination)
+    return res.json({ success: false, message: "Missing fields" });
+
+  const newTrip = {
+    college,
+    destination,
+    date,
+    createdAt: new Date().toLocaleString()
+  };
+
+  await usersCollection.updateOne(
+    { email },
+    { $push: { trips: newTrip } }
+  );
+
+  console.log("🚌 Trip added for:", email);
+  const user = await usersCollection.findOne({ email });
+  res.json({ success: true, trips: user.trips });
+});
+
+// ----------------- Find Users By Trip -----------------
+app.post("/api/find-users-by-trip", async (req, res) => {
+  const { date, destination } = req.body;
+  if (!date || !destination) {
+    return res.json({ success: false, message: "Missing date or destination" });
+  }
+
+  const users = await usersCollection.find({
+    trips: {
+      $elemMatch: {
+        date,
+        destination: { $regex: new RegExp(`^${destination}$`, "i") }
+      }
     }
+  }).toArray();
 
-    let users = loadUsers();
-    const idx = users.findIndex(u => u.email === email);
-    if (idx === -1) return res.json({ success: false, message: "User not found" });
+  const matchedUsers = users.map(u => ({
+    firstName: u.firstName,
+    lastName: u.lastName,
+    email: u.email,
+    phone: u.phone,
+    age: u.age,
+    travelStyle: u.travelStyle,
+    college: u.college || "",
+    trips: u.trips.filter(t => t.date === date && t.destination.toLowerCase() === destination.toLowerCase())
+  }));
 
-    if (!users[idx].trips) users[idx].trips = [];
-
-    const newTrip = {
-        college: college || users[idx].college || "",
-        destination,
-        startDate,
-        endDate,
-        createdAt: new Date().toLocaleString()
-    };
-
-    users[idx].trips.push(newTrip);
-
-    saveUsers(users);
-    console.log("🚌 Trip added for:", email);
-
-    res.json({ success: true, trips: users[idx].trips });
-});
-
-// ----------------- Fetch User Trips -----------------
-app.get("/api/trips/:email", (req, res) => {
-    const email = req.params.email;
-    const users = loadUsers();
-    const user = users.find(u => u.email === email);
-    if (!user) return res.json({ success: false, message: "User not found" });
-
-    res.json({ success: true, trips: user.trips || [] });
-});
-
-// ----------------- Companions API -----------------
-app.get("/api/companions", (req, res) => {
-    const { college, startDate, endDate, destination, email } = req.query;
-    const users = loadUsers();
-
-    const companions = users.filter(u => {
-        if (u.email === email || !u.trips) return false;
-
-        return u.trips.some(t => {
-            const matchesDest = t.destination.toLowerCase() === destination.toLowerCase();
-            const matchesCollege = college ? (u.college || "").toLowerCase() === college.toLowerCase() : true;
-
-            // date range overlap logic
-            const tripStart = new Date(t.startDate);
-            const tripEnd = new Date(t.endDate);
-            const reqStart = new Date(startDate);
-            const reqEnd = new Date(endDate);
-
-            const matchesDate = tripStart <= reqEnd && tripEnd >= reqStart;
-
-            return matchesDest && matchesCollege && matchesDate;
-        });
-    });
-
-    res.json({ success: true, companions });
+  console.log("🔎 Search result count:", matchedUsers.length);
+  res.json({ success: true, users: matchedUsers });
 });
 
 
@@ -252,6 +196,8 @@ app.get("/blog", (req, res) => res.sendFile(path.join(__dirname, "public", "blog
 app.get("/signin", (req, res) => res.sendFile(path.join(__dirname, "public", "signin.html")));
 app.get("/signup", (req, res) => res.sendFile(path.join(__dirname, "public", "signup.html")));
 
+
+
 // ----------------- Start Server -----------------
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
