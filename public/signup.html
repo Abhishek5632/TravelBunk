@@ -9,7 +9,84 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="auth.css">
+<style>
+/* ---- Checkbox Styling ---- */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.checkbox-label {
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #333;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.4;
+}
+
+/* Hide default checkbox */
+.checkbox-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Custom box */
+.checkmark {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  height: 20px;
+  width: 20px;
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Checked state */
+.checkbox-label input:checked ~ .checkmark {
+  background-color: #0078ff;
+}
+
+/* Tick mark */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-label input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-label .checkmark:after {
+  left: 6px;
+  top: 3px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+/* Links inside checkbox text */
+.checkbox-label a {
+  color: #0078ff;
+  text-decoration: none;
+  margin: 0 4px;
+}
+
+.checkbox-label a:hover {
+  text-decoration: underline;
+}
+</style>
 </head>
+
 <body>
 <nav class="navbar">
   <div class="nav-container">
