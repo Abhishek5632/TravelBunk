@@ -16,10 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// ----------------- OpenAI Setup -----------------
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+
 
 // ----------------- MongoDB Connection -----------------
 const uri = process.env.MONGO_URI;
@@ -178,36 +175,7 @@ app.post("/api/find-users-by-trip", async (req, res) => {
   res.json({ success: true, users: matchedUsers });
 });
 
-// ----------------- Chatbot API -----------------
-app.post("/api/chatbot", async (req, res) => {
-  const { message } = req.body;
-  if (!message) return res.json({ reply: "Please type a message!" });
 
-  try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are TravelBuddy AI assistant helping users find travel companions and plan trips.",
-        },
-        { role: "user", content: message },
-      ],
-    });
-
-    const reply = response.choices[0].message.content;
-    res.json({ reply });
-  } catch (err) {
-    console.error("❌ Chatbot error:", err.message);
-    res.status(500).json({
-      reply:
-        err.code === "insufficient_quota"
-          ? "OpenAI quota exceeded — please add billing info or use a new key."
-          : "Server error, please try again later.",
-    });
-  }
-});
 
 // ----------------- Serve HTML Pages -----------------
 const pages = [
