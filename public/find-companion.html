@@ -147,7 +147,7 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
-      <div class="nav-logo"><h2>Travel Bunk</h2></div>
+      <div class="nav-logo"><h2>TravelBuddy</h2></div>
       <ul class="nav-menu">
         <li><a href="index.html">Home</a></li>
         <li><a href="find-companion.html">Find Companion</a></li>
@@ -234,21 +234,34 @@
     }
 
     // Search trips (filter from demo list)
-    function searchTrips(){
-      const date=document.getElementById("tripDate").value;
-      const destination=document.getElementById("destination").value.trim().toLowerCase();
-      const filtered=demoUsers.filter(u=>u.trips.some(t=>
-        t.date===date && t.destination.toLowerCase().includes(destination)
-      ));
-      const noResults=document.getElementById("noResults");
-      if(filtered.length===0){
-        document.getElementById("resultsContainer").innerHTML="";
-        noResults.style.display="block";
-      }else{
-        noResults.style.display="none";
-        renderUsers(filtered);
-      }
-    }
+    async function searchTrips() {
+  const date = document.getElementById("tripDate").value;
+  const destination = document.getElementById("destination").value.trim();
+
+  if (!date || !destination) {
+    alert("Please enter both date and destination.");
+    return;
+  }
+
+  const res = await fetch("http://localhost:5001/api/find-users-by-trip", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ date, destination })
+  });
+
+  const data = await res.json();
+  const noResults = document.getElementById("noResults");
+  const container = document.getElementById("resultsContainer");
+
+  if (!data.success || data.users.length === 0) {
+    container.innerHTML = "";
+    noResults.style.display = "block";
+  } else {
+    noResults.style.display = "none";
+    renderUsers(data.users);
+  }
+}
+
   </script>
 </body>
 </html>

@@ -3,7 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient } from "mongodb";
+import OpenAI from "openai";
 
 dotenv.config();
 
@@ -15,8 +16,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+// ----------------- OpenAI Setup -----------------
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
 // ----------------- MongoDB Connection -----------------
-const uri = process.env.MONGO_URI || "your_atlas_cluster_connection_string_here";
+const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
 let usersCollection;
 
@@ -35,14 +41,12 @@ connectDB();
 // ----------------- Signup API -----------------
 app.post("/api/signup", async (req, res) => {
   const data = req.body;
-  if (!data.firstName || !data.email || !data.password) {
+  if (!data.firstName || !data.email || !data.password)
     return res.json({ success: false, message: "Missing fields" });
-  }
 
   const existingUser = await usersCollection.findOne({ email: data.email });
-  if (existingUser) {
+  if (existingUser)
     return res.json({ success: false, message: "Email already exists" });
-  }
 
   const newUser = {
     firstName: data.firstName,
@@ -60,7 +64,7 @@ app.post("/api/signup", async (req, res) => {
     badges: [],
     totalDistance: 0,
     rating: "N/A",
-    bio: data.bio || ""
+    bio: data.bio || "",
   };
 
   await usersCollection.insertOne(newUser);
@@ -71,10 +75,12 @@ app.post("/api/signup", async (req, res) => {
 // ----------------- Login API -----------------
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) return res.json({ success: false, message: "Missing fields" });
+  if (!email || !password)
+    return res.json({ success: false, message: "Missing fields" });
 
   const user = await usersCollection.findOne({ email, password });
-  if (!user) return res.json({ success: false, message: "Invalid email or password" });
+  if (!user)
+    return res.json({ success: false, message: "Invalid email or password" });
 
   res.json({ success: true, user });
 });
@@ -82,13 +88,10 @@ app.post("/api/login", async (req, res) => {
 // ----------------- Update Profile API -----------------
 app.post("/api/update-profile", async (req, res) => {
   const { email, ...updates } = req.body;
-  if (!email) return res.json({ success: false, message: "Missing email" });
+  if (!email)
+    return res.json({ success: false, message: "Missing email" });
 
-  const result = await usersCollection.updateOne(
-    { email },
-    { $set: updates }
-  );
-
+  const result = await usersCollection.updateOne({ email }, { $set: updates });
   if (result.modifiedCount === 0)
     return res.json({ success: false, message: "No changes or user not found" });
 
@@ -100,16 +103,12 @@ app.post("/api/update-profile", async (req, res) => {
 // ----------------- Add Blog API -----------------
 app.post("/api/add-blog", async (req, res) => {
   const { email, blog } = req.body;
-  if (!email || !blog || !blog.title || !blog.content) {
+  if (!email || !blog?.title || !blog?.content)
     return res.json({ success: false, message: "Missing fields" });
-  }
 
   const blogData = { ...blog, date: new Date().toLocaleString() };
 
-  await usersCollection.updateOne(
-    { email },
-    { $push: { blogs: blogData } }
-  );
+  await usersCollection.updateOne({ email }, { $push: { blogs: blogData } });
 
   console.log("📝 Blog added by:", email);
   const user = await usersCollection.findOne({ email });
@@ -140,13 +139,10 @@ app.post("/api/add-trip", async (req, res) => {
     college,
     destination,
     date,
-    createdAt: new Date().toLocaleString()
+    createdAt: new Date().toLocaleString(),
   };
 
-  await usersCollection.updateOne(
-    { email },
-    { $push: { trips: newTrip } }
-  );
+  await usersCollection.updateOne({ email }, { $push: { trips: newTrip } });
 
   console.log("🚌 Trip added for:", email);
   const user = await usersCollection.findOne({ email });
@@ -156,20 +152,16 @@ app.post("/api/add-trip", async (req, res) => {
 // ----------------- Find Users By Trip -----------------
 app.post("/api/find-users-by-trip", async (req, res) => {
   const { date, destination } = req.body;
-  if (!date || !destination) {
+  if (!date || !destination)
     return res.json({ success: false, message: "Missing date or destination" });
-  }
 
-  const users = await usersCollection.find({
-    trips: {
-      $elemMatch: {
-        date,
-        destination: { $regex: new RegExp(`^${destination}$`, "i") }
-      }
-    }
-  }).toArray();
+  const users = await usersCollection
+    .find({
+      trips: { $elemMatch: { date, destination: { $regex: new RegExp(`^${destination}$`, "i") } } },
+    })
+    .toArray();
 
-  const matchedUsers = users.map(u => ({
+  const matchedUsers = users.map((u) => ({
     firstName: u.firstName,
     lastName: u.lastName,
     email: u.email,
@@ -177,27 +169,68 @@ app.post("/api/find-users-by-trip", async (req, res) => {
     age: u.age,
     travelStyle: u.travelStyle,
     college: u.college || "",
-    trips: u.trips.filter(t => t.date === date && t.destination.toLowerCase() === destination.toLowerCase())
+    trips: u.trips.filter(
+      (t) => t.date === date && t.destination.toLowerCase() === destination.toLowerCase()
+    ),
   }));
 
   console.log("🔎 Search result count:", matchedUsers.length);
   res.json({ success: true, users: matchedUsers });
 });
 
+// ----------------- Chatbot API -----------------
+app.post("/api/chatbot", async (req, res) => {
+  const { message } = req.body;
+  if (!message) return res.json({ reply: "Please type a message!" });
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are TravelBuddy AI assistant helping users find travel companions and plan trips.",
+        },
+        { role: "user", content: message },
+      ],
+    });
+
+    const reply = response.choices[0].message.content;
+    res.json({ reply });
+  } catch (err) {
+    console.error("❌ Chatbot error:", err.message);
+    res.status(500).json({
+      reply:
+        err.code === "insufficient_quota"
+          ? "OpenAI quota exceeded — please add billing info or use a new key."
+          : "Server error, please try again later.",
+    });
+  }
+});
 
 // ----------------- Serve HTML Pages -----------------
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
-app.get("/find-companion", (req, res) => res.sendFile(path.join(__dirname, "public", "find-companion.html")));
-app.get("/explore-trips", (req, res) => res.sendFile(path.join(__dirname, "public", "explore-trips.html")));
-app.get("/profile", (req, res) => res.sendFile(path.join(__dirname, "public", "profile.html")));
-app.get("/about", (req, res) => res.sendFile(path.join(__dirname, "public", "about.html")));
-app.get("/contact", (req, res) => res.sendFile(path.join(__dirname, "public", "contact.html")));
-app.get("/blog", (req, res) => res.sendFile(path.join(__dirname, "public", "blog.html")));
-app.get("/signin", (req, res) => res.sendFile(path.join(__dirname, "public", "signin.html")));
-app.get("/signup", (req, res) => res.sendFile(path.join(__dirname, "public", "signup.html")));
+const pages = [
+  "index",
+  "find-companion",
+  "explore-trips",
+  "profile",
+  "about",
+  "contact",
+  "blog",
+  "signin",
+  "signup",
+  "chatbot",
+];
 
-
+pages.forEach((page) =>
+  app.get(`/${page === "index" ? "" : page}`, (req, res) =>
+    res.sendFile(path.join(__dirname, "public", `${page}.html`))
+  )
+);
 
 // ----------------- Start Server -----------------
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =>
+  console.log(`🚀 Server running on http://localhost:${PORT}`)
+);

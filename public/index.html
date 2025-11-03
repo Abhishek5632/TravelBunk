@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TravelBunk - Find Your Travel Tribe</title>
+    <title>TravelBuddy - Find Your Travel Tribe</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -12,28 +12,24 @@
 </head>
 <body>
  <!-- Navigation Bar -->
-<nav class="navbar">
+ <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo">
-        <h2>TravelBunk</h2>
-       
+        <h2>TravelBuddy</h2>
       </div>
   
-      <ul class="nav-menu">
-        <!-- Always visible -->
+      <ul class="nav-menu" id="nav-menu">
         <li><a href="#home">Home</a></li>
-      <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.html">Contact</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="local-services.html">Local Services</a></li>
         <li id="auth-section"></li>
-        <!-- Profile Dropdown (all extra links) -->
         <li class="profile-menu">
-          
+          <a href="#" class="profile-link">More ▾</a>
           <div id="profileDropdown" class="dropdown-content">
             <a href="contact.html">Contact</a>
             <a href="about.html">About</a>
             <a href="explore.html">Explore Trips</a>
-            
             <a href="signin.html">Login</a>
             <a href="signup.html">Sign Up</a>
             <a href="profile.html">My Profile</a>
@@ -44,7 +40,7 @@
       </ul>
   
       <!-- Mobile Menu Icon -->
-      <div class="hamburger">
+      <div class="hamburger" id="hamburger">
         <span></span>
         <span></span>
         <span></span>
@@ -729,6 +725,52 @@
           }
         });
         </script>
-        
+        <script>
+            const hamburger = document.getElementById("hamburger");
+            const navMenu = document.getElementById("nav-menu");
+          
+            hamburger.addEventListener("click", () => {
+              navMenu.classList.toggle("active");
+              hamburger.classList.toggle("open");
+            });
+          </script>
+          <div class="chatbot-container" id="chatbot">
+            <div class="chat-header">TravelBuddy AI</div>
+            <div class="chat-body" id="chat-body"></div>
+            <div class="chat-input">
+              <input type="text" id="user-input" placeholder="Ask me anything..." />
+              <button id="send-btn">Send</button>
+            </div>
+          </div>
+          
+          <div class="chat-toggle" id="chat-toggle">💬</div>
+          
+          <script>
+            const chatToggle = document.getElementById("chat-toggle");
+            const chatbot = document.getElementById("chatbot");
+            const chatBody = document.getElementById("chat-body");
+            const sendBtn = document.getElementById("send-btn");
+            const userInput = document.getElementById("user-input");
+          
+            chatToggle.onclick = () => chatbot.classList.toggle("active");
+          
+            sendBtn.onclick = async () => {
+              const message = userInput.value.trim();
+              if (!message) return;
+          
+              chatBody.innerHTML += `<div class="user-msg">${message}</div>`;
+              userInput.value = "";
+          
+              const response = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message }),
+              });
+              const data = await response.json();
+              chatBody.innerHTML += `<div class="bot-msg">${data.reply}</div>`;
+              chatBody.scrollTop = chatBody.scrollHeight;
+            };
+          </script>
+          
 </body>
 </html>
