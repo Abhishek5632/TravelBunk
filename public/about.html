@@ -33,17 +33,34 @@
     .feature h3{color:#00BFA6;margin-bottom:10px;}
     .team{padding:60px 0;}
     .team h2{text-align:center;margin-bottom:2rem;}
-    .team-members{display:flex;gap:30px;flex-wrap:wrap;justify-content:center;}
-    .team-member{background:white;padding:25px;border-radius:12px;text-align:center;width:280px;box-shadow:0 4px 12px rgba(0,0,0,0.05);transition:transform 0.3s;}
+
+    /* --- FIXED TEAM LAYOUT --- */
+    .team-members {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      justify-items: center;
+      padding: 0 20px;
+    }
+    .team-member {
+      background:white;
+      padding:25px;
+      border-radius:12px;
+      text-align:center;
+      width:100%;
+      max-width:260px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.05);
+      transition:transform 0.3s;
+    }
     .team-member:hover{transform:translateY(-8px);}
     .team-member img{width:120px;height:120px;object-fit:cover;border-radius:50%;margin-bottom:15px;border:4px solid #00BFA6;}
     .team-member h3{margin-bottom:8px;color:#00BFA6;}
     .team-member p{font-size:0.95rem;color:#555;}
+
     .vision{background:#E8FFFB;padding:60px 20px;margin-top:60px;border-radius:12px;text-align:center;}
     .vision h2{color:#00BFA6;margin-bottom:1rem;}
     .vision p{max-width:800px;margin:0 auto;font-size:1.1rem;color:#444;}
 
-    /* Local Collaboration Section */
     .collaboration{padding:80px 20px;background:white;border-radius:12px;margin-top:60px;box-shadow:0 4px 15px rgba(0,0,0,0.05);}
     .collaboration h2{text-align:center;color:#00BFA6;margin-bottom:1.5rem;}
     .collaboration p{text-align:center;max-width:900px;margin:0 auto 40px;font-size:1.1rem;color:#555;}
@@ -56,6 +73,17 @@
 
     .footer{background:#2D3436;color:white;text-align:center;padding:3rem 20px;}
     .footer p{color:#ccc;margin-top:1rem;}
+
+    @media(max-width:1024px){
+      .team-members {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media(max-width:600px){
+      .team-members {
+        grid-template-columns: 1fr;
+      }
+    }
 
     @media(max-width:768px){
       .nav-menu{position:fixed;top:70px;left:-100%;flex-direction:column;background:white;width:100%;padding:2rem 0;transition:0.3s;box-shadow:0 10px 27px rgba(0,0,0,0.05);}
@@ -131,7 +159,6 @@
       <p>We aim to build a world where no one travels alone—where each journey brings people closer and creates meaningful connections across cultures. Through technology and community, we’re transforming the way people explore the world.</p>
     </div>
 
-    <!-- Local Service Collaboration -->
     <div class="collaboration">
       <h2>Local Service Collaboration</h2>
       <p>We proudly collaborate with local partners across the globe to deliver authentic, safe, and enriching experiences for our travelers. From local guides to transport providers and homestays, TravelMate believes in empowering communities while enhancing your travel journey.</p>
@@ -163,19 +190,27 @@
       <h2>Meet Our Team</h2>
       <div class="team-members">
         <div class="team-member">
-          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Priya">
-          <h3>Priya Sharma</h3>
-          <p>Co-founder & Community Manager — passionate about connecting people and creating unforgettable travel moments.</p>
+          <img src="./photos 6.49.47 PM/WhatsApp Image 2025-11-03 at 22.46.31.jpeg" alt="Abhishek Dixit">
+          <h3>Abhishek Dixit</h3>
+          <p><strong>Team Lead & Full Stack Developer</strong> — A B.Tech 3rd-year IT student passionate about building impactful web projects. Leads the team with creativity, code precision, and vision for innovation.</p>
         </div>
+
         <div class="team-member">
-          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Rahul">
-          <h3>Rahul Verma</h3>
-          <p>Lead Explorer — adventure lover and trekking enthusiast who brings innovative travel ideas to life.</p>
+          <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Akshay">
+          <h3>Akshay Kumar</h3>
+          <p><strong>Frontend Specialist</strong> — A B.Tech 3rd-year student who loves crafting beautiful user interfaces. Focused on smooth design, responsiveness, and creating the perfect user experience.</p>
         </div>
+
         <div class="team-member">
-          <img src="https://images.unsplash.com/photo-1546961329-78bef0414d7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Aisha">
-          <h3>Aisha Khan</h3>
-          <p>Experience Curator — discovering the best destinations, experiences, and hidden gems around the world.</p>
+          <img src="./photos 6.49.47 PM/WhatsApp Image 2025-11-03 at 22.41.32.jpeg" alt="Aditya Sharma">
+          <h3>Aditya Sharma</h3>
+          <p><strong>Backend & Database Engineer</strong> — A B.Tech 3rd-year tech enthusiast who enjoys solving logical problems and optimizing backend systems using Node.js and MongoDB.</p>
+        </div>
+
+        <div class="team-member">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Abhijeet Kushwaha">
+          <h3>Abhijeet Kushwaha</h3>
+          <p><strong>Research & Content Coordinator</strong> — A B.Tech 3rd-year learner who curates engaging content, manages documentation, and ensures the team’s work stays on track and well-organized.</p>
         </div>
       </div>
     </div>
