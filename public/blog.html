@@ -95,6 +95,7 @@
       background:#00BFA6;color:white;font-size:1rem;cursor:pointer;transition:0.3s;
     }
     .button-group button:hover{background:#01967f;}
+    .button-group button:disabled{background:#ccc;cursor:not-allowed;}
 
     /* Photos */
     .gallery-grid{
@@ -123,7 +124,6 @@
       <div class="nav-logo"><h2>TravelBuddy</h2></div>
       <ul class="nav-menu">
         <li><a href="index.html">Home</a></li>
-        <!-- <li><a href="blog.html">Blog</a></li> -->
         <li><a href="find-companion.html">Find Companion</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="about.html">About</a></li>
@@ -155,9 +155,10 @@
     <div id="blogsTab">
       <div class="blog-grid" id="blogGrid"></div>
       <div class="button-group">
-        <button class="write-blog-btn" onclick="window.location.href='write-blog.html'">✍️ Write a Blog</button>
+        <button class="write-blog-btn" id="writeBlogBtn">✍️ Write a Blog</button>
         <button class="view-more-btn" id="loadMoreBlogs">👁️ View More Blogs</button>
       </div>
+      <p id="blogMsg" style="text-align:center;color:red;font-weight:500;"></p>
     </div>
 
     <!-- Photos Tab -->
@@ -165,15 +166,16 @@
       <div class="gallery-grid" id="photoGrid"></div>
       <div class="button-group">
         <input type="file" id="photoUpload" accept="image/*" style="display:none;">
-        <button class="upload-photo-btn" onclick="document.getElementById('photoUpload').click();">📤 Upload Photo</button>
+        <button class="upload-photo-btn" id="uploadPhotoBtn">📤 Upload Photo</button>
       </div>
+      <p id="photoMsg" style="text-align:center;color:red;font-weight:500;"></p>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="footer">
-    <h3>TravelMate</h3>
-    <p>&copy; 2025 TravelMate. All rights reserved.</p>
+    <h3>TravelBuddy</h3>
+    <p>&copy; 2025 TravelBuddy. All rights reserved.</p>
   </footer>
 
   <script>
@@ -200,13 +202,30 @@
       });
     });
 
+    // Check Login
+    const user = JSON.parse(localStorage.getItem("user"));
+    const writeBtn = document.getElementById("writeBlogBtn");
+    const uploadBtn = document.getElementById("uploadPhotoBtn");
+    const blogMsg = document.getElementById("blogMsg");
+    const photoMsg = document.getElementById("photoMsg");
+
+    if(!user){
+      writeBtn.disabled = true;
+      uploadBtn.disabled = true;
+      blogMsg.textContent = "❌ Please log in to write a blog.";
+      photoMsg.textContent = "❌ Please log in to upload photos.";
+    } else {
+      writeBtn.addEventListener("click", ()=> window.location.href = "write-blog.html");
+      uploadBtn.addEventListener("click", ()=> document.getElementById("photoUpload").click());
+    }
+
     // Demo Blogs
     let allBlogs = [
       {title:"🌍 Backpacking Through Europe", content:"Experience Paris, Rome & Amsterdam in one journey.", image:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"},
       {title:"🏔️ 5 Best Hiking Trails in Asia", content:"From Himalayas to Mount Fuji, explore breathtaking trails.", image:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80"},
       {title:"🏖️ Budget-Friendly Beach Destinations", content:"Relax by the sea without breaking the bank.", image:"https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&w=800&q=80"},
       {title:"🏕️ Camping in the Rockies", content:"Connect with nature in stunning locations.", image:"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"},
-      {title:"🏝️ Tropical Paradise Guide", content:"Explore hidden islands & turquoise waters.", image:"https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80"}
+      {title:"🏝️ Tropical Paradise Guide", content:"Explore hidden islands & turquoise waters.", image:"https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&w=800&q=80"}
     ];
     let blogIndex=0;
     const blogGrid = document.getElementById("blogGrid");

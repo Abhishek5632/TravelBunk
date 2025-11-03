@@ -13,7 +13,6 @@
       min-height: 100vh;
     }
 
-    /* Navbar */
     .navbar {
       background: rgba(255,255,255,0.95);
       backdrop-filter: blur(10px);
@@ -63,7 +62,6 @@
       .nav-logo h2 {font-size:1.3rem;}
     }
 
-    /* Hero Section */
     .page-hero {
       background: linear-gradient(135deg,#00BFA6,#FDCB6E);
       padding: 130px 20px 70px;
@@ -73,7 +71,6 @@
     .page-hero h1 {font-size:3rem;font-weight:700;margin-bottom:1rem;}
     .page-hero p {font-size:1.25rem;opacity:0.92;}
 
-    /* Search Box */
     .page-content {max-width:1200px;margin:0 auto;padding:50px 20px;}
     .search-box {
       background:white;border-radius:14px;
@@ -99,7 +96,6 @@
       margin-top:38px;font-size:1.18rem;
     }
 
-    /* Cards */
     #resultsContainer {
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
@@ -133,8 +129,7 @@
       text-align:center;
     }
     .view-btn:hover {transform:scale(1.05);}
-    
-    /* Footer */
+
     .footer {
       background:#2D3436;color:white;text-align:center;
       padding:2.5rem 20px;margin-top:40px;
@@ -144,7 +139,6 @@
 </head>
 <body>
 
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo"><h2>TravelBuddy</h2></div>
@@ -158,13 +152,11 @@
     </div>
   </nav>
 
-  <!-- Hero -->
   <section class="page-hero">
     <h1>Find Your Travel Companion</h1>
     <p>Connect with fellow travelers and make your journeys memorable!</p>
   </section>
 
-  <!-- Content -->
   <section class="page-content">
     <div class="search-box">
       <label>Date:</label>
@@ -183,35 +175,39 @@
   </footer>
 
   <script>
+    // ✅ Login check (consistent with signin.html)
+    document.addEventListener("DOMContentLoaded", () => {
+      const userData = localStorage.getItem("user");
+      if (!userData) {
+        alert("Please login to access this page.");
+        window.location.href = "signin.html";
+      }
+    });
+
     const hamburger=document.querySelector(".hamburger");
     const navMenu=document.querySelector(".nav-menu");
     hamburger.addEventListener("click",()=>navMenu.classList.toggle("active"));
 
-    // Demo traveler data
+    // Demo user data
     const demoUsers=[
-      {
-        firstName:"Abhishek", lastName:"Dixit", college:"GL Bajaj", email:"abhishek@travel.com",
+      { firstName:"Abhishek", lastName:"Dixit", college:"GL Bajaj", email:"abhishek@travel.com",
         trips:[{date:"2025-10-30", destination:"Jaipur"}],
         img:"https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=facearea&w=400&h=300&facepad=2"
       },
-      {
-        firstName:"Priya", lastName:"Sharma", college:"Amity", email:"priya@travel.com",
+      { firstName:"Priya", lastName:"Sharma", college:"Amity", email:"priya@travel.com",
         trips:[{date:"2025-10-29", destination:"Goa"}],
         img:"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=facearea&w=400&h=300&facepad=2"
       },
-      {
-        firstName:"Rahul", lastName:"Verma", college:"Galgotias", email:"rahul@travel.com",
+      { firstName:"Rahul", lastName:"Verma", college:"Galgotias", email:"rahul@travel.com",
         trips:[{date:"2025-10-30", destination:"Delhi"}],
         img:"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=facearea&w=400&h=300&facepad=2"
       },
-      {
-        firstName:"Sneha", lastName:"Patel", college:"SRM", email:"sneha@travel.com",
+      { firstName:"Sneha", lastName:"Patel", college:"SRM", email:"sneha@travel.com",
         trips:[{date:"2025-10-28", destination:"Manali"}],
         img:"https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&w=400&h=300&facepad=2"
       }
     ];
 
-    // Show default demo users
     window.addEventListener("load",()=>renderUsers(demoUsers));
 
     function renderUsers(users){
@@ -233,35 +229,33 @@
       });
     }
 
-    // Search trips (filter from demo list)
     async function searchTrips() {
-  const date = document.getElementById("tripDate").value;
-  const destination = document.getElementById("destination").value.trim();
+      const date = document.getElementById("tripDate").value;
+      const destination = document.getElementById("destination").value.trim();
 
-  if (!date || !destination) {
-    alert("Please enter both date and destination.");
-    return;
-  }
+      if (!date || !destination) {
+        alert("Please enter both date and destination.");
+        return;
+      }
 
-  const res = await fetch("http://localhost:5001/api/find-users-by-trip", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ date, destination })
-  });
+      const res = await fetch("http://localhost:5001/api/find-users-by-trip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date, destination })
+      });
 
-  const data = await res.json();
-  const noResults = document.getElementById("noResults");
-  const container = document.getElementById("resultsContainer");
+      const data = await res.json();
+      const noResults = document.getElementById("noResults");
+      const container = document.getElementById("resultsContainer");
 
-  if (!data.success || data.users.length === 0) {
-    container.innerHTML = "";
-    noResults.style.display = "block";
-  } else {
-    noResults.style.display = "none";
-    renderUsers(data.users);
-  }
-}
-
+      if (!data.success || data.users.length === 0) {
+        container.innerHTML = "";
+        noResults.style.display = "block";
+      } else {
+        noResults.style.display = "none";
+        renderUsers(data.users);
+      }
+    }
   </script>
 </body>
 </html>

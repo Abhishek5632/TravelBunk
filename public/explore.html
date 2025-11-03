@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Trip | TravelBunk</title>
+  <title>Add Trip | TravelBuddy</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'Poppins',sans-serif;line-height:1.6;background:#f9f9f9;}
@@ -96,7 +96,7 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
-      <div class="nav-logo"><h2>TravelBunk</h2></div>
+      <div class="nav-logo"><h2>TravelBuddy</h2></div>
       <ul class="nav-menu">
         <li><a href="index.html">Home</a></li>
         <li><a href="find-companion.html">Find Companion</a></li>
@@ -137,62 +137,61 @@
 
   <script>
     // Navbar toggle
-    const hamburger=document.querySelector(".hamburger");
-    const navMenu=document.querySelector(".nav-menu");
-    hamburger.addEventListener("click",()=>navMenu.classList.toggle("active"));
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
+    hamburger.addEventListener("click", () => navMenu.classList.toggle("active"));
 
-    // Check logged in user
-    const user=JSON.parse(localStorage.getItem("user"))||null;
-    const emailField=document.getElementById("email");
-    const msg=document.getElementById("message");
-
-    if(!user){
-      msg.style.color="red";
-      msg.textContent="❌ Please login first to add trips.";
-      document.querySelector("button").disabled=true;
-    }else{
-      emailField.value=user.email;
+    // ✅ Login protection
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      alert("Please login first to access this page.");
+      window.location.href = "signin.html"; // redirect if not logged in
     }
 
-    // Add Trip Function
-    document.getElementById("addTripForm").addEventListener("submit",async(e)=>{
-      e.preventDefault();
-      if(!user)return;
+    // Prefill email
+    const emailField = document.getElementById("email");
+    const msg = document.getElementById("message");
+    if (user) emailField.value = user.email;
 
-      const trip={
-        email:user.email,
-        college:document.getElementById("college").value.trim(),
-        date:document.getElementById("date").value,
-        destination:document.getElementById("destination").value.trim()
+    // Add Trip Function
+    document.getElementById("addTripForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!user) return;
+
+      const trip = {
+        email: user.email,
+        college: document.getElementById("college").value.trim(),
+        date: document.getElementById("date").value,
+        destination: document.getElementById("destination").value.trim(),
       };
 
-      if(!trip.date||!trip.destination){
-        msg.style.color="red";
-        msg.textContent="⚠️ Please fill all required fields!";
+      if (!trip.date || !trip.destination) {
+        msg.style.color = "red";
+        msg.textContent = "⚠️ Please fill all required fields!";
         return;
       }
 
-      try{
-        const res=await fetch("/api/add-trip",{
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify(trip)
+      try {
+        const res = await fetch("/api/add-trip", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(trip),
         });
-        const data=await res.json();
-        if(data.success){
-          msg.style.color="green";
-          msg.textContent="✅ Trip added successfully!";
-          user.trips=data.trips;
+        const data = await res.json();
+        if (data.success) {
+          msg.style.color = "green";
+          msg.textContent = "✅ Trip added successfully!";
+          user.trips = data.trips;
           localStorage.setItem("user", JSON.stringify(user));
           document.getElementById("addTripForm").reset();
-          emailField.value=user.email;
-        }else{
-          msg.style.color="red";
-          msg.textContent="❌ "+data.message;
+          emailField.value = user.email;
+        } else {
+          msg.style.color = "red";
+          msg.textContent = "❌ " + data.message;
         }
-      }catch(err){
-        msg.style.color="red";
-        msg.textContent="⚠️ Server error. Try again later!";
+      } catch (err) {
+        msg.style.color = "red";
+        msg.textContent = "⚠️ Server error. Try again later!";
         console.error(err);
       }
     });

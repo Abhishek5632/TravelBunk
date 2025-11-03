@@ -36,44 +36,47 @@
             </div>
             <button type="submit" class="btn btn-primary btn-full">Sign In 🚀</button>
           </form>
+
+          <p style="margin-top:15px;">
+            Don't have an account? 
+            <a href="signup.html" style="color:#00BFA6;text-decoration:none;font-weight:600;">Sign up here</a>
+          </p>
         </div>
       </div>
     </div>
   </section>
 
   <script>
-    document.getElementById("signinForm").addEventListener("submit", async e => {
-        e.preventDefault();
-    
-        // Collect form data
-        const data = Object.fromEntries(new FormData(e.target).entries());
-    
-        try {
-            // Call backend login API
-            const res = await fetch("/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-            const result = await res.json();
-    
-            if (!result.success) {
-                alert(result.message);
-                return;
-            }
-    
-            // Save user in localStorage
-            localStorage.setItem("user", JSON.stringify(result.user));
-    
-            // Redirect to home page
-            window.location.href = "index.html";
-    
-        } catch (err) {
-            console.error("Login error:", err);
-            alert("Something went wrong. Try again.");
+    // Auto redirect if already logged in
+    const existingUser = JSON.parse(localStorage.getItem("user"));
+    if (existingUser) {
+      window.location.href = "index.html";
+    }
+
+    document.getElementById("signinForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        if (!result.success) {
+          alert(result.message);
+          return;
         }
+
+        localStorage.setItem("user", JSON.stringify(result.user));
+        window.location.href = "index.html";
+      } catch (err) {
+        console.error("Login error:", err);
+        alert("Something went wrong. Try again.");
+      }
     });
-    </script>
-    
+  </script>
 </body>
 </html>
