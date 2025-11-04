@@ -239,7 +239,8 @@
       // 🔹 Detect environment (local or deployed)
       const baseURL = window.location.hostname === "localhost"
         ? "http://localhost:5001"
-        : "https://travelbunk-backend.onrender.com"; // ⬅️ Replace with your actual deployed backend URL
+         : "https://travelbuddy-hluu.onrender.com";
+
 
       try {
         const res = await fetch(`${baseURL}/api/find-users-by-trip`, {
