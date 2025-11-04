@@ -175,7 +175,6 @@
   </footer>
 
   <script>
-    // ✅ Login check (consistent with signin.html)
     document.addEventListener("DOMContentLoaded", () => {
       const userData = localStorage.getItem("user");
       if (!userData) {
@@ -184,38 +183,37 @@
       }
     });
 
-    const hamburger=document.querySelector(".hamburger");
-    const navMenu=document.querySelector(".nav-menu");
-    hamburger.addEventListener("click",()=>navMenu.classList.toggle("active"));
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
+    hamburger.addEventListener("click", () => navMenu.classList.toggle("active"));
 
-    // Demo user data
-    const demoUsers=[
-      { firstName:"Abhishek", lastName:"Dixit", college:"GL Bajaj", email:"abhishek@travel.com",
-        trips:[{date:"2025-10-30", destination:"Jaipur"}],
-        img:"https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=facearea&w=400&h=300&facepad=2"
+    const demoUsers = [
+      { firstName: "Abhishek", lastName: "Dixit", college: "GL Bajaj", email: "abhishek@travel.com",
+        trips: [{ date: "2025-10-30", destination: "Jaipur" }],
+        img: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=facearea&w=400&h=300&facepad=2"
       },
-      { firstName:"Priya", lastName:"Sharma", college:"Amity", email:"priya@travel.com",
-        trips:[{date:"2025-10-29", destination:"Goa"}],
-        img:"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=facearea&w=400&h=300&facepad=2"
+      { firstName: "Priya", lastName: "Sharma", college: "Amity", email: "priya@travel.com",
+        trips: [{ date: "2025-10-29", destination: "Goa" }],
+        img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=facearea&w=400&h=300&facepad=2"
       },
-      { firstName:"Rahul", lastName:"Verma", college:"Galgotias", email:"rahul@travel.com",
-        trips:[{date:"2025-10-30", destination:"Delhi"}],
-        img:"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=facearea&w=400&h=300&facepad=2"
+      { firstName: "Rahul", lastName: "Verma", college: "Galgotias", email: "rahul@travel.com",
+        trips: [{ date: "2025-10-30", destination: "Delhi" }],
+        img: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=facearea&w=400&h=300&facepad=2"
       },
-      { firstName:"Sneha", lastName:"Patel", college:"SRM", email:"sneha@travel.com",
-        trips:[{date:"2025-10-28", destination:"Manali"}],
-        img:"https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&w=400&h=300&facepad=2"
+      { firstName: "Sneha", lastName: "Patel", college: "SRM", email: "sneha@travel.com",
+        trips: [{ date: "2025-10-28", destination: "Manali" }],
+        img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&w=400&h=300&facepad=2"
       }
     ];
 
-    window.addEventListener("load",()=>renderUsers(demoUsers));
+    window.addEventListener("load", () => renderUsers(demoUsers));
 
-    function renderUsers(users){
-      const container=document.getElementById("resultsContainer");
-      container.innerHTML="";
-      users.forEach(user=>{
-        const trip=user.trips[0];
-        container.innerHTML+=`
+    function renderUsers(users) {
+      const container = document.getElementById("resultsContainer");
+      container.innerHTML = "";
+      users.forEach(user => {
+        const trip = user.trips[0];
+        container.innerHTML += `
           <div class="card">
             <img src="${user.img}" alt="${user.firstName}">
             <div class="card-content">
@@ -238,22 +236,32 @@
         return;
       }
 
-      const res = await fetch("http://localhost:5001/api/find-users-by-trip", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date, destination })
-      });
+      // 🔹 Detect environment (local or deployed)
+      const baseURL = window.location.hostname === "localhost"
+        ? "http://localhost:5001"
+        : "https://travelbunk-backend.onrender.com"; // ⬅️ Replace with your actual deployed backend URL
 
-      const data = await res.json();
-      const noResults = document.getElementById("noResults");
-      const container = document.getElementById("resultsContainer");
+      try {
+        const res = await fetch(`${baseURL}/api/find-users-by-trip`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ date, destination })
+        });
 
-      if (!data.success || data.users.length === 0) {
-        container.innerHTML = "";
-        noResults.style.display = "block";
-      } else {
-        noResults.style.display = "none";
-        renderUsers(data.users);
+        const data = await res.json();
+        const noResults = document.getElementById("noResults");
+        const container = document.getElementById("resultsContainer");
+
+        if (!data.success || !data.users || data.users.length === 0) {
+          container.innerHTML = "";
+          noResults.style.display = "block";
+        } else {
+          noResults.style.display = "none";
+          renderUsers(data.users);
+        }
+      } catch (err) {
+        console.error("❌ Fetch Error:", err);
+        alert("Unable to connect to server. Please try again later.");
       }
     }
   </script>
