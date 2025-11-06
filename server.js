@@ -145,6 +145,10 @@ app.post("/api/add-trip", async (req, res) => {
   const user = await usersCollection.findOne({ email });
   res.json({ success: true, trips: user.trips });
 });
+app.get("/google376b52ea58ffbfb3.html", (req, res) => {
+  res.type("text/plain");
+  res.send("google-site-verification: google376b52ea58ffbfb3.html");
+});
 
 // ----------------- Find Users By Trip -----------------
 app.post("/api/find-users-by-trip", async (req, res) => {
