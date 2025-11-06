@@ -150,6 +150,11 @@ app.get("/google376b52ea58ffbfb3.html", (req, res) => {
   res.send("google-site-verification: google376b52ea58ffbfb3.html");
 });
 
+// ✅ Serve index.html for homepage
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 // ----------------- Find Users By Trip -----------------
 app.post("/api/find-users-by-trip", async (req, res) => {
   const { date, destination } = req.body;
