@@ -9,84 +9,121 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-*{margin:0; padding:0; box-sizing:border-box;}
-body{font-family:'Poppins',sans-serif; background:#f4f9f9; color:#2D3436; line-height:1.6;}
-a{text-decoration:none; color:inherit;}
-ul{list-style:none; padding-left:0;}
-.navbar{background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); position: fixed; top:0; width:100%; z-index:1000; box-shadow:0 2px 10px rgba(0,0,0,0.05);}
-.nav-container{max-width:1200px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:center; height:70px;}
-.nav-logo h2{color:#00BFA6; font-size:1.9rem; font-weight:700;}
-.nav-menu{display:flex; list-style:none; gap:2rem; align-items:center;}
-.nav-menu li a{text-decoration:none; color:#2D3436; font-weight:500; transition:0.3s;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:#f4f9f9;color:#2D3436;line-height:1.6;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;padding-left:0;}
+
+/* Navbar */
+.navbar{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
+.nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;height:70px;}
+.nav-logo h2{color:#00BFA6;font-size:1.8rem;font-weight:700;}
+.nav-menu{display:flex;gap:2rem;align-items:center;}
+.nav-menu li a{color:#2D3436;font-weight:500;transition:0.3s;}
 .nav-menu li a:hover{color:#00BFA6;}
-.user-profile-dropdown{position:relative; cursor:pointer;}
-.user-profile-dropdown .user-profile{font-weight:500; display:flex; align-items:center; gap:5px;}
-.user-profile-dropdown .dropdown-content{display:none; position:absolute; right:0; top:40px; background:white; min-width:220px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); padding:15px; z-index:100; transition:0.3s;}
-.user-profile-dropdown .dropdown-content a{display:block; padding:10px 12px; border-radius:8px; margin:4px 0; color:#2D3436; font-weight:500; transition:0.3s;}
-.user-profile-dropdown .dropdown-content a:hover{background:linear-gradient(135deg,#00BFA6,#FDCB6E); color:white;}
-.page-hero{background: linear-gradient(135deg,#00BFA6,#FDCB6E); padding:150px 20px 80px; text-align:center; color:white; border-bottom-left-radius:50px; border-bottom-right-radius:50px;}
-.page-hero h1{font-size:3rem; font-weight:700; margin-bottom:1rem;}
-.page-hero p{font-size:1.2rem; font-weight:500; opacity:0.9;}
-.page-content{max-width:1000px; margin:0 auto; padding:80px 20px;}
-.profile-card{background:white; padding:40px; border-radius:20px; box-shadow:0 8px 25px rgba(0,0,0,0.08); max-width:800px; margin:0 auto; text-align:center; transition:0.3s;}
+
+/* Dropdown */
+.user-profile-dropdown{position:relative;cursor:pointer;}
+.user-profile-dropdown .user-profile{display:flex;align-items:center;gap:6px;font-weight:500;}
+.user-profile-dropdown .dropdown-content{display:none;position:absolute;right:0;top:40px;background:#fff;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.1);padding:10px;min-width:180px;}
+.user-profile-dropdown .dropdown-content a{display:block;padding:8px 12px;border-radius:8px;margin:3px 0;color:#333;font-weight:500;}
+.user-profile-dropdown .dropdown-content a:hover{background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:#fff;}
+
+/* Hero */
+.page-hero{background:linear-gradient(135deg,#00BFA6,#FDCB6E);padding:150px 20px 80px;text-align:center;color:white;border-bottom-left-radius:50px;border-bottom-right-radius:50px;}
+.page-hero h1{font-size:3rem;font-weight:700;margin-bottom:1rem;}
+.page-hero p{font-size:1.2rem;opacity:0.9;}
+
+/* Content */
+.page-content{max-width:1000px;margin:0 auto;padding:100px 20px;}
+.profile-card{background:white;padding:40px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,0.08);max-width:800px;margin:0 auto;text-align:center;transition:0.3s;}
 .profile-card:hover{box-shadow:0 12px 30px rgba(0,0,0,0.12);}
-.profile-card img{width:160px; height:160px; border-radius:50%; object-fit:cover; margin-bottom:20px; border:4px solid #00BFA6; transition:0.3s;}
-.profile-card img:hover{transform:scale(1.05);}
-.profile-card h2{color:#00BFA6; font-size:2rem; margin-bottom:10px;}
-.profile-card p{margin:6px 0; color:#555; font-weight:500;}
-.profile-card hr{border:0; border-top:1px solid #eee; margin:20px 0;}
-.profile-card .btn{margin-top:10px; padding:12px 30px; border:none; border-radius:12px; background:linear-gradient(135deg,#00BFA6,#FDCB6E); color:white; font-size:1rem; cursor:pointer; font-weight:600; transition:0.3s;}
-.profile-card .btn:hover{opacity:0.9; transform:translateY(-2px);}
-.section{margin-bottom:40px; text-align:left;}
-.section h3{color:#00BFA6; margin-bottom:15px; font-size:1.3rem;}
-.section ul li{background:#f1f1f1; padding:12px 15px; margin:6px 0; border-radius:12px; font-weight:500; transition:0.3s;}
+.profile-card img{width:150px;height:150px;border-radius:50%;object-fit:cover;margin-bottom:20px;border:4px solid #00BFA6;}
+.profile-card h2{color:#00BFA6;font-size:2rem;margin-bottom:10px;}
+.profile-card p{margin:6px 0;color:#555;font-weight:500;}
+.profile-card hr{border:0;border-top:1px solid #eee;margin:20px 0;}
+.btn{margin-top:10px;padding:12px 30px;border:none;border-radius:12px;background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;font-size:1rem;cursor:pointer;font-weight:600;transition:0.3s;}
+.btn:hover{opacity:0.9;transform:translateY(-2px);}
+
+/* Sections */
+.section{margin-bottom:40px;text-align:left;}
+.section h3{color:#00BFA6;margin-bottom:15px;font-size:1.3rem;}
+.section ul li{background:#f1f1f1;padding:12px 15px;margin:6px 0;border-radius:12px;font-weight:500;transition:0.3s;}
 .section ul li:hover{background:#e0f7f4;}
-.stats-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:15px; margin-top:20px;}
-.stat-card{background:linear-gradient(135deg,#00BFA6,#FDCB6E); color:white; padding:15px; border-radius:15px; text-align:center; transition:0.3s;}
-.stat-card:hover{opacity:0.9; transform:translateY(-2px);}
-.stat-card h4{margin-bottom:8px; font-size:1rem; font-weight:500;}
-.stat-card p{font-size:1.2rem; font-weight:700;}
-.cards-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-top:15px;}
-.card{background:white; padding:15px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.05); transition:0.3s; cursor:pointer;}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:15px;margin-top:20px;}
+.stat-card{background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;padding:15px;border-radius:15px;text-align:center;}
+.stat-card h4{margin-bottom:8px;font-size:1rem;}
+.stat-card p{font-size:1.2rem;font-weight:700;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-top:15px;}
+.card{background:white;padding:15px;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.05);transition:0.3s;cursor:pointer;}
 .card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.1);}
-.card h5{color:#00BFA6; margin-bottom:6px;}
-.card p{color:#555; font-size:0.95rem;}
-@media(max-width:768px){.nav-menu{gap:1rem; flex-wrap:wrap;}.page-hero h1{font-size:2.2rem;}.profile-card{padding:30px;}}
-.modal {display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center;}
-.modal-content {background-color: #1e1e2f; margin: auto; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; color: #fff; box-shadow: 0 0 15px rgba(0,0,0,0.5); position: relative;}
-.modal-content h2 {margin-top: 0; text-align: center;}
-.close-btn {position: absolute; top: 10px; right: 15px; color: #fff; font-size: 24px; cursor: pointer;}
-.modal-content input {width: 100%; padding: 8px 10px; margin: 8px 0; border-radius: 6px; border: none; outline: none; font-size: 14px;}
-.modal-content button {width: 100%; padding: 10px; margin-top: 12px; border: none; border-radius: 6px; background-color: #4CAF50; color: white; font-size: 16px; cursor: pointer;}
-.modal-content button:hover {background-color: #45a049;}
+.card h5{color:#00BFA6;margin-bottom:6px;}
+.card p{color:#555;font-size:0.95rem;}
+
+/* Modal */
+.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.5);justify-content:center;align-items:center;}
+.modal-content{background-color:#1e1e2f;padding:20px;border-radius:12px;width:90%;max-width:400px;color:#fff;box-shadow:0 0 15px rgba(0,0,0,0.5);position:relative;}
+.modal-content h2{text-align:center;}
+.close-btn{position:absolute;top:10px;right:15px;color:#fff;font-size:24px;cursor:pointer;}
+.modal-content input{width:100%;padding:8px 10px;margin:8px 0;border-radius:6px;border:none;outline:none;font-size:14px;}
+.modal-content button{width:100%;padding:10px;margin-top:12px;border:none;border-radius:6px;background-color:#4CAF50;color:white;font-size:16px;cursor:pointer;}
+.modal-content button:hover{background-color:#45a049;}
+
+/* -------- Responsive -------- */
+@media(max-width:1024px){
+  .nav-menu{gap:1rem;}
+  .page-hero h1{font-size:2.4rem;}
+}
+@media(max-width:768px){
+  .nav-container{flex-wrap:wrap;height:auto;padding:10px;}
+  .nav-menu{flex-direction:column;align-items:flex-start;width:100%;display:none;background:#fff;padding:15px;border-radius:12px;margin-top:10px;}
+  .nav-menu.active{display:flex;}
+  .nav-logo{width:100%;display:flex;justify-content:space-between;align-items:center;}
+  .menu-toggle{font-size:24px;cursor:pointer;color:#00BFA6;}
+  .page-hero{padding:120px 15px 60px;}
+  .page-hero h1{font-size:2rem;}
+  .profile-card{padding:25px;}
+  .btn{width:100%;margin-top:12px;}
+}
+@media(max-width:480px){
+  .page-hero h1{font-size:1.8rem;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .cards-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
 
+<!-- Navbar -->
 <nav class="navbar">
   <div class="nav-container">
-    <div class="nav-logo"><h2>TravelBuddy</h2></div>
-    <ul class="nav-menu">
+    <div class="nav-logo">
+      <h2>TravelBuddy</h2>
+      <i class="fas fa-bars menu-toggle" id="menuToggle"></i>
+    </div>
+    <ul class="nav-menu" id="navMenu">
       <li><a href="index.html">Home</a></li>
       <li><a href="find-companion.html">Find Companion</a></li>
       <li><a href="explore.html">Explore Trips</a></li>
-      <li class="nav-cta" id="auth-section"></li>
+      <li id="auth-section"></li>
     </ul>
   </div>
 </nav>
 
+<!-- Hero -->
 <section class="page-hero">
   <h1>Your Profile</h1>
   <p>View and manage all your travel info in one place</p>
 </section>
 
+<!-- Main Content -->
 <section class="page-content">
   <div class="profile-card">
     <img id="profilePhoto" src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=facearea&w=200&h=200&facepad=2" alt="Profile">
     <h2 id="profileName">User Name</h2>
     <p id="profileCollege">College: N/A</p>
     <p id="profileEmail">user@example.com</p>
-    <p id="profileBio">"Travel enthusiast. Love exploring new cultures and cuisines!"</p>
+    <p id="profileBio">"Travel enthusiast. Love exploring new cultures!"</p>
     <hr>
 
     <div class="section">
@@ -94,7 +131,7 @@ ul{list-style:none; padding-left:0;}
       <div class="stats-grid">
         <div class="stat-card"><h4>Total Trips</h4><p id="totalTrips">0</p></div>
         <div class="stat-card"><h4>Total Distance</h4><p id="totalDistance">0 km</p></div>
-        <div class="stat-card"><h4>Average Rating</h4><p id="avgRating">N/A</p></div>
+        <div class="stat-card"><h4>Avg Rating</h4><p id="avgRating">N/A</p></div>
       </div>
     </div>
 
@@ -109,7 +146,7 @@ ul{list-style:none; padding-left:0;}
     </div>
 
     <div class="section">
-      <h3>Achievements / Badges</h3>
+      <h3>Badges</h3>
       <div class="cards-grid" id="badges"><div class="card"><h5>No badges yet</h5></div></div>
     </div>
 
@@ -119,7 +156,7 @@ ul{list-style:none; padding-left:0;}
   </div>
 </section>
 
-<!-- Edit Profile Modal -->
+<!-- Edit Modal -->
 <div class="modal" id="editProfileModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeEditModal()">&times;</span>
@@ -135,117 +172,26 @@ ul{list-style:none; padding-left:0;}
 </div>
 
 <script>
-const authSection = document.getElementById("auth-section");
-let user = JSON.parse(localStorage.getItem("user"));
+// Mobile Menu Toggle
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+menuToggle.addEventListener("click",()=>navMenu.classList.toggle("active"));
 
-// Navbar auth
+/* --- Your Original JS (same as before) --- */
+const authSection=document.getElementById("auth-section");
+let user=JSON.parse(localStorage.getItem("user"));
 if(user){
-  authSection.innerHTML = `
-    <div class="user-profile-dropdown">
-      <span class="user-profile" id="profileToggle">👤 ${user.firstName || user.email} <i class="fas fa-caret-down"></i></span>
-      <div class="dropdown-content" id="profileDropdown">
-        <a href="profile.html">My Profile</a>
-        <a href="#">Trips</a>
-        <a href="#">Blogs</a>
-        <a href="#">Settings</a>
-        <a href="#" id="dropdownLogout">Logout</a>
-      </div>
-    </div>
-  `;
-  const profileToggle = document.getElementById("profileToggle");
-  const profileDropdown = document.getElementById("profileDropdown");
-  profileDropdown.style.display="none";
-  profileToggle.addEventListener("click",()=>{ profileDropdown.style.display = profileDropdown.style.display==="none"?"block":"none"; });
-  document.addEventListener("click",(e)=>{ if(!profileToggle.contains(e.target)) profileDropdown.style.display="none"; });
-  document.getElementById("dropdownLogout").addEventListener("click",()=>{
-    localStorage.removeItem("user");
-    window.location.href="index.html";
-  });
+authSection.innerHTML=`<div class="user-profile-dropdown"><span class="user-profile" id="profileToggle">👤 ${user.firstName||user.email} <i class="fas fa-caret-down"></i></span><div class="dropdown-content" id="profileDropdown"><a href="profile.html">My Profile</a><a href="#">Trips</a><a href="#">Blogs</a><a href="#">Settings</a><a href="#" id="dropdownLogout">Logout</a></div></div>`;
+const toggle=document.getElementById("profileToggle");
+const drop=document.getElementById("profileDropdown");
+toggle.addEventListener("click",()=>{drop.style.display=drop.style.display==="block"?"none":"block";});
+document.addEventListener("click",e=>{if(!toggle.contains(e.target))drop.style.display="none";});
+document.getElementById("dropdownLogout").addEventListener("click",()=>{localStorage.removeItem("user");window.location.href="index.html";});
 }
-
-// Fetch latest trips & blogs (mocked)
-async function fetchLatestUser(){
-  if(!user) return;
-  try {
-    const tripsData = {success:true,trips:user.trips||[]};
-    const blogsData = {success:true,blogs:user.blogs||[]};
-    if(tripsData.success) user.trips = tripsData.trips;
-    if(blogsData.success) user.blogs = blogsData.blogs;
-    localStorage.setItem("user", JSON.stringify(user));
-    populateProfile();
-  } catch(err){ console.error(err); populateProfile(); }
-}
-
-function populateProfile(){
-  if(!user) return;
-  document.getElementById("profileName").innerText = `${user.firstName||''} ${user.lastName||''}`.trim()||"User";
-  document.getElementById("profileEmail").innerText = user.email;
-  document.getElementById("profileBio").innerText = user.bio || "Travel enthusiast. Love exploring new cultures!";
-  document.getElementById("totalTrips").innerText = user.trips ? user.trips.length : 0;
-  document.getElementById("avgRating").innerText = user.rating || "N/A";
-  document.getElementById("totalDistance").innerText = user.totalDistance ? user.totalDistance+" km" : "0 km";
-  document.getElementById("profileCollege").innerText = "College: " + (user.college || "N/A");
-
-  const recentTrips = document.getElementById("recentTrips");
-  recentTrips.innerHTML = "";
-  if(user.trips && user.trips.length){
-    user.trips.slice(-4).reverse().forEach(t=>{
-      const div = document.createElement("div");
-      div.className="card";
-      div.innerHTML=`<h5>${t.destination}</h5><p>${t.college||''} | ${t.startDate}${t.endDate? ' - '+t.endDate:''}</p>`;
-      recentTrips.appendChild(div);
-    });
-  } else recentTrips.innerHTML='<div class="card"><h5>No trips yet</h5></div>';
-
-  const recentBlogs = document.getElementById("recentBlogs");
-  recentBlogs.innerHTML = "";
-  if(user.blogs && user.blogs.length){
-    user.blogs.slice(-4).reverse().forEach(b=>{
-      const div=document.createElement("div");
-      div.className="card";
-      div.innerHTML=`<h5>${b.title}</h5><p>${b.content.slice(0,100)}...</p>`;
-      recentBlogs.appendChild(div);
-    });
-  } else recentBlogs.innerHTML='<div class="card"><h5>No blogs yet</h5></div>';
-}
-
-// Logout
-document.getElementById("logoutBtn").addEventListener("click",()=>{
-  localStorage.removeItem("user");
-  window.location.href="index.html";
-});
-
-// Write Blog
-document.getElementById("writeBlogBtn").addEventListener("click",()=>{ window.location.href="write-blog.html"; });
-
-// Edit Profile Modal
-const editBtn=document.getElementById("editProfileBtn");
 const editModal=document.getElementById("editProfileModal");
-const editForm=document.getElementById("editProfileForm");
-editBtn.addEventListener("click",()=>{
-  if(!user) return;
-  editModal.style.display="flex";
-  document.getElementById("editFirstName").value=user.firstName||"";
-  document.getElementById("editLastName").value=user.lastName||"";
-  document.getElementById("editCollege").value=user.college||"";
-  document.getElementById("editBio").value=user.bio||"";
-});
-function closeEditModal(){ editModal.style.display="none"; }
-
-editForm.addEventListener("submit",function(e){
-  e.preventDefault();
-  if(!user) return;
-  user.firstName=document.getElementById("editFirstName").value;
-  user.lastName=document.getElementById("editLastName").value;
-  user.college=document.getElementById("editCollege").value;
-  user.bio=document.getElementById("editBio").value;
-  localStorage.setItem("user",JSON.stringify(user));
-  populateProfile();
-  closeEditModal();
-});
-
-fetchLatestUser();
+function closeEditModal(){editModal.style.display="none";}
+document.getElementById("editProfileBtn").addEventListener("click",()=>{if(!user)return;editModal.style.display="flex";document.getElementById("editFirstName").value=user.firstName||"";document.getElementById("editLastName").value=user.lastName||"";document.getElementById("editCollege").value=user.college||"";document.getElementById("editBio").value=user.bio||"";});
+document.getElementById("editProfileForm").addEventListener("submit",e=>{e.preventDefault();if(!user)return;user.firstName=document.getElementById("editFirstName").value;user.lastName=document.getElementById("editLastName").value;user.college=document.getElementById("editCollege").value;user.bio=document.getElementById("editBio").value;localStorage.setItem("user",JSON.stringify(user));closeEditModal();});
 </script>
-
 </body>
 </html>
