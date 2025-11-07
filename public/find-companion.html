@@ -174,6 +174,13 @@
   </footer>
 
   <script>
+    // ✅ Check login before loading page
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      alert("Please log in first to access this page.");
+      window.location.href = "signin.html";
+    }
+
     const hamburger = document.querySelector(".hamburger");
     const navMenu = document.querySelector(".nav-menu");
     hamburger.addEventListener("click", () => navMenu.classList.toggle("active"));
@@ -182,12 +189,12 @@
       ? "http://localhost:5001"
       : "https://travelbuddy-hluu.onrender.com";
 
-    // Fetch and display all users
+    // Fetch all users
     window.addEventListener("load", async () => {
       try {
         const res = await fetch(`${baseURL}/api/get-all-users`);
         const data = await res.json();
-        if (data.success && data.users && data.users.length > 0) {
+        if (data.success && data.users?.length > 0) {
           renderUsers(data.users.slice(0, 10));
         } else {
           document.getElementById("noResults").style.display = "block";
@@ -221,7 +228,6 @@
     async function searchTrips() {
       const date = document.getElementById("tripDate").value;
       const destination = document.getElementById("destination").value.trim();
-
       if (!date || !destination) {
         alert("Please enter both date and destination.");
         return;
@@ -237,7 +243,7 @@
         const noResults = document.getElementById("noResults");
         const container = document.getElementById("resultsContainer");
 
-        if (!data.success || !data.users || data.users.length === 0) {
+        if (!data.success || !data.users?.length) {
           container.innerHTML = "";
           noResults.style.display = "block";
         } else {
