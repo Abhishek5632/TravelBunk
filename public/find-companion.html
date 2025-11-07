@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Find Your Travel Companion | Travel Bunk</title>
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box;}
@@ -129,7 +129,6 @@
       text-align:center;
     }
     .view-btn:hover {transform:scale(1.05);}
-
     .footer {
       background:#2D3436;color:white;text-align:center;
       padding:2.5rem 20px;margin-top:40px;
@@ -175,50 +174,42 @@
   </footer>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const userData = localStorage.getItem("user");
-      if (!userData) {
-        alert("Please login to access this page.");
-        window.location.href = "signin.html";
-      }
-    });
-
     const hamburger = document.querySelector(".hamburger");
     const navMenu = document.querySelector(".nav-menu");
     hamburger.addEventListener("click", () => navMenu.classList.toggle("active"));
 
-    const demoUsers = [
-      { firstName: "Abhishek", lastName: "Dixit", college: "GL Bajaj", email: "abhishek@travel.com",
-        trips: [{ date: "2025-10-30", destination: "Jaipur" }],
-        img: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=facearea&w=400&h=300&facepad=2"
-      },
-      { firstName: "Priya", lastName: "Sharma", college: "Amity", email: "priya@travel.com",
-        trips: [{ date: "2025-10-29", destination: "Goa" }],
-        img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=facearea&w=400&h=300&facepad=2"
-      },
-      { firstName: "Rahul", lastName: "Verma", college: "Galgotias", email: "rahul@travel.com",
-        trips: [{ date: "2025-10-30", destination: "Delhi" }],
-        img: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=facearea&w=400&h=300&facepad=2"
-      },
-      { firstName: "Sneha", lastName: "Patel", college: "SRM", email: "sneha@travel.com",
-        trips: [{ date: "2025-10-28", destination: "Manali" }],
-        img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&w=400&h=300&facepad=2"
-      }
-    ];
+    const baseURL = window.location.hostname === "localhost"
+      ? "http://localhost:5001"
+      : "https://travelbuddy-hluu.onrender.com";
 
-    window.addEventListener("load", () => renderUsers(demoUsers));
+    // Fetch and display all users
+    window.addEventListener("load", async () => {
+      try {
+        const res = await fetch(`${baseURL}/api/get-all-users`);
+        const data = await res.json();
+        if (data.success && data.users && data.users.length > 0) {
+          renderUsers(data.users.slice(0, 10));
+        } else {
+          document.getElementById("noResults").style.display = "block";
+        }
+      } catch (err) {
+        console.error("Error fetching users:", err);
+        alert("Unable to fetch user profiles. Please try again later.");
+      }
+    });
 
     function renderUsers(users) {
       const container = document.getElementById("resultsContainer");
       container.innerHTML = "";
       users.forEach(user => {
-        const trip = user.trips[0];
+        const trip = user.trips && user.trips[0] ? user.trips[0] : { date: "N/A", destination: "Not Added" };
+        const img = user.img || "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=facearea&w=400&h=300&facepad=2";
         container.innerHTML += `
           <div class="card">
-            <img src="${user.img}" alt="${user.firstName}">
+            <img src="${img}" alt="${user.firstName}">
             <div class="card-content">
-              <h2>${user.firstName} ${user.lastName}</h2>
-              <p><b>College:</b> ${user.college}</p>
+              <h2>${user.firstName || "Unknown"} ${user.lastName || ""}</h2>
+              <p><b>College:</b> ${user.college || "Not Mentioned"}</p>
               <p><b>Date:</b> ${trip.date}</p>
               <p><b>Destination:</b> ${trip.destination}</p>
               <a class="view-btn" href="profile.html?email=${encodeURIComponent(user.email)}">View Profile</a>
@@ -236,19 +227,12 @@
         return;
       }
 
-      // 🔹 Detect environment (local or deployed)
-      const baseURL = window.location.hostname === "localhost"
-        ? "http://localhost:5001"
-         : "https://travelbuddy-hluu.onrender.com";
-
-
       try {
         const res = await fetch(`${baseURL}/api/find-users-by-trip`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ date, destination })
         });
-
         const data = await res.json();
         const noResults = document.getElementById("noResults");
         const container = document.getElementById("resultsContainer");

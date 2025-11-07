@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Blogs | TravelBuddy</title>
+<title>My Trips | TravelBuddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -29,12 +29,12 @@ ul{list-style:none;padding-left:0;}
 .page-hero h1{font-size:3rem;font-weight:700;margin-bottom:1rem;}
 .page-hero p{font-size:1.2rem;font-weight:500;opacity:0.9;}
 
-/* Blog Section */
+/* Trips Section */
 .page-content{max-width:1100px;margin:0 auto;padding:80px 20px;}
-.blogs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;}
+.trips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;}
 
-/* Blog Card */
-.blog-card{
+/* Trip Card */
+.trip-card{
   background:white;
   border-radius:20px;
   box-shadow:0 8px 25px rgba(0,0,0,0.08);
@@ -43,25 +43,24 @@ ul{list-style:none;padding-left:0;}
   display:flex;
   flex-direction:column;
 }
-.blog-card:hover{
+.trip-card:hover{
   transform:translateY(-5px);
   box-shadow:0 15px 30px rgba(0,0,0,0.15);
 }
 
-/* Blog Image */
-.blog-card img{
+/* Trip Image */
+.trip-card img{
   width:100%;
   height:180px;
   object-fit:cover;
   border-bottom:3px solid #00BFA6;
 }
 
-/* Blog Content */
-.blog-content{padding:20px;flex-grow:1;}
-.blog-content h3{color:#00BFA6;margin-bottom:10px;font-size:1.3rem;}
-.blog-content p{color:#555;margin-bottom:8px;font-size:0.95rem;}
-.blog-content .date{font-size:0.85rem;color:#777;margin-top:8px;}
-.blog-content span{
+/* Trip Content */
+.trip-content{padding:20px;flex-grow:1;}
+.trip-content h3{color:#00BFA6;margin-bottom:10px;font-size:1.3rem;}
+.trip-content p{color:#555;margin-bottom:6px;font-size:0.95rem;}
+.trip-content span{
   display:inline-block;
   background:linear-gradient(135deg,#00BFA6,#FDCB6E);
   color:white;
@@ -69,12 +68,12 @@ ul{list-style:none;padding-left:0;}
   border-radius:8px;
   font-size:0.85rem;
   font-weight:500;
-  margin-top:10px;
+  margin-top:8px;
 }
 
-/* Loader + No Blogs */
+/* Loader + No Trips */
 .loader{text-align:center;margin-top:60px;font-weight:600;color:#00BFA6;}
-.no-blogs{text-align:center;margin-top:50px;font-size:1.2rem;color:#555;}
+.no-trips{text-align:center;margin-top:50px;font-size:1.2rem;color:#555;}
 
 /* Back Button */
 .back-btn{display:inline-block;margin-top:30px;padding:10px 25px;border-radius:10px;background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;font-weight:600;transition:0.3s;}
@@ -88,8 +87,8 @@ ul{list-style:none;padding-left:0;}
   .page-hero h1{font-size:2.2rem;}
 }
 @media(max-width:480px){
-  .blog-card img{height:150px;}
-  .blog-content h3{font-size:1.1rem;}
+  .trip-card img{height:150px;}
+  .trip-content h3{font-size:1.1rem;}
   .page-hero h1{font-size:1.8rem;}
 }
 </style>
@@ -110,14 +109,14 @@ ul{list-style:none;padding-left:0;}
 </nav>
 
 <section class="page-hero">
-  <h1>My Blogs</h1>
-  <p>Read, share, and relive your travel stories ✍️</p>
+  <h1>My Trips</h1>
+  <p>All your travel adventures in one place 🌍</p>
 </section>
 
 <section class="page-content">
-  <div id="loader" class="loader">Loading your blogs...</div>
-  <div id="blogsContainer" class="blogs-grid"></div>
-  <div class="no-blogs" id="noBlogsMsg" style="display:none;">No blogs yet. Start writing your first one today!</div>
+  <div id="loader" class="loader">Loading your trips...</div>
+  <div id="tripsContainer" class="trips-grid"></div>
+  <div class="no-trips" id="noTripsMsg" style="display:none;">No trips found. Start your first journey today!</div>
   <div style="text-align:center;">
     <a href="profile.html" class="back-btn">← Back to Profile</a>
   </div>
@@ -131,62 +130,64 @@ menuToggle.addEventListener("click",()=>navMenu.classList.toggle("active"));
 
 // Elements
 const user = JSON.parse(localStorage.getItem("user"));
-const blogsContainer = document.getElementById("blogsContainer");
-const noBlogsMsg = document.getElementById("noBlogsMsg");
+const tripsContainer = document.getElementById("tripsContainer");
+const noTripsMsg = document.getElementById("noTripsMsg");
 const loader = document.getElementById("loader");
 
-// Random blog images
-const blogImages = [
-  "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1000&q=60",
+// Random Unsplash travel images
+const travelImages = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=60",
-  "https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=1000&q=60",
-  "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=1000&q=60",
-  "https://images.unsplash.com/photo-1513682121497-80211f36a8f1?auto=format&fit=crop&w=1000&q=60",
-  "https://images.unsplash.com/photo-1498887960847-5c0b3d962a6f?auto=format&fit=crop&w=1000&q=60",
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=60"
+  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=60",
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=60",
+  "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1000&q=60",
+  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=60",
+  "https://images.unsplash.com/photo-1519817914152-22f90e8a8c32?auto=format&fit=crop&w=1000&q=60",
+  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=60"
 ];
 
-// Load blogs from MongoDB
-async function loadBlogs() {
+// Load trips from MongoDB
+async function loadTrips() {
   if (!user || !user.email) {
-    loader.innerHTML = '<p style="color:red;">Please log in to view your blogs.</p>';
+    loader.innerHTML = '<p style="color:red;">Please log in to view your trips.</p>';
     return;
   }
 
   try {
-    const response = await fetch(`/api/blogs/${encodeURIComponent(user.email)}`);
+    const response = await fetch(`/api/user-trips/${encodeURIComponent(user.email)}`);
     const data = await response.json();
 
     loader.style.display = "none"; // Hide loader
 
-    if (!data.success || !data.blogs.length) {
-      noBlogsMsg.style.display = "block";
+    if (!data.success || !data.trips.length) {
+      noTripsMsg.style.display = "block";
       return;
     }
 
-    blogsContainer.innerHTML = "";
-    data.blogs.reverse().forEach((blog, index) => {
-      const imgUrl = blogImages[index % blogImages.length];
+    tripsContainer.innerHTML = "";
+    data.trips.reverse().forEach((trip, index) => {
+      const imgUrl = travelImages[index % travelImages.length]; // assign random images cyclically
       const div = document.createElement("div");
-      div.className = "blog-card";
+      div.className = "trip-card";
       div.innerHTML = `
-        <img src="${imgUrl}" alt="Blog image">
-        <div class="blog-content">
-          <h3>${blog.title || "Untitled Blog"}</h3>
-          <p>${blog.content ? blog.content.slice(0, 120) + "..." : "No content available."}</p>
-          <p class="date">🗓️ ${blog.date || "Unknown Date"}</p>
-          <span>Blog #${index + 1}</span>
+        <img src="${imgUrl}" alt="Trip image">
+        <div class="trip-content">
+          <h3>${trip.destination || 'Unknown Destination'}</h3>
+          <p><strong>Date:</strong> ${trip.date || 'N/A'}</p>
+          <p><strong>College:</strong> ${trip.college || 'N/A'}</p>
+          <p><strong>Distance:</strong> ${trip.distance || '—'} km</p>
+          <p>${trip.description ? trip.description.slice(0,100)+'...' : 'No description available.'}</p>
+          <span>Trip #${index + 1}</span>
         </div>
       `;
-      blogsContainer.appendChild(div);
+      tripsContainer.appendChild(div);
     });
   } catch (err) {
-    console.error("Error fetching blogs:", err);
-    loader.innerHTML = '<p style="color:red;">Error loading blogs. Please try again later.</p>';
+    console.error("Error fetching trips:", err);
+    loader.innerHTML = '<p style="color:red;">Error loading trips. Please try again later.</p>';
   }
 }
 
-loadBlogs();
+loadTrips();
 </script>
 
 </body>

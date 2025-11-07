@@ -17,7 +17,25 @@ body {
     margin: 0 auto;
     padding: 0 20px;
 }
-
+.user-avatar {
+    transition: 0.2s ease;
+  }
+  .user-avatar:hover {
+    transform: scale(1.05);
+  }
+  .dropdown-content a:hover {
+    background: linear-gradient(135deg,#00BFA6,#FDCB6E);
+    color: white !important;
+  }
+  .user-avatar:hover {
+    transform: scale(1.05);
+  }
+  .user-profile-dropdown .dropdown-content a:hover {
+    background: linear-gradient(135deg, #00BFA6, #FDCB6E);
+    color: white !important;
+  }
+  
+  
 /* Navigation Bar */
 .navbar {
     background: rgba(255, 255, 255, 0.95);

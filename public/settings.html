@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings | TravelBuddy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:#f4f9f9;color:#2D3436;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+.navbar{background:#fff;position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+.nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;height:70px;}
+.nav-logo h2{color:#00BFA6;font-size:1.9rem;font-weight:700;}
+.nav-menu{display:flex;gap:2rem;align-items:center;}
+.nav-menu li a{color:#2D3436;font-weight:500;transition:0.3s;}
+.nav-menu li a:hover{color:#00BFA6;}
+
+.page-hero{background:linear-gradient(135deg,#00BFA6,#FDCB6E);padding:150px 20px 80px;text-align:center;color:white;border-bottom-left-radius:50px;border-bottom-right-radius:50px;}
+.page-hero h1{font-size:3rem;font-weight:700;margin-bottom:1rem;}
+
+.page-content{max-width:800px;margin:0 auto;padding:80px 20px;}
+.settings-card{background:white;padding:40px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,0.08);}
+.settings-card h2{color:#00BFA6;text-align:center;margin-bottom:25px;}
+.form-group{margin-bottom:20px;}
+label{display:block;font-weight:500;margin-bottom:6px;}
+input,textarea{
+  width:100%;padding:12px 15px;border-radius:10px;
+  border:1px solid #ccc;outline:none;font-family:'Poppins',sans-serif;
+  transition:0.3s;
+}
+input:focus,textarea:focus{border-color:#00BFA6;box-shadow:0 0 5px rgba(0,191,166,0.3);}
+textarea{resize:none;height:80px;}
+button{
+  width:100%;padding:12px;border:none;border-radius:12px;
+  background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;
+  font-weight:600;cursor:pointer;font-size:1rem;transition:0.3s;
+}
+button:hover{opacity:0.9;transform:translateY(-2px);}
+.success-msg,.error-msg{
+  padding:10px;border-radius:8px;margin-top:15px;text-align:center;display:none;
+}
+.success-msg{background:#e6fffa;color:#00796b;}
+.error-msg{background:#ffebee;color:#c62828;}
+.back-btn{display:inline-block;margin-top:30px;padding:10px 25px;border-radius:10px;
+background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;font-weight:600;}
+.back-btn:hover{opacity:0.9;}
+</style>
+</head>
+
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo"><h2>TravelBuddy</h2></div>
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="find-companion.html">Find Companion</a></li>
+      <li><a href="explore-trips.html">Plan a Trip</a></li>
+      <li><a href="profile.html">Profile</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <h1>Settings</h1>
+  <p>Update your profile details ✏️</p>
+</section>
+
+<section class="page-content">
+  <div class="settings-card">
+    <h2>Profile Settings</h2>
+    <form id="settingsForm">
+      <div class="form-group">
+        <label>Profile Photo</label>
+        <input type="file" id="profilePhoto" accept="image/*">
+        <img id="previewImg" src="" alt="Preview" style="width:90px;height:90px;border-radius:50%;object-fit:cover;margin-top:10px;border:2px solid #00BFA6;display:block;">
+      </div>
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" id="firstName">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" id="lastName">
+      </div>
+      <div class="form-group">
+        <label>Email (read-only)</label>
+        <input type="email" id="email" readonly style="background:#f7f7f7;">
+      </div>
+      <div class="form-group">
+        <label>College</label>
+        <input type="text" id="college">
+      </div>
+      <div class="form-group">
+        <label>Bio</label>
+        <textarea id="bio" placeholder="Write something about yourself..."></textarea>
+      </div>
+      <button type="submit">Save Changes</button>
+      <div class="success-msg" id="successMsg">✅ Profile updated successfully!</div>
+      <div class="error-msg" id="errorMsg">❌ Something went wrong. Please try again.</div>
+    </form>
+  </div>
+
+  <div style="text-align:center;">
+    <a href="profile.html" class="back-btn">← Back to Profile</a>
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const baseURL = window.location.hostname === "localhost"
+    ? "http://localhost:5001"
+    : "https://travelbuddy-hluu.onrender.com";
+
+  const form = document.getElementById("settingsForm");
+  const successMsg = document.getElementById("successMsg");
+  const errorMsg = document.getElementById("errorMsg");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    document.querySelector(".settings-card").innerHTML =
+      "<p style='text-align:center;color:red;'>Please log in to access settings.</p>";
+    return;
+  }
+
+  // ✅ Populate existing info
+  document.getElementById("firstName").value = user.firstName || "";
+  document.getElementById("lastName").value = user.lastName || "";
+  document.getElementById("email").value = user.email || "";
+  document.getElementById("college").value = user.college || "";
+  document.getElementById("bio").value = user.bio || "";
+  document.getElementById("previewImg").src = user.img || "https://cdn-icons-png.flaticon.com/512/1077/1077114.png";
+
+  // ✅ Live image preview
+  document.getElementById("profilePhoto").addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => document.getElementById("previewImg").src = e.target.result;
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // ✅ Form submission
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    successMsg.style.display = "none";
+    errorMsg.style.display = "none";
+
+    const updatedUser = {
+      email: user.email,
+      firstName: document.getElementById("firstName").value.trim(),
+      lastName: document.getElementById("lastName").value.trim(),
+      college: document.getElementById("college").value.trim(),
+      bio: document.getElementById("bio").value.trim(),
+      img: document.getElementById("previewImg").src // ✅ include updated photo
+    };
+
+    try {
+      const res = await fetch(`${baseURL}/api/update-profile`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedUser)
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        successMsg.style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        errorMsg.style.display = "block";
+      }
+    } catch (err) {
+      console.error("Update error:", err);
+      errorMsg.style.display = "block";
+    }
+  });
+});
+</script>
+
+</body>
+</html>

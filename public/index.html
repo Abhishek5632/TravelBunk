@@ -25,7 +25,7 @@
       </div>
   
       <ul class="nav-menu" id="nav-menu">
-        <li><a href="#home">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="local-services.html">Local Services</a></li>
@@ -35,11 +35,11 @@
           <div id="profileDropdown" class="dropdown-content">
             <a href="contact.html">Contact</a>
             <a href="about.html">About</a>
-            <a href="explore.html">Explore Trips</a>
+            <a href="trips.html">Explore Trips</a>
             <a href="signin.html">Login</a>
             <a href="signup.html">Sign Up</a>
             <a href="profile.html">My Profile</a>
-            <a href="#">Settings</a>
+            <a href="settings.html">Settings</a>
             <a href="#" id="logoutBtn">Logout</a>
           </div>
         </li>
@@ -605,181 +605,135 @@
     <!-- Profile Dropdown Script -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const authSection = document.getElementById("auth-section");
-            let user = JSON.parse(localStorage.getItem("user"));
-    
-            if(user){
-                authSection.innerHTML = `
-                    <div class="user-profile-dropdown">
-                        <span class="user-profile" id="profileToggle">👤 ${user.firstName || user.email} <i class="fas fa-caret-down"></i></span>
-                        <div class="dropdown-content" id="profileDropdown">
-                            <a href="profile.html">My Profile</a>
-                            <a href="#">Settings</a>
-                            <a href="#" id="logoutBtn">Logout</a>
-                        </div>
-                    </div>
-                `;
-    
-                const profileToggle = document.getElementById("profileToggle");
-                const profileDropdown = document.getElementById("profileDropdown");
-    
-                profileDropdown.style.display = "none";
-    
-                profileToggle.addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    profileDropdown.style.display = profileDropdown.style.display === "none" ? "block" : "none";
-                });
-    
-                document.addEventListener("click", () => {
-                    profileDropdown.style.display = "none";
-                });
-    
-                document.getElementById("logoutBtn").addEventListener("click", e => {
-                    e.preventDefault();
-                    localStorage.removeItem("user");
-                    window.location.reload();
-                });
-            }
-    
-            // Budget slider update + filtering
-            const budgetRange = document.getElementById("budgetRange");
-            const budgetValue = document.getElementById("budgetValue");
-            const destinations = document.querySelectorAll(".destination-card");
-    
-            budgetRange.addEventListener("input", () => {
-                const budget = parseInt(budgetRange.value);
-                budgetValue.textContent = budget.toLocaleString();
-    
-                destinations.forEach(card => {
-                    const priceText = card.querySelector(".price").textContent;
-                    // Extract numbers like ₹2500 - ₹3500
-                    const matches = priceText.match(/₹([\d,]+)\s*-\s*₹([\d,]+)/);
-                    if (matches) {
-                        const min = parseInt(matches[1].replace(/,/g, ""));
-                        const max = parseInt(matches[2].replace(/,/g, ""));
-                        if (budget >= min && budget <= max) {
-                            card.style.display = "block";
-                        } else {
-                            card.style.display = "none";
-                        }
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          const profileToggle = document.getElementById("profileToggle");
-          const profileMenu = document.querySelector(".profile-menu");
-      
-          profileToggle.addEventListener("click", () => {
-            profileMenu.classList.toggle("active");
-          });
-      
-          // Close dropdown when clicking outside
-          document.addEventListener("click", (e) => {
-            if (!profileMenu.contains(e.target)) {
-              profileMenu.classList.remove("active");
-            }
-          });
-        });
-      </script>
-      <script>
-        document.addEventListener("DOMContentLoaded", () => {
           const authSection = document.getElementById("auth-section");
+          const navMenu = document.getElementById("nav-menu");
+          const hamburger = document.getElementById("hamburger");
           const user = JSON.parse(localStorage.getItem("user"));
+          const defaultImg = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png";
         
+          // ✅ Dynamic Auth Section
           if (user) {
-            // Show profile dropdown with name/email
             authSection.innerHTML = `
-              <div class="user-profile-dropdown">
-                <span class="user-profile" id="profileToggle">
-                  👤 ${user.firstName || user.email} <i class="fas fa-caret-down"></i>
-                </span>
-                <div class="dropdown-content" id="profileDropdown">
-                  <a href="profile.html">My Profile</a>
-                  <a href="#">Trips</a>
-                  <a href="#">Blogs</a>
-                  <a href="#">Settings</a>
-                  <a href="#" id="dropdownLogout">Logout</a>
-                </div>
-              </div>
-            `;
+  <div class="user-profile-dropdown" id="userDropdown" 
+       style="display:flex;align-items:center;gap:8px;position:relative;cursor:pointer;">
+       
+    <div style="display:flex;align-items:center;gap:8px;" id="profileToggle">
+      <img src="${user.img || defaultImg}" alt="User" 
+           class="user-avatar" id="navUserImg"
+           style="width:38px;height:38px;border-radius:50%;object-fit:cover;
+           border:2px solid #00BFA6;transition:0.2s;">
+      <span class="user-name" style="font-weight:600;color:#00BFA6;white-space:nowrap;">
+        ${user.firstName || user.email.split('@')[0]}
+      </span>
+      <i class="fas fa-caret-down" style="color:#00BFA6;"></i>
+    </div>
+
+    <div class="dropdown-content" id="profileDropdown"
+         style="display:none;position:absolute;right:0;top:50px;background:white;border-radius:10px;
+         box-shadow:0 5px 20px rgba(0,0,0,0.15);min-width:180px;overflow:hidden;z-index:1000;">
+      <a href="profile.html" style="display:block;padding:10px 15px;color:#333;font-weight:500;">My Profile</a>
+      <a href="trips.html" style="display:block;padding:10px 15px;color:#333;font-weight:500;">Trips</a>
+      <a href="blog.html" style="display:block;padding:10px 15px;color:#333;font-weight:500;">Blogs</a>
+      <a href="settings.html" style="display:block;padding:10px 15px;color:#333;font-weight:500;">Settings</a>
+      <a href="#" id="dropdownLogout" style="display:block;padding:10px 15px;color:#333;font-weight:500;">Logout</a>
+    </div>
+  </div>
+`;
+
+           
         
             const profileToggle = document.getElementById("profileToggle");
-            const profileDropdown = document.getElementById("profileDropdown");
+            const dropdown = document.getElementById("profileDropdown");
         
-            profileDropdown.style.display = "none";
-        
+            // Toggle dropdown on click
             profileToggle.addEventListener("click", (e) => {
               e.stopPropagation();
-              profileDropdown.style.display =
-                profileDropdown.style.display === "none" ? "block" : "none";
+              dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
             });
         
-            document.addEventListener("click", () => {
-              profileDropdown.style.display = "none";
+            // Hide dropdown when clicking outside
+            document.addEventListener("click", (e) => {
+              if (!dropdown.contains(e.target) && !profileToggle.contains(e.target)) {
+                dropdown.style.display = "none";
+              }
             });
         
-            document.getElementById("dropdownLogout").addEventListener("click", () => {
+            // ✅ Logout logic
+            document.getElementById("dropdownLogout").addEventListener("click", (e) => {
+              e.preventDefault();
               localStorage.removeItem("user");
               window.location.href = "index.html";
             });
+        
           } else {
-            // Show Login / Signup if no user
+            // Not logged in
             authSection.innerHTML = `
               <a href="signin.html" class="login-btn">Login</a>
               <a href="signup.html" class="signup-btn">Sign Up</a>
             `;
           }
+        
+          // ✅ Mobile Menu Toggle
+          hamburger.addEventListener("click", () => {
+            navMenu.classList.toggle("active");
+            hamburger.classList.toggle("open");
+          });
+        
+          // ✅ Budget Filter
+          const budgetRange = document.getElementById("budgetRange");
+          const budgetValue = document.getElementById("budgetValue");
+          const destinations = document.querySelectorAll(".destination-card");
+        
+          function filterDestinations(value) {
+            budgetValue.textContent = parseInt(value).toLocaleString();
+            destinations.forEach(card => {
+              const min = parseInt(card.dataset.min);
+              const max = parseInt(card.dataset.max);
+              card.style.display = value >= min && value <= max ? "block" : "none";
+            });
+          }
+        
+          if (budgetRange) {
+            filterDestinations(budgetRange.value);
+            budgetRange.addEventListener("input", () => filterDestinations(budgetRange.value));
+          }
+        
+          // ✅ Chatbot logic (if active)
+          const chatToggle = document.getElementById("chat-toggle");
+          const chatbot = document.getElementById("chatbot");
+          const chatBody = document.getElementById("chat-body");
+          const sendBtn = document.getElementById("send-btn");
+          const userInput = document.getElementById("user-input");
+        
+          if (chatToggle && chatbot) {
+            chatToggle.onclick = () => chatbot.classList.toggle("active");
+          }
+        
+          if (sendBtn) {
+            sendBtn.onclick = async () => {
+              const message = userInput.value.trim();
+              if (!message) return;
+        
+              chatBody.innerHTML += `<div class="user-msg">${message}</div>`;
+              userInput.value = "";
+        
+              try {
+                const response = await fetch("/chat", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ message }),
+                });
+                const data = await response.json();
+                chatBody.innerHTML += `<div class="bot-msg">${data.reply}</div>`;
+                chatBody.scrollTop = chatBody.scrollHeight;
+              } catch (err) {
+                chatBody.innerHTML += `<div class="bot-msg error">⚠️ Error: Couldn't reach server.</div>`;
+              }
+            };
+          }
         });
         </script>
-        <script>
-            const hamburger = document.getElementById("hamburger");
-            const navMenu = document.getElementById("nav-menu");
-          
-            hamburger.addEventListener("click", () => {
-              navMenu.classList.toggle("active");
-              hamburger.classList.toggle("open");
-            });
-          </script>
-          <div class="chatbot-container" id="chatbot">
-  <div class="chat-header">TravelBuddy AI</div>
-  <div class="chat-body" id="chat-body"></div>
-  <div class="chat-input">
-    <input type="text" id="user-input" placeholder="Ask me anything..." />
-    <button id="send-btn">Send</button>
-  </div>
-</div>
-
-<div class="chat-toggle" id="chat-toggle">💬</div>
-
-<script>
-  const chatToggle = document.getElementById("chat-toggle");
-  const chatbot = document.getElementById("chatbot");
-  const chatBody = document.getElementById("chat-body");
-  const sendBtn = document.getElementById("send-btn");
-  const userInput = document.getElementById("user-input");
-
-  chatToggle.onclick = () => chatbot.classList.toggle("active");
-
-  sendBtn.onclick = async () => {
-    const message = userInput.value.trim();
-    if (!message) return;
-
-    chatBody.innerHTML += `<div class="user-msg">${message}</div>`;
-    userInput.value = "";
-
-    const response = await fetch("/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
-    });
-    const data = await response.json();
-    chatBody.innerHTML += `<div class="bot-msg">${data.reply}</div>`;
-    chatBody.scrollTop = chatBody.scrollHeight;
-  };
-</script>
-
+        
+        
 </body>
 </html>

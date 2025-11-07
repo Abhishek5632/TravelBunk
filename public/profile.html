@@ -8,122 +8,78 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Poppins',sans-serif;background:#f4f9f9;color:#2D3436;line-height:1.6;}
+body{font-family:'Poppins',sans-serif;background:#f4f9f9;color:#2D3436;overflow-x:hidden;}
 a{text-decoration:none;color:inherit;}
-ul{list-style:none;padding-left:0;}
+ul{list-style:none;}
 
-/* Navbar */
-.navbar{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
+.navbar{background:#fff;position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
 .nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;height:70px;}
-.nav-logo h2{color:#00BFA6;font-size:1.8rem;font-weight:700;}
+.nav-logo h2{color:#00BFA6;font-size:1.9rem;font-weight:700;}
 .nav-menu{display:flex;gap:2rem;align-items:center;}
 .nav-menu li a{color:#2D3436;font-weight:500;transition:0.3s;}
 .nav-menu li a:hover{color:#00BFA6;}
 
-/* Dropdown */
-.user-profile-dropdown{position:relative;cursor:pointer;}
-.user-profile-dropdown .user-profile{display:flex;align-items:center;gap:6px;font-weight:500;}
-.user-profile-dropdown .dropdown-content{display:none;position:absolute;right:0;top:40px;background:#fff;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.1);padding:10px;min-width:180px;}
-.user-profile-dropdown .dropdown-content a{display:block;padding:8px 12px;border-radius:8px;margin:3px 0;color:#333;font-weight:500;}
-.user-profile-dropdown .dropdown-content a:hover{background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:#fff;}
+.user-profile-dropdown{position:relative;display:flex;align-items:center;gap:8px;cursor:pointer;}
+.user-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid #00BFA6;}
+.user-name{font-weight:600;color:#00BFA6;display:flex;align-items:center;gap:5px;}
+.dropdown-content{display:none;position:absolute;right:0;top:55px;background:white;border-radius:10px;box-shadow:0 5px 25px rgba(0,0,0,0.15);min-width:180px;overflow:hidden;animation:fadeIn 0.2s ease-in-out;}
+.dropdown-content a{display:block;padding:10px 15px;color:#333;font-weight:500;transition:0.3s;}
+.dropdown-content a:hover{background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);}}
 
-/* Hero */
 .page-hero{background:linear-gradient(135deg,#00BFA6,#FDCB6E);padding:150px 20px 80px;text-align:center;color:white;border-bottom-left-radius:50px;border-bottom-right-radius:50px;}
 .page-hero h1{font-size:3rem;font-weight:700;margin-bottom:1rem;}
-.page-hero p{font-size:1.2rem;opacity:0.9;}
-
-/* Content */
-.page-content{max-width:1000px;margin:0 auto;padding:100px 20px;}
-.profile-card{background:white;padding:40px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,0.08);max-width:800px;margin:0 auto;text-align:center;transition:0.3s;}
-.profile-card:hover{box-shadow:0 12px 30px rgba(0,0,0,0.12);}
-.profile-card img{width:150px;height:150px;border-radius:50%;object-fit:cover;margin-bottom:20px;border:4px solid #00BFA6;}
+.page-content{max-width:1000px;margin:0 auto;padding:80px 20px;}
+.profile-card{background:white;padding:40px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,0.08);text-align:center;}
+.profile-card img{width:160px;height:160px;border-radius:50%;object-fit:cover;margin-bottom:20px;border:4px solid #00BFA6;}
 .profile-card h2{color:#00BFA6;font-size:2rem;margin-bottom:10px;}
 .profile-card p{margin:6px 0;color:#555;font-weight:500;}
-.profile-card hr{border:0;border-top:1px solid #eee;margin:20px 0;}
-.btn{margin-top:10px;padding:12px 30px;border:none;border-radius:12px;background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;font-size:1rem;cursor:pointer;font-weight:600;transition:0.3s;}
-.btn:hover{opacity:0.9;transform:translateY(-2px);}
-
-/* Sections */
-.section{margin-bottom:40px;text-align:left;}
+.profile-card hr{margin:25px 0;border:0;border-top:1px solid #eee;}
+.profile-card .btn{margin-top:10px;padding:12px 28px;border:none;border-radius:12px;background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;font-size:1rem;cursor:pointer;font-weight:600;transition:0.3s;}
+.profile-card .btn:hover{opacity:0.9;transform:translateY(-2px);}
+.section{text-align:left;margin-bottom:40px;}
 .section h3{color:#00BFA6;margin-bottom:15px;font-size:1.3rem;}
-.section ul li{background:#f1f1f1;padding:12px 15px;margin:6px 0;border-radius:12px;font-weight:500;transition:0.3s;}
-.section ul li:hover{background:#e0f7f4;}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:15px;margin-top:20px;}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;}
 .stat-card{background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;padding:15px;border-radius:15px;text-align:center;}
-.stat-card h4{margin-bottom:8px;font-size:1rem;}
-.stat-card p{font-size:1.2rem;font-weight:700;}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-top:15px;}
-.card{background:white;padding:15px;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.05);transition:0.3s;cursor:pointer;}
-.card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.1);}
-.card h5{color:#00BFA6;margin-bottom:6px;}
-.card p{color:#555;font-size:0.95rem;}
-
-/* Modal */
-.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.5);justify-content:center;align-items:center;}
-.modal-content{background-color:#1e1e2f;padding:20px;border-radius:12px;width:90%;max-width:400px;color:#fff;box-shadow:0 0 15px rgba(0,0,0,0.5);position:relative;}
-.modal-content h2{text-align:center;}
-.close-btn{position:absolute;top:10px;right:15px;color:#fff;font-size:24px;cursor:pointer;}
-.modal-content input{width:100%;padding:8px 10px;margin:8px 0;border-radius:6px;border:none;outline:none;font-size:14px;}
-.modal-content button{width:100%;padding:10px;margin-top:12px;border:none;border-radius:6px;background-color:#4CAF50;color:white;font-size:16px;cursor:pointer;}
-.modal-content button:hover{background-color:#45a049;}
-
-/* -------- Responsive -------- */
-@media(max-width:1024px){
-  .nav-menu{gap:1rem;}
-  .page-hero h1{font-size:2.4rem;}
-}
-@media(max-width:768px){
-  .nav-container{flex-wrap:wrap;height:auto;padding:10px;}
-  .nav-menu{flex-direction:column;align-items:flex-start;width:100%;display:none;background:#fff;padding:15px;border-radius:12px;margin-top:10px;}
-  .nav-menu.active{display:flex;}
-  .nav-logo{width:100%;display:flex;justify-content:space-between;align-items:center;}
-  .menu-toggle{font-size:24px;cursor:pointer;color:#00BFA6;}
-  .page-hero{padding:120px 15px 60px;}
-  .page-hero h1{font-size:2rem;}
-  .profile-card{padding:25px;}
-  .btn{width:100%;margin-top:12px;}
-}
-@media(max-width:480px){
-  .page-hero h1{font-size:1.8rem;}
-  .stats-grid{grid-template-columns:1fr 1fr;}
-  .cards-grid{grid-template-columns:1fr;}
-}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;}
+.card{background:white;padding:15px;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.05);}
+.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;}
+.modal-content{background:#1e1e2f;padding:20px;border-radius:12px;width:90%;max-width:400px;color:white;position:relative;}
+.close-btn{position:absolute;top:10px;right:15px;font-size:24px;cursor:pointer;color:white;}
+.modal-content input{width:100%;padding:10px;margin:8px 0;border:none;border-radius:8px;}
+.modal-content button{width:100%;padding:10px;margin-top:12px;border:none;border-radius:8px;background:#4CAF50;color:white;font-weight:600;cursor:pointer;}
 </style>
 </head>
-<body>
 
-<!-- Navbar -->
+<body>
 <nav class="navbar">
   <div class="nav-container">
-    <div class="nav-logo">
-      <h2>TravelBuddy</h2>
-      <i class="fas fa-bars menu-toggle" id="menuToggle"></i>
-    </div>
-    <ul class="nav-menu" id="navMenu">
+    <div class="nav-logo"><h2>TravelBuddy</h2></div>
+    <ul class="nav-menu" id="nav-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="find-companion.html">Find Companion</a></li>
-      <li><a href="explore.html">Explore Trips</a></li>
+      <li><a href="explore-trips.html">Plan a Trip</a></li>
+      <li><a href="blog.html">Blogs</a></li>
       <li id="auth-section"></li>
     </ul>
   </div>
 </nav>
 
-<!-- Hero -->
 <section class="page-hero">
   <h1>Your Profile</h1>
   <p>View and manage all your travel info in one place</p>
 </section>
 
-<!-- Main Content -->
 <section class="page-content">
   <div class="profile-card">
-    <img id="profilePhoto" src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=facearea&w=200&h=200&facepad=2" alt="Profile">
+    <img id="profilePhoto" alt="Profile Photo">
     <h2 id="profileName">User Name</h2>
-    <p id="profileCollege">College: N/A</p>
-    <p id="profileEmail">user@example.com</p>
-    <p id="profileBio">"Travel enthusiast. Love exploring new cultures!"</p>
+    <p id="profileEmail"></p>
+    <p id="profileCollege"></p>
+    <p id="profileBio"></p>
     <hr>
 
     <div class="section">
@@ -131,27 +87,27 @@ ul{list-style:none;padding-left:0;}
       <div class="stats-grid">
         <div class="stat-card"><h4>Total Trips</h4><p id="totalTrips">0</p></div>
         <div class="stat-card"><h4>Total Distance</h4><p id="totalDistance">0 km</p></div>
-        <div class="stat-card"><h4>Avg Rating</h4><p id="avgRating">N/A</p></div>
+        <div class="stat-card"><h4>Average Rating</h4><p id="avgRating">N/A</p></div>
       </div>
     </div>
 
     <div class="section">
       <h3>Recent Trips</h3>
-      <div class="cards-grid" id="recentTrips"><div class="card"><h5>No trips yet</h5></div></div>
+      <div class="cards-grid" id="recentTrips"><div class="card"><p>Loading...</p></div></div>
     </div>
 
     <div class="section">
       <h3>Recent Blogs</h3>
-      <div class="cards-grid" id="recentBlogs"><div class="card"><h5>No blogs yet</h5></div></div>
+      <div class="cards-grid" id="recentBlogs"><div class="card"><p>Loading...</p></div></div>
     </div>
 
     <div class="section">
       <h3>Badges</h3>
-      <div class="cards-grid" id="badges"><div class="card"><h5>No badges yet</h5></div></div>
+      <div class="cards-grid" id="badges"><div class="card"><p>Loading...</p></div></div>
     </div>
 
     <button class="btn" id="editProfileBtn">Edit Profile ✏️</button>
-    <button class="btn" id="writeBlogBtn">Write a Blog 📝</button>
+    <button class="btn" id="writeBlogBtn">Write Blog 📝</button>
     <button class="btn" id="logoutBtn">Logout</button>
   </div>
 </section>
@@ -159,39 +115,160 @@ ul{list-style:none;padding-left:0;}
 <!-- Edit Modal -->
 <div class="modal" id="editProfileModal">
   <div class="modal-content">
-    <span class="close-btn" onclick="closeEditModal()">&times;</span>
+    <span class="close-btn" id="closeModal">&times;</span>
     <h2>Edit Profile</h2>
     <form id="editProfileForm">
       <input type="text" id="editFirstName" placeholder="First Name" required>
       <input type="text" id="editLastName" placeholder="Last Name" required>
       <input type="text" id="editCollege" placeholder="College">
       <input type="text" id="editBio" placeholder="Bio">
+      <label>Change Photo:</label>
+      <input type="file" id="editPhoto" accept="image/*">
       <button type="submit">Save Changes</button>
     </form>
   </div>
 </div>
 
 <script>
-// Mobile Menu Toggle
-const menuToggle = document.getElementById("menuToggle");
-const navMenu = document.getElementById("navMenu");
-menuToggle.addEventListener("click",()=>navMenu.classList.toggle("active"));
+document.addEventListener("DOMContentLoaded", async () => {
+  const baseURL = window.location.hostname === "localhost"
+    ? "http://localhost:5001"
+    : "https://travelbuddy-hluu.onrender.com";
 
-/* --- Your Original JS (same as before) --- */
-const authSection=document.getElementById("auth-section");
-let user=JSON.parse(localStorage.getItem("user"));
-if(user){
-authSection.innerHTML=`<div class="user-profile-dropdown"><span class="user-profile" id="profileToggle">👤 ${user.firstName||user.email} <i class="fas fa-caret-down"></i></span><div class="dropdown-content" id="profileDropdown"><a href="profile.html">My Profile</a><a href="#">Trips</a><a href="#">Blogs</a><a href="#">Settings</a><a href="#" id="dropdownLogout">Logout</a></div></div>`;
-const toggle=document.getElementById("profileToggle");
-const drop=document.getElementById("profileDropdown");
-toggle.addEventListener("click",()=>{drop.style.display=drop.style.display==="block"?"none":"block";});
-document.addEventListener("click",e=>{if(!toggle.contains(e.target))drop.style.display="none";});
-document.getElementById("dropdownLogout").addEventListener("click",()=>{localStorage.removeItem("user");window.location.href="index.html";});
-}
-const editModal=document.getElementById("editProfileModal");
-function closeEditModal(){editModal.style.display="none";}
-document.getElementById("editProfileBtn").addEventListener("click",()=>{if(!user)return;editModal.style.display="flex";document.getElementById("editFirstName").value=user.firstName||"";document.getElementById("editLastName").value=user.lastName||"";document.getElementById("editCollege").value=user.college||"";document.getElementById("editBio").value=user.bio||"";});
-document.getElementById("editProfileForm").addEventListener("submit",e=>{e.preventDefault();if(!user)return;user.firstName=document.getElementById("editFirstName").value;user.lastName=document.getElementById("editLastName").value;user.college=document.getElementById("editCollege").value;user.bio=document.getElementById("editBio").value;localStorage.setItem("user",JSON.stringify(user));closeEditModal();});
+  const authSection = document.getElementById("auth-section");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const defaultImg = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png";
+
+  // ✅ Navbar user
+  if (user) {
+    authSection.innerHTML = `
+      <div class="user-profile-dropdown" id="userDropdown">
+        <img src="${user.img || defaultImg}" class="user-avatar" id="navUserImg">
+        <span class="user-name" id="profileToggle">
+          ${user.firstName || user.email.split('@')[0]} <i class="fas fa-caret-down"></i>
+        </span>
+        <div class="dropdown-content" id="profileDropdown">
+          <a href="profile.html">My Profile</a>
+          <a href="trips.html">Trips</a>
+          <a href="blog.html">Blogs</a>
+          <a href="settings.html">Settings</a>
+          <a href="#" id="dropdownLogout">Logout</a>
+        </div>
+      </div>`;
+    document.getElementById("profileToggle").addEventListener("click", () => {
+      const dd = document.getElementById("profileDropdown");
+      dd.style.display = dd.style.display === "block" ? "none" : "block";
+    });
+    document.getElementById("dropdownLogout").addEventListener("click", e => {
+      e.preventDefault();
+      localStorage.removeItem("user");
+      window.location.href = "index.html";
+    });
+  }
+
+  // ✅ Load Profile (Own or Public)
+  async function fetchProfileData() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailParam = urlParams.get("email");
+    const loggedEmail = user?.email;
+    const targetEmail = emailParam || loggedEmail;
+
+    if (!targetEmail) {
+      alert("Please log in to view profile.");
+      window.location.href = "signin.html";
+      return;
+    }
+
+    try {
+      const res = await fetch(`${baseURL}/api/user-profile?email=${targetEmail}`);
+      const data = await res.json();
+      if (data.success && data.user) {
+        populateProfile(data.user);
+        const isOwnProfile = loggedEmail === targetEmail;
+        document.getElementById("editProfileBtn").style.display = isOwnProfile ? "inline-block" : "none";
+        document.getElementById("writeBlogBtn").style.display = isOwnProfile ? "inline-block" : "none";
+        document.getElementById("logoutBtn").style.display = isOwnProfile ? "inline-block" : "none";
+        if (!isOwnProfile) document.querySelector(".page-hero h1").innerText = `${data.user.firstName}'s Profile`;
+      } else populateProfile(user);
+    } catch (err) {
+      console.error("Profile fetch error:", err);
+      populateProfile(user);
+    }
+  }
+
+  function populateProfile(u) {
+    document.getElementById("profileName").innerText = `${u.firstName || ""} ${u.lastName || ""}`;
+    document.getElementById("profileEmail").innerText = u.email;
+    document.getElementById("profileCollege").innerText = "College: " + (u.college || "N/A");
+    document.getElementById("profileBio").innerText = u.bio || "Traveler and explorer!";
+    document.getElementById("profilePhoto").src = u.img || defaultImg;
+    document.getElementById("totalTrips").innerText = u.trips?.length || 0;
+    document.getElementById("totalDistance").innerText = (u.totalDistance || 0) + " km";
+    document.getElementById("avgRating").innerText = u.rating || "N/A";
+
+    document.getElementById("recentTrips").innerHTML = u.trips?.length
+      ? u.trips.map(t => `<div class="card"><h4>${t.destination}</h4><p>${t.date || ""}</p><p>${t.details || ""}</p></div>`).join("")
+      : `<div class="card"><p>No trips yet</p></div>`;
+
+    document.getElementById("recentBlogs").innerHTML = u.blogs?.length
+      ? u.blogs.map(b => `<div class="card"><h4>${b.title}</h4><p>${b.snippet || b.content?.slice(0,60)+'...'}</p></div>`).join("")
+      : `<div class="card"><p>No blogs yet</p></div>`;
+
+    document.getElementById("badges").innerHTML = u.badges?.length
+      ? u.badges.map(b => `<div class="card"><p>${b}</p></div>`).join("")
+      : `<div class="card"><p>No badges yet</p></div>`;
+  }
+
+  fetchProfileData();
+
+  // ✅ Edit Modal
+  const modal = document.getElementById("editProfileModal");
+  document.getElementById("editProfileBtn").onclick = () => {
+    modal.style.display = "flex";
+    document.getElementById("editFirstName").value = user.firstName || "";
+    document.getElementById("editLastName").value = user.lastName || "";
+    document.getElementById("editCollege").value = user.college || "";
+    document.getElementById("editBio").value = user.bio || "";
+  };
+  document.getElementById("closeModal").onclick = () => modal.style.display = "none";
+
+  document.getElementById("editProfileForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const file = document.getElementById("editPhoto").files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        user.img = reader.result;
+        await saveProfile();
+      };
+      reader.readAsDataURL(file);
+    } else await saveProfile();
+  });
+
+  async function saveProfile() {
+    const updated = {
+      ...user,
+      firstName: document.getElementById("editFirstName").value,
+      lastName: document.getElementById("editLastName").value,
+      college: document.getElementById("editCollege").value,
+      bio: document.getElementById("editBio").value,
+    };
+    localStorage.setItem("user", JSON.stringify(updated));
+    await fetch(`${baseURL}/api/update-profile`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(updated)
+    });
+    modal.style.display = "none";
+    populateProfile(updated);
+  }
+
+  document.getElementById("logoutBtn").onclick = () => {
+    localStorage.removeItem("user");
+    window.location.href = "index.html";
+  };
+  document.getElementById("writeBlogBtn").onclick = () => window.location.href = "write-blog.html";
+});
 </script>
 </body>
 </html>

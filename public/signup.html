@@ -10,13 +10,11 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="auth.css">
 <style>
-/* ---- Checkbox Styling ---- */
 .checkbox-group {
   display: flex;
   align-items: center;
   margin-top: 15px;
 }
-
 .checkbox-label {
   position: relative;
   padding-left: 35px;
@@ -28,62 +26,20 @@
   align-items: center;
   line-height: 1.4;
 }
-
-/* Hide default checkbox */
-.checkbox-label input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-/* Custom box */
+.checkbox-label input {position: absolute;opacity: 0;cursor: pointer;}
 .checkmark {
-  position: absolute;
-  left: 0;
-  top: 2px;
-  height: 20px;
-  width: 20px;
-  background-color: #e0e0e0;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  position: absolute;left: 0;top: 2px;height: 20px;width: 20px;
+  background-color: #e0e0e0;border-radius: 6px;transition: all 0.3s ease;
 }
-
-/* Checked state */
-.checkbox-label input:checked ~ .checkmark {
-  background-color: #0078ff;
-}
-
-/* Tick mark */
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.checkbox-label input:checked ~ .checkmark:after {
-  display: block;
-}
-
+.checkbox-label input:checked ~ .checkmark {background-color: #0078ff;}
+.checkmark:after {content: "";position: absolute;display: none;}
+.checkbox-label input:checked ~ .checkmark:after {display: block;}
 .checkbox-label .checkmark:after {
-  left: 6px;
-  top: 3px;
-  width: 6px;
-  height: 12px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  transform: rotate(45deg);
+  left: 6px;top: 3px;width: 6px;height: 12px;border: solid white;
+  border-width: 0 3px 3px 0;transform: rotate(45deg);
 }
-
-/* Links inside checkbox text */
-.checkbox-label a {
-  color: #0078ff;
-  text-decoration: none;
-  margin: 0 4px;
-}
-
-.checkbox-label a:hover {
-  text-decoration: underline;
-}
+.checkbox-label a {color: #0078ff;text-decoration: none;margin: 0 4px;}
+.checkbox-label a:hover {text-decoration: underline;}
 </style>
 </head>
 
@@ -103,9 +59,6 @@
         <a href="signup.html" class="signup-btn active">Sign Up</a>
       </li>
     </ul>
-    <div class="hamburger">
-      <span></span><span></span><span></span>
-    </div>
   </div>
 </nav>
 
@@ -123,7 +76,7 @@
       <h1>Create Your Account</h1>
       <p class="auth-subtitle">Start your travel journey today!</p>
       
-      <form id="signupForm" class="form">
+      <form id="signupForm" class="form" enctype="multipart/form-data">
         <div class="form-row">
           <div class="form-group">
             <label for="firstName">First Name</label>
@@ -134,22 +87,34 @@
             <input type="text" id="lastName" name="lastName" required>
           </div>
         </div>
-        
+
+        <!-- 🆕 Profile Photo Upload -->
+        <div class="form-group" style="text-align:center;">
+          <label for="profilePhoto" style="font-weight:600;">Profile Photo</label>
+          <div style="display:flex;flex-direction:column;align-items:center;margin-top:8px;">
+            <div id="photoPreview" 
+              style="width:100px;height:100px;border-radius:50%;overflow:hidden;
+                     border:2px solid #00BFA6;margin-bottom:10px;background:#eee;">
+              <img id="previewImg" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" 
+                   style="width:100%;height:100%;object-fit:cover;" alt="Preview">
+            </div>
+            <input type="file" id="profilePhoto" name="profilePhoto" accept="image/*" required 
+                   style="border:1px solid #ccc;border-radius:10px;padding:6px 10px;width:85%;cursor:pointer;">
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="email">Email Address</label>
           <input type="email" id="email" name="email" required>
         </div>
-        
         <div class="form-group">
           <label for="phone">Phone Number</label>
           <input type="tel" id="phone" name="phone" required>
         </div>
         <div class="form-group">
-            <label for="college">College Name (Optional)</label>
-            <input type="text" id="college" name="college" placeholder="Enter your college">
-          </div>
-          
-        
+          <label for="college">College Name (Optional)</label>
+          <input type="text" id="college" name="college" placeholder="Enter your college">
+        </div>
         <div class="form-group">
           <label for="age">Age</label>
           <select id="age" name="age" required>
@@ -160,7 +125,6 @@
             <option value="33+">33+</option>
           </select>
         </div>
-        
         <div class="form-group">
           <label for="travelStyle">Travel Style</label>
           <select id="travelStyle" name="travelStyle" required>
@@ -173,32 +137,26 @@
             <option value="solo">Solo to Group 👥</option>
           </select>
         </div>
-        
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required>
           <small>At least 8 characters with numbers and letters</small>
         </div>
-        
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
           <input type="password" id="confirmPassword" name="confirmPassword" required>
         </div>
-
         <div class="form-group">
           <label for="aadhaar">Aadhaar Number</label>
           <input type="text" id="aadhaar" name="aadhaar" required maxlength="12" pattern="\d{12}" placeholder="Enter 12-digit Aadhaar">
-          <small id="aadhaarMessage" style="display:block; margin-top:5px;"></small>
         </div>
-        
         <div class="form-group checkbox-group">
           <label class="checkbox-label">
             <input type="checkbox" id="terms" name="terms" required>
             <span class="checkmark"></span>
-            I agree to the <a href="#" class="link">Terms & Conditions</a> and <a href="#" class="link">Privacy Policy</a>
+            I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>
           </label>
         </div>
-        
         <div class="form-group checkbox-group">
           <label class="checkbox-label">
             <input type="checkbox" id="newsletter" name="newsletter">
@@ -206,7 +164,7 @@
             Send me travel tips and companion matches via email
           </label>
         </div>
-        
+
         <button type="submit" class="btn btn-primary btn-full">Create My Account 🚀</button>
         <p class="auth-switch">
           Already have an account? <a href="signin.html" class="link">Sign In</a>
@@ -217,6 +175,95 @@
 </div>
 </section>
 
+<<script>
+  const baseURL = window.location.hostname === "localhost"
+    ? "http://localhost:5001"
+    : "https://travelbuddy-hluu.onrender.com";
+  
+  // ✅ Live image preview
+  document.getElementById("profilePhoto").addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById("previewImg").src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  
+  document.getElementById("signupForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+  
+    const form = e.target;
+    const firstName = form.firstName.value.trim();
+    const lastName = form.lastName.value.trim();
+    const email = form.email.value.trim();
+    const password = form.password.value.trim();
+    const phone = form.phone.value.trim();
+    const college = form.college.value.trim();
+    const age = form.age.value;
+    const travelStyle = form.travelStyle.value;
+    const aadhaar = form.aadhaar.value.trim();
+    const newsletter = form.newsletter.checked;
+    const file = document.getElementById("profilePhoto").files[0]; // ✅ fixed ID here
+  
+    if (!firstName || !email || !password) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+  
+    let base64Image = "";
+    if (file) {
+      base64Image = await convertToBase64(file);
+    }
+  
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      college,
+      age,
+      travelStyle,
+      aadhaar,
+      password,
+      newsletter,
+      img: base64Image, // ✅ send Base64 image to backend
+    };
+  
+    try {
+      const res = await fetch(`${baseURL}/api/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+      const data = await res.json();
+  
+      if (data.success) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        alert("🎉 Signup successful!");
+        window.location.href = "profile.html";
+      } else {
+        alert(data.message || "Signup failed");
+      }
+    } catch (err) {
+      console.error("❌ Signup error:", err);
+      alert("Server connection failed.");
+    }
+  });
+  
+  function convertToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+  </script>
+  
+  
 <script src="auth.js"></script>
 </body>
 </html>

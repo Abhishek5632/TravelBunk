@@ -6,8 +6,54 @@
   <title>Sign In - TravelBunk</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="auth.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .auth-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #00BFA6, #FDCB6E);
+    }
+    .auth-container {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .auth-form input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+    .btn-full {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #00BFA6, #FDCB6E);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+    .btn-full:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
 <body>
+
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo"><a href="index.html"><h2>TravelBunk</h2></a></div>
@@ -20,61 +66,73 @@
 
   <section class="auth-section">
     <div class="auth-container">
-      <div class="auth-form-container">
-        <div class="auth-form">
-          <h1>Welcome Back!</h1>
-          <p class="auth-subtitle">Sign in to continue your journey</p>
+      <h1>Welcome Back 👋</h1>
+      <p class="auth-subtitle">Log in to explore new journeys</p>
 
-          <form id="signinForm" class="form">
-            <div class="form-group">
-              <label for="email">Email Address</label>
-              <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-full">Sign In 🚀</button>
-          </form>
-
-          <p style="margin-top:15px;">
-            Don't have an account? 
-            <a href="signup.html" style="color:#00BFA6;text-decoration:none;font-weight:600;">Sign up here</a>
-          </p>
+      <form id="signinForm" class="auth-form">
+        <div class="form-group">
+          <label for="email"><b>Email Address</b></label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required>
         </div>
-      </div>
+        <div class="form-group">
+          <label for="password"><b>Password</b></label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn-full">Sign In 🚀</button>
+      </form>
+
+      <p style="margin-top:15px;">
+        Don't have an account?
+        <a href="signup.html" style="color:#00BFA6;text-decoration:none;font-weight:600;">Sign up here</a>
+      </p>
     </div>
   </section>
 
   <script>
+    const baseURL = window.location.hostname === "localhost"
+      ? "http://localhost:5001"
+      : "https://travelbuddy-hluu.onrender.com";
+
     // Auto redirect if already logged in
     const existingUser = JSON.parse(localStorage.getItem("user"));
     if (existingUser) {
-      window.location.href = "index.html";
+      window.location.href = "profile.html";
     }
 
     document.getElementById("signinForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(e.target).entries());
+      const formData = new FormData(e.target);
+      const email = formData.get("email").trim();
+      const password = formData.get("password").trim();
+
+      if (!email || !password) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
       try {
-        const res = await fetch("/api/login", {
+        const res = await fetch(`${baseURL}/api/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+          body: JSON.stringify({ email, password }),
         });
 
         const result = await res.json();
+        console.log("🔐 Login response:", result);
+
         if (!result.success) {
-          alert(result.message);
+          alert(result.message || "Invalid credentials.");
           return;
         }
 
+        // ✅ Store the logged-in user (with profile photo)
         localStorage.setItem("user", JSON.stringify(result.user));
-        window.location.href = "index.html";
+
+        alert(`Welcome back, ${result.user.firstName || "Traveler"}!`);
+        window.location.href = "profile.html";
       } catch (err) {
         console.error("Login error:", err);
-        alert("Something went wrong. Try again.");
+        alert("Something went wrong. Try again later.");
       }
     });
   </script>

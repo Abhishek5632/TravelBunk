@@ -26,11 +26,6 @@
       font-size:1rem;position:relative;
     }
     .nav-menu li a:hover{color:#00BFA6;}
-    .nav-menu li a::after{
-      content:'';position:absolute;width:0;height:2px;background:#00BFA6;
-      bottom:-5px;left:0;transition:0.3s;
-    }
-    .nav-menu li a:hover::after{width:100%;}
     .hamburger{display:none;flex-direction:column;cursor:pointer;}
     .hamburger span{width:25px;height:3px;background:#2D3436;margin:3px 0;border-radius:2px;}
     @media(max-width:768px){
@@ -48,17 +43,13 @@
     .hero{
       padding:120px 20px 50px;
       text-align:center;
-      background:#00BFA6;color:white;
+      background:linear-gradient(135deg,#00BFA6,#FDCB6E);
+      color:white;
     }
     .hero h1{font-size:2.5rem;margin-bottom:10px;}
     .hero p{font-size:1.1rem;}
-    .floating-icons{margin-top:20px;display:flex;gap:25px;justify-content:center;font-size:2rem;}
-    .floating-icons span{animation:float 6s ease-in-out infinite;}
-    .floating-icons span:nth-child(2){animation-delay:1s;}
-    .floating-icons span:nth-child(3){animation-delay:2s;}
-    @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-15px);}100%{transform:translateY(0);}}
 
-    /* Container (Form Area) */
+    /* Container */
     .container{
       max-width:600px;
       margin:80px auto 50px;
@@ -69,11 +60,12 @@
       text-align:center;
     }
     .container h2{color:#00BFA6;margin-bottom:15px;font-size:1.8rem;}
-    form input, form button{
+    form input, form textarea, form button{
       width:100%;padding:12px 15px;margin:10px 0;
       border-radius:8px;border:1px solid #ccc;font-size:1rem;
     }
-    form input:focus{
+    form textarea{resize:none;height:80px;}
+    form input:focus, form textarea:focus{
       border-color:#00BFA6;outline:none;
       box-shadow:0 0 6px rgba(0,191,166,0.3);
     }
@@ -84,7 +76,6 @@
     form button:hover{background:#01967f;}
     #message{margin-top:15px;font-size:0.95rem;font-weight:500;}
     
-    /* Footer */
     .footer{
       background:#2D3436;color:white;text-align:center;padding:3rem 20px;margin-top:40px;
     }
@@ -111,9 +102,6 @@
   <section class="hero">
     <h1>🧳 Plan Your Next Journey</h1>
     <p>Add your trip details and find perfect companions to travel with!</p>
-    <div class="floating-icons">
-      <span>✈️</span><span>🏝️</span><span>🏕️</span><span>🚗</span>
-    </div>
   </section>
 
   <!-- Form Section -->
@@ -124,36 +112,33 @@
       <input type="text" id="college" placeholder="College (optional)">
       <input type="date" id="date" required>
       <input type="text" id="destination" placeholder="Destination" required>
+      <input type="number" id="distance" placeholder="Approx Distance (in km)">
+      <textarea id="description" placeholder="Describe your trip (optional)"></textarea>
       <button type="submit">Add Trip</button>
     </form>
     <p id="message"></p>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
-    <h3>TravelBunk</h3>
-    <p>&copy; 2025 TravelBunk. All rights reserved.</p>
+    <h3>TravelBuddy</h3>
+    <p>&copy; 2025 TravelBuddy. All rights reserved.</p>
   </footer>
 
   <script>
-    // Navbar toggle
     const hamburger = document.querySelector(".hamburger");
     const navMenu = document.querySelector(".nav-menu");
     hamburger.addEventListener("click", () => navMenu.classList.toggle("active"));
 
-    // ✅ Login protection
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
       alert("Please login first to access this page.");
-      window.location.href = "signin.html"; // redirect if not logged in
+      window.location.href = "signin.html";
     }
 
-    // Prefill email
     const emailField = document.getElementById("email");
     const msg = document.getElementById("message");
     if (user) emailField.value = user.email;
 
-    // Add Trip Function
     document.getElementById("addTripForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!user) return;
@@ -163,6 +148,8 @@
         college: document.getElementById("college").value.trim(),
         date: document.getElementById("date").value,
         destination: document.getElementById("destination").value.trim(),
+        distance: document.getElementById("distance").value.trim(),
+        description: document.getElementById("description").value.trim(),
       };
 
       if (!trip.date || !trip.destination) {
