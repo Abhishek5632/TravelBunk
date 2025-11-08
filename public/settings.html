@@ -14,18 +14,41 @@
 body{font-family:'Poppins',sans-serif;background:#f4f9f9;color:#2D3436;overflow-x:hidden;}
 a{text-decoration:none;color:inherit;}
 ul{list-style:none;}
-.navbar{background:#fff;position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
-.nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;height:70px;}
+
+/* Navbar */
+.navbar{
+  background:#fff;
+  position:fixed;
+  top:0;width:100%;z-index:1000;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+.nav-container{
+  max-width:1200px;margin:0 auto;padding:0 20px;
+  display:flex;justify-content:space-between;align-items:center;height:70px;
+}
 .nav-logo h2{color:#00BFA6;font-size:1.9rem;font-weight:700;}
 .nav-menu{display:flex;gap:2rem;align-items:center;}
 .nav-menu li a{color:#2D3436;font-weight:500;transition:0.3s;}
 .nav-menu li a:hover{color:#00BFA6;}
+.hamburger{display:none;flex-direction:column;cursor:pointer;}
+.hamburger span{width:25px;height:3px;background:#2D3436;margin:3px 0;border-radius:2px;}
 
-.page-hero{background:linear-gradient(135deg,#00BFA6,#FDCB6E);padding:150px 20px 80px;text-align:center;color:white;border-bottom-left-radius:50px;border-bottom-right-radius:50px;}
+/* Hero */
+.page-hero{
+  background:linear-gradient(135deg,#00BFA6,#FDCB6E);
+  padding:150px 20px 80px;
+  text-align:center;color:white;
+  border-bottom-left-radius:50px;border-bottom-right-radius:50px;
+}
 .page-hero h1{font-size:3rem;font-weight:700;margin-bottom:1rem;}
+.page-hero p{font-size:1.1rem;}
 
+/* Page Content */
 .page-content{max-width:800px;margin:0 auto;padding:80px 20px;}
-.settings-card{background:white;padding:40px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,0.08);}
+.settings-card{
+  background:white;padding:40px;border-radius:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
 .settings-card h2{color:#00BFA6;text-align:center;margin-bottom:25px;}
 .form-group{margin-bottom:20px;}
 label{display:block;font-weight:500;margin-bottom:6px;}
@@ -47,9 +70,49 @@ button:hover{opacity:0.9;transform:translateY(-2px);}
 }
 .success-msg{background:#e6fffa;color:#00796b;}
 .error-msg{background:#ffebee;color:#c62828;}
-.back-btn{display:inline-block;margin-top:30px;padding:10px 25px;border-radius:10px;
-background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;font-weight:600;}
+.back-btn{
+  display:inline-block;margin-top:30px;padding:10px 25px;border-radius:10px;
+  background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;font-weight:600;
+}
 .back-btn:hover{opacity:0.9;}
+
+/* Image Preview */
+#previewImg{
+  width:90px;height:90px;border-radius:50%;
+  object-fit:cover;margin-top:10px;border:2px solid #00BFA6;
+  display:block;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .nav-container{flex-wrap:wrap;}
+  .hamburger{display:flex;}
+  .nav-menu{
+    position:fixed;
+    top:70px;
+    left:-100%;
+    flex-direction:column;
+    align-items:flex-start;
+    width:100%;
+    background:white;
+    padding:2rem 1.5rem;
+    transition:left 0.3s ease;
+    box-shadow:0 10px 27px rgba(0,0,0,0.05);
+  }
+  .nav-menu.active{left:0;}
+  .nav-menu li{width:100%;margin:10px 0;}
+  .nav-menu li a{display:block;width:100%;padding:10px 0;text-align:left;}
+  .page-hero h1{font-size:2.2rem;}
+  .page-hero p{font-size:1rem;}
+  .settings-card{padding:25px;}
+}
+
+@media (max-width: 500px) {
+  .settings-card{padding:20px;}
+  input,textarea{font-size:0.95rem;}
+  button{font-size:0.95rem;}
+  .page-hero h1{font-size:2rem;}
+}
 </style>
 </head>
 
@@ -63,6 +126,7 @@ background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;font-weight:600;}
       <li><a href="explore-trips.html">Plan a Trip</a></li>
       <li><a href="profile.html">Profile</a></li>
     </ul>
+    <div class="hamburger"><span></span><span></span><span></span></div>
   </div>
 </nav>
 
@@ -78,7 +142,7 @@ background:linear-gradient(135deg,#00BFA6,#FDCB6E);color:white;font-weight:600;}
       <div class="form-group">
         <label>Profile Photo</label>
         <input type="file" id="profilePhoto" accept="image/*">
-        <img id="previewImg" src="" alt="Preview" style="width:90px;height:90px;border-radius:50%;object-fit:cover;margin-top:10px;border:2px solid #00BFA6;display:block;">
+        <img id="previewImg" src="" alt="Preview">
       </div>
       <div class="form-group">
         <label>First Name</label>
@@ -121,6 +185,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const successMsg = document.getElementById("successMsg");
   const errorMsg = document.getElementById("errorMsg");
   const user = JSON.parse(localStorage.getItem("user"));
+  const hamburger = document.querySelector(".hamburger");
+  const navMenu = document.querySelector(".nav-menu");
+
+  hamburger.addEventListener("click", () => navMenu.classList.toggle("active"));
 
   if (!user) {
     document.querySelector(".settings-card").innerHTML =
@@ -128,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // ✅ Populate existing info
+  // Populate user info
   document.getElementById("firstName").value = user.firstName || "";
   document.getElementById("lastName").value = user.lastName || "";
   document.getElementById("email").value = user.email || "";
@@ -136,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("bio").value = user.bio || "";
   document.getElementById("previewImg").src = user.img || "https://cdn-icons-png.flaticon.com/512/1077/1077114.png";
 
-  // ✅ Live image preview
+  // Live image preview
   document.getElementById("profilePhoto").addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -146,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ✅ Form submission
+  // Save changes
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     successMsg.style.display = "none";
@@ -158,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
       lastName: document.getElementById("lastName").value.trim(),
       college: document.getElementById("college").value.trim(),
       bio: document.getElementById("bio").value.trim(),
-      img: document.getElementById("previewImg").src // ✅ include updated photo
+      img: document.getElementById("previewImg").src
     };
 
     try {
