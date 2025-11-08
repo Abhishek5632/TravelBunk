@@ -42,16 +42,30 @@ connectDB();
 
 
 // ----------------- SIGNUP API -----------------
+// ----------------- SIGNUP API (with Aadhaar Validation) -----------------
 app.post("/api/signup", async (req, res) => {
   try {
     const data = req.body;
-    if (!data.firstName || !data.email || !data.password)
-      return res.json({ success: false, message: "Missing required fields" });
 
+    // ✅ Required field checks
+    if (!data.firstName || !data.email || !data.password) {
+      return res.json({ success: false, message: "Missing required fields" });
+    }
+
+    // ✅ Aadhaar Validation (12 digits + Verhoeff checksum)
+    if (!/^\d{12}$/.test(data.aadhaar)) {
+      return res.json({ success: false, message: "Invalid Aadhaar number format" });
+    }
+    if (!verhoeffCheck(data.aadhaar)) {
+      return res.json({ success: false, message: "Invalid Aadhaar checksum" });
+    }
+
+    // ✅ Check if user already exists
     const existingUser = await usersCollection.findOne({ email: data.email });
     if (existingUser)
       return res.json({ success: false, message: "Email already exists" });
 
+    // ✅ Create new user
     const newUser = {
       firstName: data.firstName,
       lastName: data.lastName || "",
@@ -60,14 +74,14 @@ app.post("/api/signup", async (req, res) => {
       age: data.age || "",
       travelStyle: data.travelStyle || "",
       password: data.password,
-      aadhaar: data.aadhaar || "",
+      aadhaar: data.aadhaar,
       newsletter: data.newsletter || false,
       college: data.college || "",
       trips: [],
       blogs: [],
-      totalDistance: 0, // Start with 0
-      rating: (Math.random() * (5 - 3.8) + 3.8).toFixed(1), // 3.8–5.0 demo rating
-      badges: ["🎒 New Explorer", "🧭 Joined TravelBuddy"], // demo badges
+      totalDistance: 0,
+      rating: (Math.random() * (5 - 3.8) + 3.8).toFixed(1),
+      badges: ["🎒 New Explorer", "🧭 Joined TravelBuddy"],
       bio: data.bio || "Travel enthusiast. Love exploring new cultures!",
       img: data.img || "https://cdn-icons-png.flaticon.com/512/1077/1077114.png",
     };
@@ -75,11 +89,46 @@ app.post("/api/signup", async (req, res) => {
     await usersCollection.insertOne(newUser);
     console.log("👤 New user registered:", data.email);
     res.json({ success: true, user: newUser });
+
   } catch (err) {
     console.error("❌ Signup error:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
+
+// ----------------- Aadhaar Verhoeff Algorithm (Server-side Validation) -----------------
+function verhoeffCheck(aadhaar) {
+  const d = [
+    [0,1,2,3,4,5,6,7,8,9],
+    [1,2,3,4,0,6,7,8,9,5],
+    [2,3,4,0,1,7,8,9,5,6],
+    [3,4,0,1,2,8,9,5,6,7],
+    [4,0,1,2,3,9,5,6,7,8],
+    [5,9,8,7,6,0,4,3,2,1],
+    [6,5,9,8,7,1,0,4,3,2],
+    [7,6,5,9,8,2,1,0,4,3],
+    [8,7,6,5,9,3,2,1,0,4],
+    [9,8,7,6,5,4,3,2,1,0]
+  ];
+
+  const p = [
+    [0,1,2,3,4,5,6,7,8,9],
+    [1,5,7,6,2,8,3,0,9,4],
+    [5,8,0,3,7,9,6,1,4,2],
+    [8,9,1,6,0,4,3,5,2,7],
+    [9,4,5,3,1,2,6,8,7,0],
+    [4,2,8,6,5,7,3,9,0,1],
+    [2,7,9,3,8,0,6,4,1,5],
+    [7,0,4,6,9,1,3,2,5,8]
+  ];
+
+  let c = 0;
+  aadhaar.split('').reverse().forEach((num, i) => {
+    c = d[c][p[i % 8][parseInt(num, 10)]];
+  });
+  return c === 0;
+}
 
 
 // ----------------- LOGIN API -----------------
@@ -330,7 +379,7 @@ app.get("/", (req, res) => {
 });
 
 // ----------------- START SERVER -----------------
-const PORT = process.env.PORT || 100000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () =>
   console.log(`🚀 Server running on http://localhost:${PORT}`)
 );

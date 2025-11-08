@@ -454,27 +454,121 @@ form {
 </div>
 
 <script>
-const baseURL = window.location.hostname === "localhost"
-  ? "http://localhost:5001"
-  : "https://travelbuddy-hluu.onrender.com";
-
-// ✈️ Plane Animation
-const plane=document.getElementById("plane");
-document.getElementById("signinLink").addEventListener("click",e=>{
-  e.preventDefault();
-  plane.classList.add("fly-left");
-  setTimeout(()=>window.location.href="signin.html",1000);
-});
-
-// ✅ Image Preview
-document.getElementById("profilePhoto").addEventListener("change", e => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = ev => document.getElementById("previewImg").src = ev.target.result;
-    reader.readAsDataURL(file);
+  const baseURL = window.location.hostname === "localhost"
+    ? "http://localhost:5001"
+    : "https://travelbuddy-hluu.onrender.com";
+  
+  // ✈️ Plane animation
+  const plane = document.getElementById("plane");
+  document.getElementById("signinLink").addEventListener("click", e => {
+    e.preventDefault();
+    plane.classList.add("fly-left");
+    setTimeout(() => window.location.href = "signin.html", 1000);
+  });
+  
+  // ✅ Image Preview & Conversion
+  let profileBase64 = "";
+  document.getElementById("profilePhoto").addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        document.getElementById("previewImg").src = ev.target.result;
+        profileBase64 = ev.target.result; // store Base64
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  
+  // ✅ Verhoeff Algorithm for Aadhaar
+  function verhoeffCheck(aadhaar) {
+    const d = [
+      [0,1,2,3,4,5,6,7,8,9],
+      [1,2,3,4,0,6,7,8,9,5],
+      [2,3,4,0,1,7,8,9,5,6],
+      [3,4,0,1,2,8,9,5,6,7],
+      [4,0,1,2,3,9,5,6,7,8],
+      [5,9,8,7,6,0,4,3,2,1],
+      [6,5,9,8,7,1,0,4,3,2],
+      [7,6,5,9,8,2,1,0,4,3],
+      [8,7,6,5,9,3,2,1,0,4],
+      [9,8,7,6,5,4,3,2,1,0]
+    ];
+    const p = [
+      [0,1,2,3,4,5,6,7,8,9],
+      [1,5,7,6,2,8,3,0,9,4],
+      [5,8,0,3,7,9,6,1,4,2],
+      [8,9,1,6,0,4,3,5,2,7],
+      [9,4,5,3,1,2,6,8,7,0],
+      [4,2,8,6,5,7,3,9,0,1],
+      [2,7,9,3,8,0,6,4,1,5],
+      [7,0,4,6,9,1,3,2,5,8]
+    ];
+    let c = 0;
+    aadhaar.split('').reverse().forEach((num, i) => {
+      c = d[c][p[i % 8][parseInt(num, 10)]];
+    });
+    return c === 0;
   }
-});
-</script>
+  
+  // ✅ Signup Submission
+  document.getElementById("signupForm").addEventListener("submit", async e => {
+    e.preventDefault();
+  
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const college = document.getElementById("college").value.trim();
+    const age = document.getElementById("age").value.trim();
+    const travelStyle = document.getElementById("travelStyle").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+    const aadhaar = document.getElementById("aadhaar").value.trim();
+    const newsletter = document.getElementById("newsletter").checked;
+  
+    // Validation Section 🛡️
+    if (!firstName || !email || !password) return alert("Please fill required fields.");
+    if (password.length < 8) return alert("Password must be at least 8 characters.");
+    if (password !== confirmPassword) return alert("Passwords do not match!");
+    if (!/^[6-9]\d{9}$/.test(phone)) return alert("Enter a valid 10-digit Indian phone number.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return alert("Invalid email address.");
+    if (!/^\d{12}$/.test(aadhaar) || !verhoeffCheck(aadhaar)) return alert("Invalid Aadhaar number!");
+  
+    const formData = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      college,
+      age,
+      travelStyle,
+      password,
+      aadhaar,
+      newsletter,
+      img: profileBase64 || "https://cdn-icons-png.flaticon.com/512/1077/1077114.png",
+    };
+  
+    try {
+      const res = await fetch(`${baseURL}/api/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+      const data = await res.json();
+  
+      if (data.success) {
+        alert("🎉 Account created successfully!");
+        window.location.href = "signin.html";
+      } else {
+        alert("⚠️ " + data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("❌ Server error. Please try again later.");
+    }
+  });
+  </script>
+  
 </body>
 </html>
