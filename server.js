@@ -40,6 +40,7 @@ async function connectDB() {
 }
 connectDB();
 
+
 // ----------------- SIGNUP API -----------------
 app.post("/api/signup", async (req, res) => {
   try {
@@ -64,11 +65,11 @@ app.post("/api/signup", async (req, res) => {
       college: data.college || "",
       trips: [],
       blogs: [],
-      badges: [],
-      totalDistance: 0,
-      rating: "N/A",
+      totalDistance: 0, // Start with 0
+      rating: (Math.random() * (5 - 3.8) + 3.8).toFixed(1), // 3.8–5.0 demo rating
+      badges: ["🎒 New Explorer", "🧭 Joined TravelBuddy"], // demo badges
       bio: data.bio || "Travel enthusiast. Love exploring new cultures!",
-      img: data.img || "", // ✅ Store Base64 profile image
+      img: data.img || "https://cdn-icons-png.flaticon.com/512/1077/1077114.png",
     };
 
     await usersCollection.insertOne(newUser);
@@ -79,6 +80,7 @@ app.post("/api/signup", async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 // ----------------- LOGIN API -----------------
 app.post("/api/login", async (req, res) => {
@@ -139,27 +141,69 @@ app.get("/api/blogs/:email", async (req, res) => {
   res.json({ success: true, blogs: user.blogs || [] });
 });
 
-// ----------------- ADD TRIP API -----------------
+// ----------------- ADD TRIP API (auto updates distance, badges, rating) -----------------
 app.post("/api/add-trip", async (req, res) => {
   const { email, college, date, destination, distance, description } = req.body;
+
   if (!email || !date || !destination)
     return res.json({ success: false, message: "Missing fields" });
+
+  const numericDistance = parseFloat(distance) || 0;
 
   const newTrip = {
     college,
     destination,
     date,
-    distance: distance || "0",
+    distance: numericDistance,
     description: description || "",
     createdAt: new Date().toLocaleString(),
   };
 
-  await usersCollection.updateOne({ email }, { $push: { trips: newTrip } });
+  try {
+    // 🚌 Add the trip
+    await usersCollection.updateOne({ email }, { $push: { trips: newTrip } });
 
-  console.log("🚌 Trip added for:", email);
-  const user = await usersCollection.findOne({ email });
-  res.json({ success: true, trips: user.trips });
+    // Fetch updated trips
+    const user = await usersCollection.findOne({ email });
+    const totalDistance = (user.trips || []).reduce(
+      (sum, t) => sum + (parseFloat(t.distance) || 0),
+      0
+    );
+
+    // 🏅 Determine new badges and rating dynamically
+    const tripCount = user.trips.length;
+    let badges = ["🎒 New Explorer", "🧭 Joined TravelBuddy"];
+    let rating = parseFloat(user.rating) || 4.0;
+
+    if (tripCount >= 3) badges.push("🚗 Frequent Traveler");
+    if (tripCount >= 5) badges.push("🌍 Globetrotter");
+    if (totalDistance > 2000) badges.push("🏆 Long Journey Expert");
+
+    // Increase rating a bit after every few trips (demo logic)
+    rating = Math.min(5, (4 + tripCount * 0.1).toFixed(1));
+
+    // Update user data
+    await usersCollection.updateOne(
+      { email },
+      { $set: { totalDistance, badges, rating } }
+    );
+
+    const updatedUser = await usersCollection.findOne({ email });
+
+    console.log(`🚌 Trip added for ${email} | Distance: ${totalDistance} km | Rating: ${rating}`);
+    res.json({
+      success: true,
+      trips: updatedUser.trips,
+      totalDistance,
+      rating,
+      badges: updatedUser.badges,
+    });
+  } catch (err) {
+    console.error("❌ Error adding trip:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
+
 
 // ----------------- FETCH USER TRIPS -----------------
 app.get("/api/user-trips/:email", async (req, res) => {

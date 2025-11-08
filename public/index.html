@@ -15,6 +15,97 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* 💬 Floating Chatbot Styles */
+        .chatbot-toggle {
+          position: fixed;
+          bottom: 25px;
+          right: 25px;
+          background: #00BFA6;
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          font-size: 1.8rem;
+          cursor: pointer;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+          transition: 0.3s;
+          z-index: 1000;
+        }
+        .chatbot-toggle:hover { background: #009e8c; transform: scale(1.05); }
+        
+        .chatbot {
+          position: fixed;
+          bottom: 100px;
+          right: 25px;
+          width: 320px;
+          background: white;
+          border-radius: 15px;
+          box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+          display: none;
+          flex-direction: column;
+          overflow: hidden;
+          z-index: 1000;
+        }
+        .chatbot-header {
+          background: linear-gradient(135deg,#00BFA6,#FDCB6E);
+          color: white;
+          padding: 10px 15px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .chatbot-body {
+          height: 300px;
+          overflow-y: auto;
+          padding: 15px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          background: #f8f8f8;
+        }
+        .chatbot-body .user-msg, .chatbot-body .bot-msg {
+          padding: 10px 15px;
+          border-radius: 15px;
+          max-width: 80%;
+          font-size: 0.9rem;
+        }
+        .chatbot-body .user-msg {
+          align-self: flex-end;
+          background: #00BFA6;
+          color: white;
+          border-bottom-right-radius: 0;
+        }
+        .chatbot-body .bot-msg {
+          align-self: flex-start;
+          background: #e6e6e6;
+          color: #333;
+          border-bottom-left-radius: 0;
+        }
+        .chatbot-input {
+          display: flex;
+          border-top: 1px solid #ddd;
+        }
+        .chatbot-input input {
+          flex: 1;
+          padding: 10px;
+          border: none;
+          outline: none;
+          font-size: 0.9rem;
+        }
+        .chatbot-input button {
+          background: #00BFA6;
+          color: white;
+          border: none;
+          padding: 0 15px;
+          cursor: pointer;
+          font-weight: 600;
+          transition: 0.3s;
+        }
+        .chatbot-input button:hover { background: #009e8c; }
+        </style>
+        
 </head>
 <body>
  <!-- Navigation Bar -->
@@ -562,6 +653,74 @@
         });
         </script>
         
-        
+        <!-- 💬 Floating Chatbot -->
+<button class="chatbot-toggle" id="chatToggle"><i class="fas fa-comment-dots"></i></button>
+
+<div class="chatbot" id="chatbot">
+  <div class="chatbot-header">
+    <span>💬 TravelBuddy Assistant</span>
+    <button id="closeChat" style="background:none;border:none;color:white;font-size:1.2rem;cursor:pointer;">×</button>
+  </div>
+  <div class="chatbot-body" id="chatBody">
+    <div class="bot-msg">Hi there! 👋 I’m your TravelBuddy Assistant.<br>Ask me about trips, booking, companions, or support!</div>
+  </div>
+  <div class="chatbot-input">
+    <input type="text" id="userInput" placeholder="Type your question...">
+    <button id="sendBtn">Send</button>
+  </div>
+</div>
+<script>
+    const chatToggle = document.getElementById('chatToggle');
+    const chatbot = document.getElementById('chatbot');
+    const closeChat = document.getElementById('closeChat');
+    const chatBody = document.getElementById('chatBody');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+  
+    const botReplies = {
+      "hi": "Hey there! 👋 How can I help you with your travel plans?",
+      "trip": "We offer a variety of amazing trips! Check the 'Explore Trips' section 🧭",
+      "book": "To book a trip, go to the 'Find Companion' page and click 'Book Trip' 🚗",
+      "companion": "You can find travel companions by entering your destination and date on the 'Find Companion' page 👥",
+      "contact": "You can reach us anytime at travelbuddy@support.com 📧",
+      "bye": "Goodbye! 👋 Have a safe journey with TravelBuddy ✈️"
+    };
+  
+    chatToggle.addEventListener('click', () => chatbot.style.display = 'flex');
+    closeChat.addEventListener('click', () => chatbot.style.display = 'none');
+  
+    sendBtn.addEventListener('click', () => {
+      const msg = userInput.value.trim();
+      if (!msg) return;
+      appendMessage('user', msg);
+      userInput.value = '';
+      setTimeout(() => {
+        const reply = getBotReply(msg);
+        appendMessage('bot', reply);
+      }, 400);
+    });
+  
+    userInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendBtn.click();
+    });
+  
+    function appendMessage(sender, text) {
+      const div = document.createElement('div');
+      div.classList.add(sender === 'user' ? 'user-msg' : 'bot-msg');
+      div.textContent = text;
+      chatBody.appendChild(div);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+  
+    function getBotReply(input) {
+      input = input.toLowerCase();
+      for (const key in botReplies) {
+        if (input.includes(key)) return botReplies[key];
+      }
+      return "Hmm 🤔 I’m not sure about that. Try asking about trips, booking, companions, or support.";
+    }
+  </script>
+  
+
 </body>
 </html>
