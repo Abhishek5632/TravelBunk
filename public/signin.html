@@ -1,153 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In - TravelBunk</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In - TravelBuddy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    * {margin: 0; padding: 0; box-sizing: border-box;}
-    body {
+    .nav-container {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.nav-logo h2 {
+  color: white;
+  font-weight: 700;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-menu a:hover {
+  color: #222;
+}
+    .nav-logo h2 {
+  color: white;
+  font-weight: 700;
+}
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #00BFA6, #FDCB6E);
+    }
+
+    body {
+      display: flex; justify-content: center; align-items: center;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      background: linear-gradient(135deg, #00BFA6, #2ECC71);
       overflow-x: hidden;
     }
 
     /* Navbar */
     .navbar {
-      position: absolute;
-      top: 0;
-      width: 100%;
+      position: absolute; top: 0; width: 100%;
       background: rgba(255, 255, 255, 0.25);
       backdrop-filter: blur(10px);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      padding: 15px 0;
-      z-index: 100;
+      padding: 15px 0; z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
+
     .nav-container {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      max-width: 1100px; margin: auto;
+      display: flex; justify-content: space-between; align-items: center;
       padding: 0 20px;
     }
-    .nav-logo h2 {
-      color: white;
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    .nav-menu {
-      list-style: none;
-      display: flex;
-      gap: 1.8rem;
-    }
-    .nav-menu a {
-      text-decoration: none;
-      color: white;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-    .nav-menu a:hover {
-      color: #222;
-    }
 
-    /* Auth Box */
+    .nav-logo h2 { color: white; font-weight: 700; }
+
+    /* Auth Container */
     .auth-container {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      padding: 45px 40px;
-      border-radius: 25px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 420px;
-      text-align: center;
-      margin-top: 80px;
-      animation: fadeIn 0.8s ease-in-out;
+      position: relative;
+      width: 90%; max-width: 950px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+      display: flex; overflow: hidden;
+      margin-top: 100px;
+      height: 600px;
+      transition: 0.8s ease-in-out;
     }
 
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
+    .auth-box {
+      flex: 0.55;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px; text-align: center;
     }
 
-    .auth-container h1 {
-      font-size: 2.2rem;
-      color: #00BFA6;
-      margin-bottom: 8px;
-    }
-    .auth-container p {
-      color: #555;
-      font-weight: 500;
-      margin-bottom: 25px;
+    .auth-box h1 { font-size: 2rem; color: #00BFA6; margin-bottom: 8px; }
+    .auth-box p { color: #555; font-weight: 500; margin-bottom: 25px; }
+
+    .auth-form { width: 100%; max-width: 350px; text-align: left; }
+
+    label { display: block; font-weight: 500; color: #333; margin-bottom: 6px; }
+
+    input {
+      width: 100%; padding: 12px; border-radius: 10px;
+      border: 1px solid #ccc; font-size: 1rem;
+      margin-bottom: 18px; outline: none; transition: 0.3s;
     }
 
-    .auth-form {
-      text-align: left;
-    }
-    .auth-form label {
-      display: block;
-      font-weight: 500;
-      color: #333;
-      margin-bottom: 6px;
-    }
-    .auth-form input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      margin-bottom: 18px;
-      outline: none;
-      transition: 0.3s;
-    }
-    .auth-form input:focus {
-      border-color: #00BFA6;
-      box-shadow: 0 0 5px #00bfa64d;
+    input:focus {
+      border-color: #00BFA6; box-shadow: 0 0 5px #00bfa64d;
     }
 
     .btn-full {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #00BFA6, #FDCB6E);
-      color: white;
-      font-weight: 600;
-      font-size: 1.05rem;
-      cursor: pointer;
-      transition: 0.3s ease;
-      margin-top: 10px;
+      width: 100%; padding: 12px; border: none; border-radius: 12px;
+      background: linear-gradient(135deg, #00BFA6, #2ECC71);
+      color: white; font-weight: 600; font-size: 1.05rem;
+      cursor: pointer; transition: 0.3s ease;
     }
+
     .btn-full:hover {
-      transform: scale(1.03);
-      box-shadow: 0 4px 15px rgba(0, 191, 166, 0.3);
+      transform: scale(1.05); box-shadow: 0 4px 15px rgba(0,191,166,0.3);
     }
 
-    .auth-container a {
-      color: #00BFA6;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .auth-container a:hover {
-      text-decoration: underline;
+    /* Right Panel */
+    .auth-panel {
+      flex: 0.45;
+      background: linear-gradient(135deg, #00BFA6, #2ECC71);
+      color: white; display: flex;
+      flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; border-radius: 0 150px 100px 0;
+      padding: 40px;
     }
 
-    @media (max-width: 500px) {
-      .auth-container {
-        padding: 35px 25px;
-      }
-      .auth-container h1 {
-        font-size: 1.8rem;
-      }
+    .auth-panel h2 { font-size: 2rem; margin-bottom: 15px; }
+    .auth-panel p { font-size: 1rem; margin-bottom: 25px; }
+
+    .auth-panel a {
+      border: 2px solid white; padding: 10px 25px;
+      border-radius: 10px; color: white; text-decoration: none;
+      font-weight: 600; transition: 0.3s;
+    }
+
+    .auth-panel a:hover { background: white; color: #00BFA6; }
+
+    /* Plane animation */
+    .plane {
+      position: absolute; font-size: 2.5rem;
+      top: 45%; left: 8%; opacity: 0;
+      transition: 1s ease-in-out;
+    }
+
+    .fly-right { transform: translateX(650px); opacity: 1; }
+
+    @media (max-width: 1024px) {
+      .auth-container { flex-direction: column; height: auto; margin-top: 120px; }
+      .auth-box, .auth-panel { width: 100%; border-radius: 0; }
     }
   </style>
 </head>
@@ -155,33 +160,36 @@
 <body>
   <nav class="navbar">
     <div class="nav-container">
-      <div class="nav-logo" style="text-decoration:none;"><h2>TravelBuddy</h2></a></div>
+      <div class="nav-logo"><h2>TravelBuddy</h2></div>
       <ul class="nav-menu">
-        <li><a href="signin.html" class="active">Login</a></li>
-        <li><a href="signup.html">Sign Up</a></li>
+        <li><a href="index.html">Home</a></li>
+        <!-- <li><a href="signin.html">Login</a></li> -->
+        <!-- <li><a href="signup.html" class="active">Sign Up</a></li> -->
       </ul>
     </div>
   </nav>
 
   <div class="auth-container">
-    <h1>Welcome Back 👋</h1>
-    <p>Sign in to continue your journey</p>
+    <div class="auth-box">
+      <h1>Welcome Back 👋</h1>
+      <p>Sign in to continue your journey</p>
 
-    <form id="signinForm" class="auth-form">
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-      </div>
-      <button type="submit" class="btn-full">Sign In 🚀</button>
-    </form>
+      <form id="signinForm" class="auth-form">
+        <label>Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        <label>Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+        <button type="submit" class="btn-full">Sign In 🚀</button>
+      </form>
+    </div>
 
-    <p style="margin-top:20px;">
-      Don't have an account? <a href="signup.html">Sign up here</a>
-    </p>
+    <div class="auth-panel">
+      <h2>New Here?</h2>
+      <p>Join our travel community and explore the world together!</p>
+      <a href="signup.html" id="signupLinkPanel">Sign Up ✈️</a>
+    </div>
+
+    <div class="plane" id="plane">✈️</div>
   </div>
 
   <script>
@@ -189,19 +197,21 @@
       ? "http://localhost:5001"
       : "https://travelbuddy-hluu.onrender.com";
 
-    const existingUser = JSON.parse(localStorage.getItem("user"));
-    if (existingUser) window.location.href = "profile.html";
+    const plane = document.getElementById("plane");
+    const signupLink = document.getElementById("signupLinkPanel");
+
+    signupLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      plane.classList.add("fly-right");
+      setTimeout(() => window.location.href = "signup.html", 1000);
+    });
 
     document.getElementById("signinForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const formData = new FormData(e.target);
-      const email = formData.get("email").trim();
-      const password = formData.get("password").trim();
+      const email = e.target.email.value.trim();
+      const password = e.target.password.value.trim();
 
-      if (!email || !password) {
-        alert("Please fill in all fields.");
-        return;
-      }
+      if (!email || !password) return alert("Please fill in all fields.");
 
       try {
         const res = await fetch(`${baseURL}/api/login`, {
@@ -210,18 +220,12 @@
           body: JSON.stringify({ email, password }),
         });
         const result = await res.json();
-
-        if (!result.success) {
-          alert(result.message || "Invalid credentials.");
-          return;
-        }
-
+        if (!result.success) return alert(result.message || "Invalid credentials.");
         localStorage.setItem("user", JSON.stringify(result.user));
         alert(`Welcome back, ${result.user.firstName || "Traveler"}!`);
         window.location.href = "profile.html";
       } catch (err) {
-        console.error("Login error:", err);
-        alert("Something went wrong. Try again later.");
+        alert("Server error, try again later.");
       }
     });
   </script>

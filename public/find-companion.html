@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Find Your Travel Companion | Travel Bunk</title>
+  <title>Find Your Travel Companion | TravelBuddy</title>
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box;}
     body {
@@ -11,8 +11,11 @@
       background: #F4F9F9;
       color: #2D3436;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
+    /* Navbar */
     .navbar {
       background: rgba(255,255,255,0.95);
       backdrop-filter: blur(10px);
@@ -62,16 +65,29 @@
       .nav-logo h2 {font-size:1.3rem;}
     }
 
+    /* Hero */
     .page-hero {
       background: linear-gradient(135deg,#00BFA6,#FDCB6E);
       padding: 130px 20px 70px;
       text-align: center;
       color: white;
+      flex-shrink: 0;
     }
     .page-hero h1 {font-size:3rem;font-weight:700;margin-bottom:1rem;}
     .page-hero p {font-size:1.25rem;opacity:0.92;}
 
-    .page-content {max-width:1200px;margin:0 auto;padding:50px 20px;}
+    /* Content */
+    .page-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      max-width:1200px;
+      margin:0 auto;
+      padding:50px 20px 70px;
+      width: 100%;
+    }
+
     .search-box {
       background:white;border-radius:14px;
       box-shadow:0 4px 16px rgba(0,0,0,0.10);
@@ -91,6 +107,7 @@
       transition:0.3s;box-shadow:0 2px 12px rgba(0,191,166,0.08);
     }
     .search-box button:hover {transform:scale(1.05);}
+
     #noResults {
       text-align:center;color:#00BFA6;font-weight:600;
       margin-top:38px;font-size:1.18rem;
@@ -102,6 +119,7 @@
       gap:22px;
       margin-top:20px;
     }
+
     .card {
       background:white;border-radius:14px;
       box-shadow:0 4px 12px rgba(0,0,0,0.09);
@@ -129,9 +147,14 @@
       text-align:center;
     }
     .view-btn:hover {transform:scale(1.05);}
+
+    /* Footer */
     .footer {
-      background:#2D3436;color:white;text-align:center;
-      padding:2.5rem 20px;margin-top:40px;
+      background:#2D3436;
+      color:white;
+      text-align:center;
+      padding:2.5rem 20px;
+      flex-shrink: 0;
     }
     .footer h3 {color:#00BFA6;}
   </style>
@@ -169,12 +192,11 @@
   </section>
 
   <footer class="footer">
-    <h3>Travel Bunk</h3>
-    <p>&copy; 2025 Travel Bunk. All rights reserved.</p>
+    <h3>TravelBuddy</h3>
+    <p>&copy; 2025 TravelBuddy. All rights reserved.</p>
   </footer>
 
   <script>
-    // ✅ Check login before loading page
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
       alert("Please log in first to access this page.");
@@ -189,7 +211,6 @@
       ? "http://localhost:5001"
       : "https://travelbuddy-hluu.onrender.com";
 
-    // Fetch all users
     window.addEventListener("load", async () => {
       try {
         const res = await fetch(`${baseURL}/api/get-all-users`);

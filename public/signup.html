@@ -3,123 +3,333 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign Up - TravelBunk</title>
+<title>Sign Up - TravelBuddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:'Poppins',sans-serif;
-  background:linear-gradient(135deg,#00BFA6,#FDCB6E);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  overflow-x:hidden;
+/* 🌈 Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* Navbar */
-.navbar{
-  position:absolute;top:0;width:100%;
-  background:rgba(255,255,255,0.25);
-  backdrop-filter:blur(10px);
-  box-shadow:0 2px 10px rgba(0,0,0,0.1);
-  padding:15px 0;z-index:100;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #00BFA6, #FDCB6E);
+  overflow-x: hidden;
 }
-.nav-container{
-  max-width:1100px;margin:auto;display:flex;
-  justify-content:space-between;align-items:center;
-  padding:0 20px;
-}
-.nav-logo h2{
-  color:white;font-size:1.8rem;font-weight:700;
-}
-.nav-menu{list-style:none;display:flex;gap:1.8rem;}
-.nav-menu a{
-  text-decoration:none;color:white;font-weight:500;transition:0.3s;
-}
-.nav-menu a:hover{color:#222;}
 
-/* Auth Card */
-.auth-container{
-  background:rgba(255,255,255,0.95);
-  backdrop-filter:blur(12px);
-  padding:40px 35px;
-  border-radius:25px;
-  box-shadow:0 10px 35px rgba(0,0,0,0.1);
-  width:90%;
-  max-width:500px;
-  text-align:center;
-  margin-top:100px;
-  animation:fadeIn 0.8s ease-in-out;
+/* ✈️ Navbar */
+.navbar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+  z-index: 10;
 }
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 
-.auth-container h1{color:#00BFA6;font-size:2rem;margin-bottom:8px;}
-.auth-container p{color:#555;font-weight:500;margin-bottom:20px;}
-
-.form-group{text-align:left;margin-bottom:15px;}
-label{display:block;margin-bottom:5px;font-weight:500;color:#333;}
-input,select{
-  width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:10px;
-  font-size:1rem;outline:none;transition:0.3s;
+.nav-container {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
 }
-input:focus,select:focus{border-color:#00BFA6;box-shadow:0 0 6px #00bfa64d;}
-small{color:#777;font-size:0.85rem;}
 
-.form-row{display:flex;gap:15px;}
-.form-row .form-group{flex:1;}
-
-.btn-full{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  background:linear-gradient(135deg,#00BFA6,#FDCB6E);
-  color:white;
-  font-weight:600;
-  font-size:1.05rem;
-  cursor:pointer;
-  transition:0.3s ease;
-  margin-top:10px;
+.nav-logo h2 {
+  color: white;
+  font-weight: 700;
 }
-.btn-full:hover{transform:scale(1.03);box-shadow:0 4px 15px rgba(0,191,166,0.3);}
 
-/* Photo Preview */
-#photoPreview{
-  width:100px;height:100px;border-radius:50%;overflow:hidden;
-  border:2px solid #00BFA6;margin-bottom:10px;background:#eee;
+.nav-menu {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
 }
-#previewImg{width:100%;height:100%;object-fit:cover;}
 
-/* Checkbox group */
-.checkbox-group{display:flex;align-items:center;margin-top:10px;}
-.checkbox-label{position:relative;padding-left:30px;cursor:pointer;font-size:15px;color:#333;}
-.checkbox-label input{position:absolute;opacity:0;cursor:pointer;}
-.checkmark{
-  position:absolute;left:0;top:2px;height:20px;width:20px;
-  background-color:#e0e0e0;border-radius:6px;transition:0.3s;
+.nav-menu a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
 }
-.checkbox-label input:checked~.checkmark{background-color:#00BFA6;}
-.checkmark:after{
-  content:"";position:absolute;display:none;left:6px;top:3px;
-  width:6px;height:12px;border:solid white;border-width:0 3px 3px 0;
-  transform:rotate(45deg);
+
+.nav-menu a:hover {
+  color: #222;
 }
-.checkbox-label input:checked~.checkmark:after{display:block;}
-.checkbox-label a{color:#00BFA6;text-decoration:none;margin:0 4px;}
-.checkbox-label a:hover{text-decoration:underline;}
 
-.auth-switch{margin-top:15px;}
-.auth-switch a{color:#00BFA6;font-weight:600;text-decoration:none;}
-.auth-switch a:hover{text-decoration:underline;}
+/* 🪄 Auth Container */
+.auth-container {
+  position: relative;
+  width: 90%;
+  height: 600px;
+  max-width: 950px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+  display: flex;
+  overflow: hidden;
+  margin-top: 100px;
+  transition: 0.8s ease-in-out;
+}
 
-@media(max-width:500px){
-  .auth-container{padding:30px 25px;}
-  .form-row{flex-direction:column;}
+/* Left Panel */
+.auth-panel {
+  flex: 0.4;
+  background: linear-gradient(135deg, #00BFA6, #2ECC71);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 150px 0 0 100px;
+  padding: 40px 30px;
+}
+
+.auth-panel h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.auth-panel p {
+  font-size: 1rem;
+  margin-bottom: 25px;
+}
+
+.auth-panel a {
+  display: inline-block;
+  border: 2px solid white;
+  padding: 10px 25px;
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.auth-panel a:hover {
+  background: white;
+  color: #00BFA6;
+}
+
+/* 🌍 Signup Form Box */
+.auth-box {
+  flex: 0.6;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 35px 45px;
+  text-align: center;
+  overflow-y: auto;
+  max-height: 600px;
+  scroll-behavior: smooth;
+}
+
+.auth-box::-webkit-scrollbar {
+  width: 6px;
+}
+.auth-box::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.auth-box h1 {
+  font-size: 2rem;
+  color: #00BFA6;
+  margin-bottom: 10px;
+}
+
+.auth-box p {
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 25px;
+}
+
+/* Input Form */
+form {
+  width: 100%;
+  max-width: 500px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #00BFA6;
+  box-shadow: 0 0 6px #00bfa64d;
+}
+
+/* Profile Photo */
+.profile-upload {
+  text-align: center;
+  margin-bottom: 25px;
+}
+#photoPreview {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 3px solid #00BFA6;
+  overflow: hidden;
+  margin: 10px auto;
+  background: #eee;
+}
+#previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#profilePhoto {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Buttons */
+.btn-full {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00BFA6, #FDCB6E);
+  color: white;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 10px;
+}
+
+.btn-full:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 15px rgba(0, 191, 166, 0.3);
+}
+
+/* Checkboxes */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #333;
+  flex-wrap: wrap;
+}
+
+.checkbox-group input {
+  width: auto;
+}
+
+.checkbox-group a {
+  color: #00BFA6;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.checkbox-group a:hover {
+  text-decoration: underline;
+}
+
+/* ✈️ Plane animation */
+.plane {
+  position: absolute;
+  font-size: 2.5rem;
+  top: 45%;
+  right: 8%;
+  opacity: 0;
+  transition: 1s ease-in-out;
+}
+
+.fly-left {
+  transform: translateX(-650px);
+  opacity: 1;
+}
+
+/* 📱 Responsive Styles */
+@media (max-width: 1024px) {
+  .auth-container {
+    flex-direction: column;
+    width: 95%;
+    margin-top: 110px;
+  }
+  .auth-panel {
+    border-radius: 0;
+    width: 100%;
+    flex: none;
+    padding: 30px 20px;
+  }
+  .auth-box {
+    width: 100%;
+    padding: 25px;
+    max-height: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-box h1 {
+    font-size: 1.6rem;
+  }
+  .form-row {
+    flex-direction: column;
+  }
+  .auth-panel h2 {
+    font-size: 1.5rem;
+  }
+  .auth-panel p {
+    font-size: 0.9rem;
+  }
+  .btn-full {
+    font-size: 1rem;
+    padding: 12px;
+  }
+  .navbar .nav-menu {
+    gap: 1rem;
+  }
+  .plane {
+    display: none;
+  }
 }
 </style>
 </head>
@@ -130,112 +340,117 @@ small{color:#777;font-size:0.85rem;}
     <div class="nav-logo"><h2>TravelBuddy</h2></div>
     <ul class="nav-menu">
       <li><a href="index.html">Home</a></li>
-      <li><a href="signin.html">Login</a></li>
-      <li><a href="signup.html" class="active">Sign Up</a></li>
+      <!-- <li><a href="signin.html">Login</a></li> -->
+      <!-- <li><a href="signup.html" class="active">Sign Up</a></li> -->
     </ul>
   </div>
 </nav>
 
 <div class="auth-container">
-  <h1>Join the Travel Tribe 🌍</h1>
-  <p>Create your TravelBunk account to meet new companions!</p>
 
-  <form id="signupForm" enctype="multipart/form-data">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" id="firstName" name="firstName" required>
-      </div>
-      <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" name="lastName" required>
-      </div>
-    </div>
+  <!-- ✈️ Left Panel -->
+  <div class="auth-panel">
+    <h2>Welcome Aboard!</h2>
+    <p>Already a member? Sign in to continue your adventure.</p>
+    <a href="signin.html" id="signinLink">Sign In ✈️</a>
+  </div>
 
-    <div class="form-group" style="text-align:center;">
-      <label for="profilePhoto"><b>Profile Photo</b></label>
-      <div style="display:flex;flex-direction:column;align-items:center;margin-top:8px;">
+  <!-- 🌍 Signup Form -->
+  <div class="auth-box">
+    <h1>Join the Travel Tribe 🌍</h1>
+    <p>Create your TravelBuddy account to meet new companions!</p>
+
+    <form id="signupForm" enctype="multipart/form-data">
+      <div class="profile-upload">
+        <label><b>Profile Photo</b></label>
         <div id="photoPreview">
           <img id="previewImg" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Preview">
         </div>
-        <input type="file" id="profilePhoto" name="profilePhoto" accept="image/*" required style="border:1px solid #ccc;border-radius:10px;padding:6px 10px;width:85%;cursor:pointer;">
+        <input type="file" id="profilePhoto" name="profilePhoto" accept="image/*" required>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" required>
-    </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" required>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" required>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" name="phone" required>
-    </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+      </div>
 
-    <div class="form-group">
-      <label for="college">College (Optional)</label>
-      <input type="text" id="college" name="college">
-    </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required>
+      </div>
 
-    <div class="form-group">
-      <label for="age">Age</label>
-      <select id="age" name="age" required>
-        <option value="">Select your age range</option>
-        <option value="18-22">18-22</option>
-        <option value="23-27">23-27</option>
-        <option value="28-32">28-32</option>
-        <option value="33+">33+</option>
-      </select>
-    </div>
+      <div class="form-group">
+        <label for="college">College (Optional)</label>
+        <input type="text" id="college" name="college">
+      </div>
 
-    <div class="form-group">
-      <label for="travelStyle">Travel Style</label>
-      <select id="travelStyle" name="travelStyle" required>
-        <option value="">What's your vibe?</option>
-        <option value="budget">Budget Explorer 💰</option>
-        <option value="adventure">Adventure Seeker 🏔️</option>
-        <option value="cultural">Culture Enthusiast 🏛️</option>
-        <option value="relaxed">Chill Traveler 🏖️</option>
-        <option value="party">Party Hopper 🎉</option>
-        <option value="solo">Solo to Group 👥</option>
-      </select>
-    </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="age">Age</label>
+          <select id="age" name="age" required>
+            <option value="">Select your age range</option>
+            <option value="18-22">18-22</option>
+            <option value="23-27">23-27</option>
+            <option value="28-32">28-32</option>
+            <option value="33+">33+</option>
+          </select>
+        </div>
 
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
-      <small>At least 8 characters with numbers and letters</small>
-    </div>
+        <div class="form-group">
+          <label for="travelStyle">Travel Style</label>
+          <select id="travelStyle" name="travelStyle" required>
+            <option value="">What's your vibe?</option>
+            <option value="budget">Budget Explorer 💰</option>
+            <option value="adventure">Adventure Seeker 🏔️</option>
+            <option value="cultural">Culture Enthusiast 🏛️</option>
+            <option value="relaxed">Chill Traveler 🏖️</option>
+            <option value="party">Party Hopper 🎉</option>
+            <option value="solo">Solo to Group 👥</option>
+          </select>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" id="confirmPassword" name="confirmPassword" required>
-    </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
 
-    <div class="form-group">
-      <label for="aadhaar">Aadhaar Number</label>
-      <input type="text" id="aadhaar" name="aadhaar" required maxlength="12" pattern="\d{12}" placeholder="Enter 12-digit Aadhaar">
-    </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+      </div>
 
-    <div class="form-group checkbox-group">
-      <label class="checkbox-label">
+      <div class="form-group">
+        <label for="aadhaar">Aadhaar Number</label>
+        <input type="text" id="aadhaar" name="aadhaar" required maxlength="12" pattern="\d{12}">
+      </div>
+
+      <div class="checkbox-group">
         <input type="checkbox" id="terms" required>
-        <span class="checkmark"></span>
-        I agree to the <a href="#">Terms</a> & <a href="#">Privacy Policy</a>
-      </label>
-    </div>
+        <label for="terms">I agree to the <a href="#">Terms</a> & <a href="#">Privacy Policy</a></label>
+      </div>
 
-    <div class="form-group checkbox-group">
-      <label class="checkbox-label">
+      <div class="checkbox-group">
         <input type="checkbox" id="newsletter">
-        <span class="checkmark"></span>
-        Send me travel tips & companion updates
-      </label>
-    </div>
+        <label for="newsletter">Send me travel tips & updates</label>
+      </div>
 
-    <button type="submit" class="btn-full">Create Account 🚀</button>
-    <p class="auth-switch">Already a member? <a href="signin.html">Sign In</a></p>
-  </form>
+      <button type="submit" class="btn-full">Create Account 🚀</button>
+    </form>
+  </div>
+
+  <div class="plane" id="plane">✈️</div>
 </div>
 
 <script>
@@ -243,7 +458,15 @@ const baseURL = window.location.hostname === "localhost"
   ? "http://localhost:5001"
   : "https://travelbuddy-hluu.onrender.com";
 
-// ✅ Image preview
+// ✈️ Plane Animation
+const plane=document.getElementById("plane");
+document.getElementById("signinLink").addEventListener("click",e=>{
+  e.preventDefault();
+  plane.classList.add("fly-left");
+  setTimeout(()=>window.location.href="signin.html",1000);
+});
+
+// ✅ Image Preview
 document.getElementById("profilePhoto").addEventListener("change", e => {
   const file = e.target.files[0];
   if (file) {
@@ -252,59 +475,6 @@ document.getElementById("profilePhoto").addEventListener("change", e => {
     reader.readAsDataURL(file);
   }
 });
-
-// ✅ Signup
-document.getElementById("signupForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  const form = e.target;
-  const data = {
-    firstName: form.firstName.value.trim(),
-    lastName: form.lastName.value.trim(),
-    email: form.email.value.trim(),
-    phone: form.phone.value.trim(),
-    college: form.college.value.trim(),
-    age: form.age.value,
-    travelStyle: form.travelStyle.value,
-    aadhaar: form.aadhaar.value.trim(),
-    password: form.password.value.trim(),
-    newsletter: form.newsletter.checked,
-  };
-  const file = form.profilePhoto.files[0];
-  if (file) data.img = await fileToBase64(file);
-
-  if (data.password !== form.confirmPassword.value.trim()) {
-    alert("Passwords do not match!");
-    return;
-  }
-
-  try {
-    const res = await fetch(`${baseURL}/api/signup`, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(data),
-    });
-    const result = await res.json();
-    if (result.success) {
-      localStorage.setItem("user", JSON.stringify(result.user));
-      alert("🎉 Account created successfully!");
-      window.location.href = "profile.html";
-    } else {
-      alert(result.message || "Signup failed.");
-    }
-  } catch (err) {
-    console.error("Signup error:", err);
-    alert("Server connection failed.");
-  }
-});
-
-function fileToBase64(file){
-  return new Promise((resolve,reject)=>{
-    const reader=new FileReader();
-    reader.onload=()=>resolve(reader.result);
-    reader.onerror=err=>reject(err);
-    reader.readAsDataURL(file);
-  });
-}
 </script>
 </body>
 </html>
