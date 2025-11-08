@@ -245,243 +245,71 @@
     </section>
 
      <!-- Explore by Budget Section -->
-   <section class="explore-budget">
-    <div class="container">
-        <h2 class="section-title">Where can you go with your budget?</h2>
-        <div class="budget-slider">
+     <section class="explore-budget">
+        <div class="container">
+          <h2 class="section-title">Where can you go with your budget?</h2>
+      
+          <div class="budget-slider">
             <input type="range" min="1000" max="50000" value="3000" step="500" class="slider" id="budgetRange">
             <div class="budget-display">
-                <span>₹</span><span id="budgetValue">3,000</span>
+              <span>₹</span><span id="budgetValue">3,000</span>
             </div>
+          </div>
+      
+          <div class="destinations-grid" id="destinationsGrid">
+            <div class="destination-card" data-min="1000" data-max="3000"><img src="https://picsum.photos/seed/rishikesh/400/300"><div class="destination-info"><h3>Rishikesh</h3><p class="price">₹1,500-₹3,000</p></div></div>
+            <div class="destination-card" data-min="2000" data-max="3000"><img src="https://picsum.photos/seed/hampi/400/300"><div class="destination-info"><h3>Hampi</h3><p class="price">₹2,200-₹3,000</p></div></div>
+            <div class="destination-card" data-min="3000" data-max="6000"><img src="https://picsum.photos/seed/jaipur/400/300"><div class="destination-info"><h3>Jaipur</h3><p class="price">₹3,500-₹5,500</p></div></div>
+            <div class="destination-card" data-min="3000" data-max="6000"><img src="https://picsum.photos/seed/varanasi/400/300"><div class="destination-info"><h3>Varanasi</h3><p class="price">₹3,000-₹6,000</p></div></div>
+            <div class="destination-card" data-min="6000" data-max="9000"><img src="https://picsum.photos/seed/goa/400/300"><div class="destination-info"><h3>Goa</h3><p class="price">₹6,000-₹9,000</p></div></div>
+            <div class="destination-card" data-min="6000" data-max="9000"><img src="https://picsum.photos/seed/kasol/400/300"><div class="destination-info"><h3>Kasol</h3><p class="price">₹6,500-₹9,000</p></div></div>
+            <div class="destination-card" data-min="9000" data-max="12000"><img src="https://picsum.photos/seed/manali/400/300"><div class="destination-info"><h3>Manali</h3><p class="price">₹9,000-₹12,000</p></div></div>
+            <div class="destination-card" data-min="12000" data-max="15000"><img src="https://picsum.photos/seed/ladakh/400/300"><div class="destination-info"><h3>Leh-Ladakh</h3><p class="price">₹12,000-₹15,000</p></div></div>
+            <div class="destination-card" data-min="15000" data-max="18000"><img src="https://picsum.photos/seed/sikkim/400/300"><div class="destination-info"><h3>Sikkim</h3><p class="price">₹15,000-₹18,000</p></div></div>
+            <div class="destination-card" data-min="18000" data-max="21000"><img src="https://picsum.photos/seed/bali/400/300"><div class="destination-info"><h3>Bali</h3><p class="price">₹18,000-₹21,000</p></div></div>
+            <div class="destination-card" data-min="21000" data-max="24000"><img src="https://picsum.photos/seed/dubai/400/300"><div class="destination-info"><h3>Dubai</h3><p class="price">₹21,000-₹24,000</p></div></div>
+            <div class="destination-card" data-min="24000" data-max="30000"><img src="https://picsum.photos/seed/thailand/400/300"><div class="destination-info"><h3>Thailand</h3><p class="price">₹25,000-₹30,000</p></div></div>
+            <div class="destination-card" data-min="30000" data-max="50000"><img src="https://picsum.photos/seed/lakshadweep/400/300"><div class="destination-info"><h3>Lakshadweep</h3><p class="price">₹30,000-₹45,000</p></div></div>
+            <div class="destination-card" data-min="30000" data-max="50000"><img src="https://picsum.photos/seed/kashmir/400/300"><div class="destination-info"><h3>Kashmir Luxury</h3><p class="price">₹32,000-₹48,000</p></div></div>
+            <div class="destination-card" data-min="35000" data-max="50000"><img src="https://picsum.photos/seed/maldives/400/300"><div class="destination-info"><h3>Maldives</h3><p class="price">₹35,000-₹50,000</p></div></div>
+            <div class="destination-card" data-min="40000" data-max="50000"><img src="https://picsum.photos/seed/australia/400/300"><div class="destination-info"><h3>Australia</h3><p class="price">₹47,000-₹50,000</p></div></div>
+          </div>
         </div>
-        <div class="destinations-grid" id="destinationsGrid">
-
-            <!-- ₹1k–3k -->
-            <div class="destination-card" data-min="1000" data-max="3000">
-                <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop&q=80" alt="Rishikesh">
-                <div class="destination-info">
-                    <h3>Rishikesh</h3>
-                    <p class="price">₹1,500 - ₹3,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-bed"></i> Hostel</span>
-                        <span><i class="fas fa-water"></i> Rafting</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="destination-card" data-min="2000" data-max="3000">
-                <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=300&h=200&fit=crop&q=80" alt="Hampi">
-                <div class="destination-info">
-                    <h3>Hampi</h3>
-                    <p class="price">₹2,200 - ₹3,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-landmark"></i> Ruins</span>
-                        <span><i class="fas fa-bicycle"></i> Bike Rental</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ₹3k–6k -->
-            <div class="destination-card" data-min="3000" data-max="6000">
-                <img src="https://images.unsplash.com/photo-1524492449090-1a065f9a6c8b?w=300&h=200&fit=crop&q=80" alt="Jaipur">
-                <div class="destination-info">
-                    <h3>Jaipur</h3>
-                    <p class="price">₹3,500 - ₹5,500</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-landmark"></i> Forts</span>
-                        <span><i class="fas fa-utensils"></i> Street Food</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="destination-card" data-min="3000" data-max="6000">
-                <img src="https://images.unsplash.com/photo-1602002418816-43a3a09f89c1?w=300&h=200&fit=crop&q=80" alt="Varanasi">
-                <div class="destination-info">
-                    <h3>Varanasi</h3>
-                    <p class="price">₹3,000 - ₹6,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-praying-hands"></i> Ghats</span>
-                        <span><i class="fas fa-water"></i> Boat Ride</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ₹6k–9k -->
-            <div class="destination-card" data-min="6000" data-max="9000">
-                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop&q=80" alt="Goa">
-                <div class="destination-info">
-                    <h3>Goa</h3>
-                    <p class="price">₹6,000 - ₹9,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-umbrella-beach"></i> Beaches</span>
-                        <span><i class="fas fa-motorcycle"></i> Bike</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="destination-card" data-min="6000" data-max="9000">
-                <img src="https://images.unsplash.com/photo-1603436328467-c7c55262e2b6?w=300&h=200&fit=crop&q=80" alt="Kasol">
-                <div class="destination-info">
-                    <h3>Kasol</h3>
-                    <p class="price">₹6,500 - ₹9,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-mountain"></i> Trekking</span>
-                        <span><i class="fas fa-campground"></i> Camping</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ₹9k–12k -->
-            <div class="destination-card" data-min="9000" data-max="12000">
-                <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=200&fit=crop&q=80" alt="Manali">
-                <div class="destination-info">
-                    <h3>Manali</h3>
-                    <p class="price">₹9,000 - ₹12,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-mountain"></i> Snow</span>
-                        <span><i class="fas fa-fire"></i> Bonfire</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ₹12k–15k -->
-            <div class="destination-card" data-min="12000" data-max="15000">
-                <img src="https://images.unsplash.com/photo-1508264165352-258a6f6c47d1?w=300&h=200&fit=crop&q=80" alt="Ladakh">
-                <div class="destination-info">
-                    <h3>Leh-Ladakh</h3>
-                    <p class="price">₹12,000 - ₹15,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-motorcycle"></i> Bike Trip</span>
-                        <span><i class="fas fa-road"></i> Mountain Passes</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ₹15k–18k -->
-            <div class="destination-card" data-min="15000" data-max="18000">
-                <img src="https://images.unsplash.com/photo-1549893079-842a19fcbf2b?w=300&h=200&fit=crop&q=80" alt="Sikkim">
-                <div class="destination-info">
-                    <h3>Sikkim</h3>
-                    <p class="price">₹15,000 - ₹18,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-snowflake"></i> Himalayas</span>
-                        <span><i class="fas fa-spa"></i> Monasteries</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ₹18k–21k -->
-            <div class="destination-card" data-min="18000" data-max="21000">
-                <img src="https://images.unsplash.com/photo-1546484959-fb3fc6f95f1d?w=300&h=200&fit=crop&q=80" alt="Bali">
-                <div class="destination-info">
-                    <h3>Bali</h3>
-                    <p class="price">₹18,000 - ₹21,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-water"></i> Beaches</span>
-                        <span><i class="fas fa-spa"></i> Culture</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ₹21k–24k -->
-            <div class="destination-card" data-min="21000" data-max="24000">
-                <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=300&h=200&fit=crop&q=80" alt="Dubai">
-                <div class="destination-info">
-                    <h3>Dubai</h3>
-                    <p class="price">₹21,000 - ₹24,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-city"></i> Skyscrapers</span>
-                        <span><i class="fas fa-camel"></i> Desert Safari</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ₹24k–30k -->
-            <div class="destination-card" data-min="24000" data-max="30000">
-                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop&q=80" alt="Thailand">
-                <div class="destination-info">
-                    <h3>Thailand</h3>
-                    <p class="price">₹25,000 - ₹30,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-umbrella-beach"></i> Islands</span>
-                        <span><i class="fas fa-utensils"></i> Street Food</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ₹30k–50k -->
-            <div class="destination-card" data-min="30000" data-max="50000">
-                <img src="https://images.unsplash.com/photo-1616965919360-b2a5a0f8bb6b?w=300&h=200&fit=crop&q=80" alt="Lakshadweep">
-                <div class="destination-info">
-                    <h3>Lakshadweep</h3>
-                    <p class="price">₹30,000 - ₹45,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-water"></i> Beaches</span>
-                        <span><i class="fas fa-ship"></i> Scuba Diving</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="destination-card" data-min="30000" data-max="50000">
-                <img src="https://images.unsplash.com/photo-1614252232734-5b3bb3d8a4f4?w=300&h=200&fit=crop&q=80" alt="Kashmir Luxury">
-                <div class="destination-info">
-                    <h3>Kashmir Luxury</h3>
-                    <p class="price">₹32,000 - ₹48,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-mountain"></i> Snow Resorts</span>
-                        <span><i class="fas fa-ship"></i> Shikara Ride</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="destination-card" data-min="30000" data-max="50000">
-                <img src="https://images.unsplash.com/photo-1589558928670-0d4e1c5e8b64?w=300&h=200&fit=crop&q=80" alt="Kerala Houseboat">
-                <div class="destination-info">
-                    <h3>Kerala Luxury Houseboat</h3>
-                    <p class="price">₹35,000 - ₹50,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-water"></i> Backwaters</span>
-                        <span><i class="fas fa-fish"></i> Seafood</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="destination-card" data-min="30000" data-max="50000">
-                <img src="https://images.unsplash.com/photo-1616077166974-cbdb98a5a2c6?w=300&h=200&fit=crop&q=80" alt="Coorg Resort">
-                <div class="destination-info">
-                    <h3>Coorg Luxury Retreat</h3>
-                    <p class="price">₹30,000 - ₹45,000</p>
-                    <div class="destination-features">
-                        <span><i class="fas fa-spa"></i> Spa Retreat</span>
-                        <span><i class="fas fa-coffee"></i> Coffee Plantations</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const budgetRange = document.getElementById("budgetRange");
-        const budgetValue = document.getElementById("budgetValue");
-        const destinations = document.querySelectorAll(".destination-card");
-
-        function filterDestinations(value){
-          budgetValue.textContent = parseInt(value).toLocaleString();
-          destinations.forEach(card=>{
-            const min = parseInt(card.dataset.min);
-            const max = parseInt(card.dataset.max);
-            card.style.display = (value >= min && value <= max) ? "block" : "none";
-          });
-        }
-
-        filterDestinations(budgetRange.value);
-        budgetRange.addEventListener("input",()=>filterDestinations(budgetRange.value));
-      });
-    </script>
-
+      </section>
+      
+      <style>
+      .explore-budget{text-align:center;padding:50px 20px;background:#f9fafc}
+      .section-title{font-size:2rem;font-weight:600;margin-bottom:25px;color:#333}
+      .slider{width:70%;cursor:pointer}
+      .budget-display{font-size:1.2rem;margin-top:10px;color:#444}
+      .destinations-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:30px;transition:all .4s ease}
+      .destination-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.1);opacity:0;transform:translateY(30px);transition:opacity .5s ease,transform .5s ease}
+      .destination-card.visible{opacity:1;transform:translateY(0)}
+      .destination-card img{width:100%;height:200px;object-fit:cover}
+      .destination-info{padding:15px}
+      .price{color:#007bff;font-weight:500}
+      </style>
+      
+      <script>
+      const range=document.getElementById('budgetRange');
+      const valueText=document.getElementById('budgetValue');
+      const cards=document.querySelectorAll('.destination-card');
+      
+      function revealDestinations(){
+        const value=parseInt(range.value);
+        valueText.textContent=value.toLocaleString();
+        cards.forEach(card=>{
+          const min=parseInt(card.dataset.min);
+          const max=parseInt(card.dataset.max);
+          // ✅ Progressive reveal: show everything ≤ budget
+          if(value>=min){card.classList.add('visible');}
+          else{card.classList.remove('visible');}
+        });
+      }
+      range.addEventListener('input',revealDestinations);
+      revealDestinations();
+      </script>
+      
   
 
     <!-- Social Feed / Testimonials -->

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>City Explore Guides | TravelBuddy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #F4F9F9;
+      color: #2D3436;
+      line-height: 1.6;
+    }
+.btn {
+      display: inline-block;
+      background: #00BFA6;
+      color: white;
+      padding: 10px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #019E8E;
+      transform: translateY(-3px);
+    }
+    /* Navbar */
+    .navbar {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0,191,166,0.1);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+    .nav-logo h2 {color: #00BFA6; font-size: 1.8rem; font-weight: 700;}
+    .nav-menu {display: flex; list-style: none; gap: 2rem;}
+    .nav-menu li a {
+      text-decoration: none; color: #2D3436; font-weight: 500;
+      position: relative;
+    }
+    .nav-menu li a:hover {color: #00BFA6;}
+    .hamburger {display: none; flex-direction: column; cursor: pointer;}
+    .hamburger span {
+      width: 25px; height: 3px; background: #2D3436;
+      margin: 3px 0; border-radius: 2px;
+    }
+
+    /* Hero */
+    .page-hero {
+      background: linear-gradient(135deg, #00BFA6, #FDCB6E);
+      padding: 150px 20px 80px;
+      text-align: center;
+      color: white;
+    }
+    .page-hero h1 {font-size: 3rem; font-weight: 700; margin-bottom: 1rem;}
+    .page-hero p {font-size: 1.2rem; opacity: 0.9;}
+
+    /* Search & Filter */
+    .page-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    .search-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,191,166,0.1);
+      margin-bottom: 40px;
+    }
+    .search-wrapper {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .search-input, .filter-select {
+      flex: 1;
+      min-width: 250px;
+      padding: 15px 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      transition: 0.3s;
+    }
+    .search-input:focus, .filter-select:focus {
+      outline: none;
+      border-color: #00BFA6;
+    }
+
+    /* Section Title */
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #2D3436;
+      font-weight: 600;
+    }
+
+    /* Profile Cards */
+    .drivers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    .driver-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .driver-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,191,166,0.15);
+    }
+    .driver-header {
+      background: linear-gradient(135deg, #00BFA6, #FDCB6E);
+      padding: 30px 20px;
+      text-align: center;
+      color: white;
+    }
+    .driver-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid white;
+      margin: 0 auto 15px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .driver-name {font-size: 1.5rem; font-weight: 600;}
+    .driver-rating {
+      display: flex; align-items: center; justify-content: center;
+      gap: 5px; font-size: 0.9rem;
+    }
+    .stars {color: #FFD700;}
+    .driver-body {padding: 25px;}
+    .badge {
+      display: inline-block; padding: 6px 14px;
+      border-radius: 20px; font-size: 0.85rem;
+      margin-right: 8px; margin-bottom: 8px; font-weight: 500;
+    }
+    .badge-verified {background: #e8f5e9; color: #2e7d32;}
+    .badge-city {background: #e3f2fd; color: #1976d2;}
+    .info-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px; color: #2D3436; font-size: 0.95rem;
+    }
+    .info-row i {color: #00BFA6;}
+    .languages {margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;}
+    .languages span {
+      background: #F4F9F9; padding: 6px 12px; border-radius: 15px;
+      font-size: 0.85rem; margin-right: 8px; display: inline-block;
+      margin-bottom: 8px;
+    }
+    .contact-buttons {display: flex; gap: 12px; margin-top: 20px;}
+    .btn {
+      flex: 1; padding: 14px; border: none; border-radius: 8px;
+      cursor: pointer; transition: 0.3s;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; text-decoration: none; font-weight: 500; color: white;
+    }
+    .btn-call {background: #00BFA6;}
+    .btn-call:hover {background: #009688;}
+    .btn-whatsapp {background: #25D366;}
+    .btn-whatsapp:hover {background: #20ba5a;}
+    .no-results {
+      text-align: center; padding: 60px 20px;
+      background: white; border-radius: 12px;
+      color: #666; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    .footer {
+      background: #2D3436;
+      color: white;
+      text-align: center;
+      padding: 3rem 20px;
+      margin-top: 60px;
+    }
+    .footer h3 {color: #00BFA6;}
+    @media (max-width:768px){
+      .nav-menu{position:fixed;top:70px;left:-100%;flex-direction:column;background:white;width:100%;padding:2rem 0;transition:0.3s;}
+      .nav-menu.active{left:0;}
+      .hamburger{display:flex;}
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo"><h2>TravelBuddy</h2></div>
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="find-companion.html">Find Companion</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <h1><i class="fas fa-city"></i> City Explore Guides</h1>
+  <p>Discover hidden gems and local experiences with expert city guides.</p>
+</section>
+
+<section class="page-content">
+  <div class="search-box">
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search by name, city, or specialization...">
+      <select id="cityFilter" class="filter-select">
+        <option value="">All Cities</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Jaipur">Jaipur</option>
+        <option value="Kolkata">Kolkata</option>
+        <option value="Bangalore">Bangalore</option>
+      </select>
+      <select id="specializationFilter" class="filter-select">
+        <option value="">All Specializations</option>
+        <option value="Heritage">Heritage</option>
+        <option value="Food Tour">Food Tour</option>
+        <option value="Nightlife">Nightlife</option>
+        <option value="Cultural">Cultural</option>
+        <option value="Shopping">Shopping</option>
+      </select>
+    </div>
+  </div>
+
+  <h2 class="section-title">Top City Guides</h2>
+
+  <div class="drivers-grid" id="guidesGrid"></div>
+  <div class="no-results" id="noResults" style="display:none;">
+    <i class="fas fa-search"></i>
+    <h3>No guides found</h3>
+    <p>Try adjusting your search or filters</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <h3>TravelBuddy</h3>
+  <p>&copy; 2025 TravelBuddy. All rights reserved.</p>
+</footer>
+
+<script>
+const hamburger=document.querySelector(".hamburger");
+const navMenu=document.querySelector(".nav-menu");
+hamburger.addEventListener("click",()=>navMenu.classList.toggle("active"));
+
+const guides=[
+  {name:"Rohan Verma",city:"Delhi",specialization:"Heritage",photo:"https://i.pravatar.cc/150?img=12",rating:4.9,reviews:210,experience:"9 years",languages:["Hindi","English"],verified:true,phone:"+919812345678",whatsapp:"919812345678"},
+  {name:"Sneha Kapoor",city:"Mumbai",specialization:"Food Tour",photo:"https://i.pravatar.cc/150?img=44",rating:4.8,reviews:190,experience:"7 years",languages:["Hindi","English","Marathi"],verified:true,phone:"+919877665544",whatsapp:"919877665544"},
+  {name:"Arjun Singh",city:"Jaipur",specialization:"Cultural",photo:"https://i.pravatar.cc/150?img=29",rating:4.7,reviews:160,experience:"8 years",languages:["Hindi","English"],verified:true,phone:"+919911223344",whatsapp:"919911223344"},
+  {name:"Kavita Nair",city:"Bangalore",specialization:"Nightlife",photo:"https://i.pravatar.cc/150?img=50",rating:4.9,reviews:240,experience:"10 years",languages:["Hindi","English","Kannada"],verified:true,phone:"+919833344455",whatsapp:"919833344455"},
+  {name:"Rahul Mehta",city:"Kolkata",specialization:"Heritage",photo:"https://i.pravatar.cc/150?img=60",rating:4.6,reviews:130,experience:"6 years",languages:["Hindi","English","Bengali"],verified:true,phone:"+919876543210",whatsapp:"919876543210"},
+  {name:"Pooja Sharma",city:"Delhi",specialization:"Shopping",photo:"https://i.pravatar.cc/150?img=23",rating:4.8,reviews:180,experience:"7 years",languages:["Hindi","English"],verified:true,phone:"+919822334455",whatsapp:"919822334455"},
+  {name:"Aman Tiwari",city:"Jaipur",specialization:"Heritage",photo:"https://i.pravatar.cc/150?img=27",rating:4.5,reviews:120,experience:"5 years",languages:["Hindi","English"],verified:true,phone:"+919845678901",whatsapp:"919845678901"},
+  {name:"Neha Patel",city:"Mumbai",specialization:"Shopping",photo:"https://i.pravatar.cc/150?img=45",rating:4.9,reviews:260,experience:"9 years",languages:["Hindi","English","Gujarati"],verified:true,phone:"+919800001234",whatsapp:"919800001234"},
+  {name:"Rakesh Das",city:"Kolkata",specialization:"Food Tour",photo:"https://i.pravatar.cc/150?img=32",rating:4.7,reviews:150,experience:"6 years",languages:["Hindi","English","Bengali"],verified:true,phone:"+919988776655",whatsapp:"919988776655"},
+  {name:"Simran Kaur",city:"Delhi",specialization:"Cultural",photo:"https://i.pravatar.cc/150?img=38",rating:4.8,reviews:200,experience:"8 years",languages:["Hindi","English","Punjabi"],verified:true,phone:"+919812345999",whatsapp:"919812345999"}
+];
+
+function createGuideCard(g){
+  return `
+  <div class="driver-card">
+    <div class="driver-header">
+      <img src="${g.photo}" class="driver-photo" alt="${g.name}">
+      <div class="driver-name">${g.name}</div>
+      <div class="driver-rating">
+        <span class="stars">${'★'.repeat(Math.floor(g.rating))}${'☆'.repeat(5-Math.floor(g.rating))}</span>
+        <span>${g.rating} (${g.reviews} reviews)</span>
+      </div>
+    </div>
+    <div class="driver-body">
+      <div>
+        ${g.verified?'<span class="badge badge-verified"><i class="fas fa-check-circle"></i> Verified</span>':''}
+        <span class="badge badge-city"><i class="fas fa-landmark"></i> ${g.specialization}</span>
+      </div>
+      <div class="info-row"><i class="fas fa-map-marker-alt"></i><span>${g.city}</span></div>
+      <div class="info-row"><i class="fas fa-clock"></i><span>${g.experience} experience</span></div>
+      <div class="languages"><strong>Languages:</strong>${g.languages.map(l=>`<span>${l}</span>`).join('')}</div>
+      <div class="contact-buttons">
+        <a href="tel:${g.phone}" class="btn btn-call"><i class="fas fa-phone"></i> Call</a>
+        <a href="https://wa.me/${g.whatsapp}" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderGuides(list){
+  const grid=document.getElementById("guidesGrid");
+  const noResults=document.getElementById("noResults");
+  if(list.length===0){grid.style.display='none';noResults.style.display='block';}
+  else{grid.style.display='grid';noResults.style.display='none';grid.innerHTML=list.map(createGuideCard).join('');}
+}
+
+function filterGuides(){
+  const search=document.getElementById('searchInput').value.toLowerCase();
+  const city=document.getElementById('cityFilter').value;
+  const spec=document.getElementById('specializationFilter').value;
+  const filtered=guides.filter(g=>{
+    const matchSearch=g.name.toLowerCase().includes(search)||g.city.toLowerCase().includes(search)||g.specialization.toLowerCase().includes(search);
+    const matchCity=!city||g.city===city;
+    const matchSpec=!spec||g.specialization===spec;
+    return matchSearch&&matchCity&&matchSpec;
+  });
+  renderGuides(filtered);
+}
+
+document.getElementById('searchInput').addEventListener('input',filterGuides);
+document.getElementById('cityFilter').addEventListener('change',filterGuides);
+document.getElementById('specializationFilter').addEventListener('change',filterGuides);
+
+renderGuides(guides);
+</script>
+</body>
+</html>

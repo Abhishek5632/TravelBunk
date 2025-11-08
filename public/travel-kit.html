@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Kits & Essentials | TravelBuddy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:#F4F9F9;color:#2D3436;line-height:1.6;}
+
+    /* Navbar */
+    .navbar{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);position:fixed;top:0;width:100%;z-index:1000;box-shadow:0 2px 20px rgba(0,191,166,0.1);}
+    .nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;height:70px;}
+    .nav-logo h2{color:#00BFA6;font-size:1.8rem;font-weight:700;}
+    .nav-menu{display:flex;list-style:none;gap:2rem;}
+    .nav-menu li a{text-decoration:none;color:#2D3436;font-weight:500;position:relative;}
+    .nav-menu li a:hover{color:#00BFA6;}
+    .hamburger{display:none;flex-direction:column;cursor:pointer;}
+    .hamburger span{width:25px;height:3px;background:#2D3436;margin:3px 0;border-radius:2px;}
+
+    /* Hero */
+    .page-hero{background:linear-gradient(135deg,#00BFA6,#FDCB6E);padding:150px 20px 80px;text-align:center;color:white;}
+    .page-hero h1{font-size:3rem;font-weight:700;margin-bottom:1rem;}
+    .page-hero p{font-size:1.2rem;opacity:0.9;}
+
+    /* Search Section */
+    .page-content{max-width:1200px;margin:0 auto;padding:60px 20px;}
+    .search-box{background:white;padding:30px;border-radius:12px;box-shadow:0 4px 20px rgba(0,191,166,0.1);margin-bottom:40px;}
+    .search-wrapper{display:flex;gap:15px;flex-wrap:wrap;}
+    .search-input,.filter-select{flex:1;min-width:250px;padding:15px 20px;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;font-family:'Poppins',sans-serif;transition:0.3s;}
+    .search-input:focus,.filter-select:focus{outline:none;border-color:#00BFA6;}
+
+    /* Cards */
+    .drivers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:25px;margin-top:30px;}
+    .driver-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,0.05);transition:transform 0.3s,box-shadow 0.3s;}
+    .driver-card:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(0,191,166,0.15);}
+    .driver-header{background:linear-gradient(135deg,#00BFA6,#FDCB6E);padding:25px 20px;text-align:center;color:white;}
+    .driver-photo{width:100px;height:100px;border-radius:50%;border:4px solid white;margin:0 auto 15px;object-fit:cover;}
+    .driver-name{font-size:1.4rem;font-weight:600;}
+    .driver-rating{display:flex;align-items:center;justify-content:center;gap:5px;font-size:0.9rem;}
+    .stars{color:#FFD700;}
+    .driver-body{padding:25px;}
+    .badge{display:inline-block;padding:6px 14px;border-radius:20px;font-size:0.85rem;margin-right:8px;margin-bottom:8px;font-weight:500;}
+    .badge-verified{background:#e8f5e9;color:#2e7d32;}
+    .badge-kit{background:#e3f2fd;color:#1976d2;}
+    .info-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;color:#2D3436;font-size:0.95rem;}
+    .info-row i{color:#00BFA6;}
+    .contact-buttons{display:flex;gap:12px;margin-top:20px;}
+    .btn{flex:1;padding:14px;border:none;border-radius:8px;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:500;color:white;}
+    .btn-call{background:#00BFA6;}
+    .btn-call:hover{background:#009688;}
+    .btn-whatsapp{background:#25D366;}
+    .btn-whatsapp:hover{background:#20ba5a;}
+
+    .footer{background:#2D3436;color:white;text-align:center;padding:3rem 20px;margin-top:60px;}
+    .footer h3{color:#00BFA6;}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo"><h2>TravelBuddy</h2></div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="find-companion.html">Find Companion</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <h1><i class="fas fa-suitcase"></i> Travel Kits & Essentials</h1>
+    <p>Find the best travel gear and kits from trusted stores near you.</p>
+  </section>
+
+  <section class="page-content">
+    <div class="search-box">
+      <div class="search-wrapper">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by store, city, or product...">
+        <select id="cityFilter" class="filter-select">
+          <option value="">All Cities</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Goa">Goa</option>
+          <option value="Jaipur">Jaipur</option>
+          <option value="Manali">Manali</option>
+        </select>
+        <select id="productFilter" class="filter-select">
+          <option value="">All Products</option>
+          <option value="Backpacks">Backpacks</option>
+          <option value="Bottles">Bottles</option>
+          <option value="Chargers">Chargers</option>
+          <option value="First Aid">First Aid</option>
+          <option value="Raincoats">Raincoats</option>
+        </select>
+      </div>
+    </div>
+
+    <h2 class="section-title">Featured Travel Stores</h2>
+    <div class="drivers-grid" id="storeGrid"></div>
+  </section>
+
+  <footer class="footer">
+    <h3>TravelBuddy</h3>
+    <p>&copy; 2025 TravelBuddy. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const stores = [
+      {name:"GoExplore Kits",city:"Goa",product:"Backpacks",photo:"https://picsum.photos/150?random=101",rating:4.9,reviews:250,verified:true,phone:"+919812345678",whatsapp:"919812345678"},
+      {name:"Urban Travel Hub",city:"Delhi",product:"Bottles",photo:"https://picsum.photos/150?random=102",rating:4.7,reviews:180,verified:true,phone:"+919877665544",whatsapp:"919877665544"},
+      {name:"Mountain Ready",city:"Manali",product:"Raincoats",photo:"https://picsum.photos/150?random=103",rating:4.8,reviews:190,verified:true,phone:"+919899887766",whatsapp:"919899887766"},
+      {name:"TripMate Essentials",city:"Mumbai",product:"Chargers",photo:"https://picsum.photos/150?random=104",rating:4.6,reviews:150,verified:true,phone:"+919911223344",whatsapp:"919911223344"},
+      {name:"Adventure Kits",city:"Jaipur",product:"First Aid",photo:"https://picsum.photos/150?random=105",rating:4.8,reviews:220,verified:true,phone:"+919833344455",whatsapp:"919833344455"},
+      {name:"Nomad Gear",city:"Delhi",product:"Backpacks",photo:"https://picsum.photos/150?random=106",rating:4.5,reviews:160,verified:true,phone:"+919822334455",whatsapp:"919822334455"},
+      {name:"TrekX Supplies",city:"Manali",product:"Raincoats",photo:"https://picsum.photos/150?random=107",rating:4.9,reviews:270,verified:true,phone:"+919845678901",whatsapp:"919845678901"},
+      {name:"GoLite Travel",city:"Mumbai",product:"Bottles",photo:"https://picsum.photos/150?random=108",rating:4.7,reviews:190,verified:true,phone:"+919800001234",whatsapp:"919800001234"},
+      {name:"Pack&Go",city:"Jaipur",product:"Chargers",photo:"https://picsum.photos/150?random=109",rating:4.8,reviews:210,verified:true,phone:"+919812345999",whatsapp:"919812345999"},
+      {name:"EverTrip",city:"Goa",product:"Backpacks",photo:"https://picsum.photos/150?random=110",rating:4.6,reviews:160,verified:true,phone:"+919988776655",whatsapp:"919988776655"}
+    ];
+
+    function createCard(s){
+      return `
+      <div class="driver-card">
+        <div class="driver-header">
+          <img src="${s.photo}" class="driver-photo">
+          <div class="driver-name">${s.name}</div>
+          <div class="driver-rating">
+            <span class="stars">${'★'.repeat(Math.floor(s.rating))}${'☆'.repeat(5-Math.floor(s.rating))}</span>
+            <span>${s.rating} (${s.reviews} reviews)</span>
+          </div>
+        </div>
+        <div class="driver-body">
+          ${s.verified ? '<span class="badge badge-verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+          <span class="badge badge-kit"><i class="fas fa-suitcase"></i> ${s.product}</span>
+          <div class="info-row"><i class="fas fa-map-marker-alt"></i>${s.city}</div>
+          <div class="contact-buttons">
+            <a href="tel:${s.phone}" class="btn btn-call"><i class="fas fa-phone"></i> Call</a>
+            <a href="https://wa.me/${s.whatsapp}" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> Chat</a>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function renderStores(list){
+      document.getElementById("storeGrid").innerHTML = list.map(createCard).join('');
+    }
+
+    function filterStores(){
+      const search=document.getElementById('searchInput').value.toLowerCase();
+      const city=document.getElementById('cityFilter').value;
+      const product=document.getElementById('productFilter').value;
+      const filtered=stores.filter(s=>{
+        const matchSearch=s.name.toLowerCase().includes(search)||s.city.toLowerCase().includes(search)||s.product.toLowerCase().includes(search);
+        const matchCity=!city||s.city===city;
+        const matchProduct=!product||s.product===product;
+        return matchSearch&&matchCity&&matchProduct;
+      });
+      renderStores(filtered);
+    }
+
+    document.getElementById('searchInput').addEventListener('input',filterStores);
+    document.getElementById('cityFilter').addEventListener('change',filterStores);
+    document.getElementById('productFilter').addEventListener('change',filterStores);
+    renderStores(stores);
+  </script>
+</body>
+</html>

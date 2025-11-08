@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Economy Cab Services | TravelBuddy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #F4F9F9;
+      color: #2D3436;
+      line-height: 1.6;
+    }
+
+    .navbar {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0,191,166,0.1);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+
+    .nav-logo h2 {
+      color: #00BFA6;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-menu li a {
+      text-decoration: none;
+      color: #2D3436;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .nav-menu li a:hover {
+      color: #00BFA6;
+    }
+
+    .nav-menu li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: #00BFA6;
+      bottom: -5px;
+      left: 0;
+      transition: 0.3s;
+    }
+
+    .nav-menu li a:hover::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #2D3436;
+      margin: 3px 0;
+      border-radius: 2px;
+    }
+
+    .page-hero {
+      background: linear-gradient(135deg, #00BFA6, #FDCB6E);
+      padding: 150px 20px 80px;
+      text-align: center;
+      color: white;
+    }
+
+    .page-hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .page-hero p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .page-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    .search-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,191,166,0.1);
+      margin-bottom: 40px;
+    }
+
+    .search-wrapper {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 250px;
+      padding: 15px 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #00BFA6;
+    }
+
+    .filter-select {
+      padding: 15px 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: white;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: #00BFA6;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #2D3436;
+      font-weight: 600;
+    }
+
+    .drivers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .driver-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .driver-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,191,166,0.15);
+    }
+
+    .driver-header {
+      background: linear-gradient(135deg, #00BFA6, #FDCB6E);
+      padding: 30px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .driver-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid white;
+      margin: 0 auto 15px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .driver-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .driver-rating {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+
+    .stars {
+      color: #FFD700;
+    }
+
+    .driver-body {
+      padding: 25px;
+    }
+
+    .driver-info {
+      margin-bottom: 15px;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      color: #2D3436;
+      font-size: 0.95rem;
+    }
+
+    .info-row i {
+      color: #00BFA6;
+      width: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .badge-verified {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .badge-economy {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .languages {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .languages strong {
+      color: #2D3436;
+      font-size: 0.9rem;
+    }
+
+    .languages span {
+      background: #F4F9F9;
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      margin-right: 8px;
+      display: inline-block;
+      margin-bottom: 8px;
+      color: #2D3436;
+    }
+
+    .contact-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-call {
+      background: #00BFA6;
+      color: white;
+    }
+
+    .btn-call:hover {
+      background: #009688;
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+      color: white;
+    }
+
+    .btn-whatsapp:hover {
+      background: #20ba5a;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      background: white;
+      border-radius: 12px;
+      color: #666;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .no-results i {
+      font-size: 3rem;
+      color: #00BFA6;
+      margin-bottom: 15px;
+    }
+
+    .footer {
+      background: #2D3436;
+      color: white;
+      text-align: center;
+      padding: 3rem 20px;
+      margin-top: 60px;
+    }
+
+    .footer h3 {
+      color: #00BFA6;
+      margin-bottom: 1rem;
+    }
+
+    .footer p {
+      color: #ccc;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        flex-direction: column;
+        background: white;
+        width: 100%;
+        padding: 2rem 0;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+      }
+
+      .nav-menu.active {
+        left: 0;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .page-hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .search-wrapper {
+        flex-direction: column;
+      }
+
+      .search-input,
+      .filter-select {
+        width: 100%;
+      }
+
+      .drivers-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo"><h2>TravelBuddy</h2></div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="find-companion.html">Find Companion</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <h1><i class="fas fa-car"></i> Economy Cab Services</h1>
+    <p>Affordable and comfortable rides with trusted local drivers</p>
+  </section>
+
+  <section class="page-content">
+    <div class="search-box">
+      <div class="search-wrapper">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, city, or vehicle...">
+        <select id="cityFilter" class="filter-select">
+          <option value="">All Cities</option>
+          <option value="Jaipur">Jaipur</option>
+          <option value="Goa">Goa</option>
+          <option value="Rishikesh">Rishikesh</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Mumbai">Mumbai</option>
+        </select>
+        <select id="vehicleFilter" class="filter-select">
+          <option value="">All Vehicles</option>
+          <option value="Sedan">Sedan</option>
+          <option value="Hatchback">Hatchback</option>
+          <option value="Tempo Traveller">Tempo Traveller</option>
+        </select>
+      </div>
+    </div>
+
+    <h2 class="section-title">Affordable Drivers</h2>
+
+    <div class="drivers-grid" id="driversGrid">
+      <!-- Driver cards will be populated here -->
+    </div>
+
+    <div class="no-results" id="noResults" style="display: none;">
+      <i class="fas fa-search"></i>
+      <h3>No drivers found</h3>
+      <p>Try adjusting your search or filters</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <h3>TravelBuddy</h3>
+    <p>&copy; 2025 TravelBuddy. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("active");
+    });
+
+    const drivers = [
+      {
+        name: "Amit Sharma",
+        city: "Goa",
+        photo: "https://i.pravatar.cc/150?img=33",
+        rating: 4.7,
+        reviews: 203,
+        experience: "10 years",
+        vehicle: "Sedan (Honda City)",
+        languages: ["Hindi", "English", "Konkani"],
+        verified: true,
+        phone: "+91 98234-56789",
+        whatsapp: "919823456789"
+      },
+      {
+        name: "Mohammed Saleem",
+        city: "Delhi",
+        photo: "https://i.pravatar.cc/150?img=15",
+        rating: 4.5,
+        reviews: 134,
+        experience: "7 years",
+        vehicle: "Sedan (Maruti Dzire)",
+        languages: ["Hindi", "English", "Urdu"],
+        verified: true,
+        phone: "+91 99887-76655",
+        whatsapp: "919988776655"
+      },
+      {
+        name: "Vijay Singh",
+        city: "Jaipur",
+        photo: "https://i.pravatar.cc/150?img=32",
+        rating: 4.4,
+        reviews: 67,
+        experience: "5 years",
+        vehicle: "Tempo Traveller (17 Seater)",
+        languages: ["Hindi", "English"],
+        verified: true,
+        phone: "+91 97654-32109",
+        whatsapp: "919765432109"
+      },
+      {
+        name: "Dinesh Verma",
+        city: "Rishikesh",
+        photo: "https://i.pravatar.cc/150?img=67",
+        rating: 4.6,
+        reviews: 92,
+        experience: "6 years",
+        vehicle: "Hatchback (Maruti Swift)",
+        languages: ["Hindi", "English"],
+        verified: true,
+        phone: "+91 95432-10987",
+        whatsapp: "919543210987"
+      },
+      {
+        name: "Arjun Reddy",
+        city: "Mumbai",
+        photo: "https://i.pravatar.cc/150?img=59",
+        rating: 4.5,
+        reviews: 178,
+        experience: "8 years",
+        vehicle: "Sedan (Hyundai Verna)",
+        languages: ["Hindi", "English", "Telugu"],
+        verified: true,
+        phone: "+91 93210-98765",
+        whatsapp: "919321098765"
+      },
+      {
+        name: "Sanjay Gupta",
+        city: "Jaipur",
+        photo: "https://i.pravatar.cc/150?img=60",
+        rating: 4.4,
+        reviews: 85,
+        experience: "5 years",
+        vehicle: "Sedan (Hyundai Verna)",
+        languages: ["Hindi", "English"],
+        verified: true,
+        phone: "+91 91098-76543",
+        whatsapp: "919109876543"
+      },
+      {
+        name: "Rakesh Yadav",
+        city: "Delhi",
+        photo: "https://i.pravatar.cc/150?img=52",
+        rating: 4.6,
+        reviews: 112,
+        experience: "7 years",
+        vehicle: "Hatchback (Maruti Baleno)",
+        languages: ["Hindi", "English"],
+        verified: true,
+        phone: "+91 90987-65432",
+        whatsapp: "919098765432"
+      },
+      {
+        name: "Naveen Kumar",
+        city: "Rishikesh",
+        photo: "https://i.pravatar.cc/150?img=8",
+        rating: 4.5,
+        reviews: 95,
+        experience: "6 years",
+        vehicle: "Sedan (Maruti Ciaz)",
+        languages: ["Hindi", "English"],
+        verified: true,
+        phone: "+91 89876-54321",
+        whatsapp: "918987654321"
+      }
+    ];
+
+    function createDriverCard(driver) {
+      return `
+        <div class="driver-card">
+          <div class="driver-header">
+            <img src="${driver.photo}" alt="${driver.name}" class="driver-photo">
+            <div class="driver-name">${driver.name}</div>
+            <div class="driver-rating">
+              <span class="stars">${'★'.repeat(Math.floor(driver.rating))}${'☆'.repeat(5 - Math.floor(driver.rating))}</span>
+              <span>${driver.rating} (${driver.reviews} reviews)</span>
+            </div>
+          </div>
+          <div class="driver-body">
+            <div class="driver-info">
+              ${driver.verified ? '<span class="badge badge-verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+              <span class="badge badge-economy"><i class="fas fa-dollar-sign"></i> Budget Friendly</span>
+            </div>
+            <div class="info-row">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>${driver.city}</span>
+            </div>
+            <div class="info-row">
+              <i class="fas fa-car"></i>
+              <span>${driver.vehicle}</span>
+            </div>
+            <div class="info-row">
+              <i class="fas fa-clock"></i>
+              <span>${driver.experience} experience</span>
+            </div>
+            <div class="languages">
+              <strong>Languages:</strong>
+              ${driver.languages.map(lang => `<span>${lang}</span>`).join('')}
+            </div>
+            <div class="contact-buttons">
+              <a href="tel:${driver.phone}" class="btn btn-call">
+                <i class="fas fa-phone"></i> Call
+              </a>
+              <a href="https://wa.me/${driver.whatsapp}" target="_blank" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDrivers(driversToRender) {
+      const grid = document.getElementById('driversGrid');
+      const noResults = document.getElementById('noResults');
+      
+      if (driversToRender.length === 0) {
+        grid.style.display = 'none';
+        noResults.style.display = 'block';
+      } else {
+        grid.style.display = 'grid';
+        noResults.style.display = 'none';
+        grid.innerHTML = driversToRender.map(createDriverCard).join('');
+      }
+    }
+
+    function filterDrivers() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const cityFilter = document.getElementById('cityFilter').value;
+      const vehicleFilter = document.getElementById('vehicleFilter').value;
+
+      const filtered = drivers.filter(driver => {
+        const matchesSearch = driver.name.toLowerCase().includes(searchTerm) ||
+                            driver.city.toLowerCase().includes(searchTerm) ||
+                            driver.vehicle.toLowerCase().includes(searchTerm);
+        const matchesCity = !cityFilter || driver.city === cityFilter;
+        const matchesVehicle = !vehicleFilter || driver.vehicle.includes(vehicleFilter);
+
+        return matchesSearch && matchesCity && matchesVehicle;
+      });
+
+      renderDrivers(filtered);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filterDrivers);
+    document.getElementById('cityFilter').addEventListener('change', filterDrivers);
+    document.getElementById('vehicleFilter').addEventListener('change', filterDrivers);
+
+    // Initial render
+    renderDrivers(drivers);
+  </script>
+</body>
+</html>
