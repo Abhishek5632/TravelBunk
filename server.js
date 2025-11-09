@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import { MongoClient } from "mongodb";
-import compression from "compression";
 
 dotenv.config();
 
@@ -15,11 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
-app.use(compression()); // Enable gzip compression for responses
-app.use(express.static(path.join(__dirname, "public"), {
-  maxAge: "7d", // Cache static assets one week
-  etag: false,
-}));
+app.use(express.static(path.join(__dirname, "public")));
 
 // ----------------- MongoDB Connection -----------------
 const uri = process.env.MONGO_URI;
@@ -27,29 +22,27 @@ let client;
 let usersCollection;
 
 async function connectDB() {
-  if (usersCollection) return; // Already connected
   try {
-    client = new MongoClient(uri, {
-      maxPoolSize: 50,
-      serverSelectionTimeoutMS: 2000,
-      socketTimeoutMS: 45000,
-    });
-    await client.connect();
-    console.log("✅ Connected to MongoDB Atlas");
+    if (!client) {
+      client = new MongoClient(uri, {
+        serverSelectionTimeoutMS: 3000,
+        socketTimeoutMS: 45000,
+      });
+      await client.connect();
+      console.log("✅ Connected to MongoDB Atlas");
+    }
     const db = client.db("travel_bunk");
     usersCollection = db.collection("users");
 
-    // Compound index for fast trip search
-    await usersCollection.createIndex({ "trips.destination": 1, "trips.date": 1 });
+    // ✅ Create index for faster trip searches
+    await usersCollection.createIndex({ "trips.destination": 1 });
   } catch (err) {
     console.error("❌ MongoDB connection failed:", err);
-    process.exit(1);
   }
 }
-connectDB(); // Connect when the server starts
+await connectDB();
 
 // ----------------- Helper: Aadhaar Verhoeff Algorithm -----------------
-
 function verhoeffCheck(aadhaar) {
   const d = [
     [0,1,2,3,4,5,6,7,8,9],
@@ -84,8 +77,10 @@ function verhoeffCheck(aadhaar) {
 
 // ----------------- ROUTES -----------------
 
+// ✅ Ping (for health check / wake up)
 app.get("/api/ping", (req, res) => res.json({ success: true, message: "pong" }));
 
+// ✅ Signup
 app.post("/api/signup", async (req, res) => {
   try {
     const data = req.body;
@@ -130,6 +125,7 @@ app.post("/api/signup", async (req, res) => {
   }
 });
 
+// ✅ Login
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
@@ -142,6 +138,7 @@ app.post("/api/login", async (req, res) => {
   res.json({ success: true, user });
 });
 
+// ✅ Update Profile
 app.post("/api/update-profile", async (req, res) => {
   try {
     const { email, ...updates } = req.body;
@@ -160,6 +157,7 @@ app.post("/api/update-profile", async (req, res) => {
   }
 });
 
+// ✅ Add Trip
 app.post("/api/add-trip", async (req, res) => {
   const { email, college, date, destination, distance, description } = req.body;
   if (!email || !date || !destination)
@@ -172,24 +170,28 @@ app.post("/api/add-trip", async (req, res) => {
     date,
     distance: numericDistance,
     description: description || "",
-    createdAt: new Date().toISOString(),
+    createdAt: new Date().toLocaleString(),
   };
 
   try {
     await usersCollection.updateOne({ email }, { $push: { trips: newTrip } });
+
     const user = await usersCollection.findOne({ email });
+    const totalDistance = (user.trips || []).reduce(
+      (sum, t) => sum + (parseFloat(t.distance) || 0), 0
+    );
 
-    // Recalculate total distance
-    const totalDistance = (user.trips || []).reduce((sum, t) => sum + (parseFloat(t.distance) || 0), 0);
     const tripCount = user.trips.length;
-
     let badges = ["🎒 New Explorer", "🧭 Joined TravelBuddy"];
     if (tripCount >= 3) badges.push("🚗 Frequent Traveler");
     if (tripCount >= 5) badges.push("🌍 Globetrotter");
     if (totalDistance > 2000) badges.push("🏆 Long Journey Expert");
 
     const rating = Math.min(5, (4 + tripCount * 0.1).toFixed(1));
-    await usersCollection.updateOne({ email }, { $set: { totalDistance, badges, rating } });
+    await usersCollection.updateOne(
+      { email },
+      { $set: { totalDistance, badges, rating } }
+    );
 
     const updatedUser = await usersCollection.findOne({ email });
     res.json({
@@ -205,12 +207,11 @@ app.post("/api/add-trip", async (req, res) => {
   }
 });
 
+// ✅ Get All Users (fast + limited)
 app.get("/api/get-all-users", async (req, res) => {
   try {
     const users = await usersCollection
-      .find({}, {
-        projection: { firstName: 1, lastName: 1, email: 1, college: 1, img: 1, trips: { $slice: 1 } }
-      })
+      .find({}, { projection: { firstName: 1, lastName: 1, email: 1, college: 1, img: 1, trips: { $slice: 1 } } })
       .limit(10)
       .toArray();
 
@@ -221,22 +222,24 @@ app.get("/api/get-all-users", async (req, res) => {
   }
 });
 
+// ✅ Find Users by Trip
 app.post("/api/find-users-by-trip", async (req, res) => {
   const { date, destination } = req.body;
   if (!date || !destination)
     return res.json({ success: false, message: "Missing date or destination" });
 
   try {
-    const users = await usersCollection.find({
-      trips: {
-        $elemMatch: {
-          date,
-          destination: { $regex: new RegExp(`^${destination}$`, "i") },
+    const users = await usersCollection
+      .find({
+        trips: {
+          $elemMatch: {
+            date,
+            destination: { $regex: new RegExp(`^${destination}$`, "i") },
+          },
         },
-      },
-    })
-    .project({ firstName: 1, lastName: 1, email: 1, college: 1, img: 1, trips: 1 })
-    .toArray();
+      })
+      .project({ firstName: 1, lastName: 1, email: 1, college: 1, img: 1, trips: 1 })
+      .toArray();
 
     res.json({ success: true, users });
   } catch (err) {
@@ -245,6 +248,7 @@ app.post("/api/find-users-by-trip", async (req, res) => {
   }
 });
 
+// ✅ Serve frontend pages
 const pages = ["index", "find-companion", "explore-trips", "profile", "signin", "signup"];
 pages.forEach((page) =>
   app.get(`/${page === "index" ? "" : page}`, (req, res) =>
@@ -252,7 +256,9 @@ pages.forEach((page) =>
   )
 );
 
+// ✅ Default route
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 
+// ✅ Start Server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
