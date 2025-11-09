@@ -65,6 +65,7 @@
       .nav-logo h2 {font-size:1.3rem;}
     }
 
+
     /* Hero */
     .page-hero {
       background: linear-gradient(135deg,#00BFA6,#FDCB6E);
@@ -75,6 +76,7 @@
     }
     .page-hero h1 {font-size:3rem;font-weight:700;margin-bottom:1rem;}
     .page-hero p {font-size:1.25rem;opacity:0.92;}
+
 
     /* Content */
     .page-content {
@@ -87,6 +89,7 @@
       padding:50px 20px 70px;
       width: 100%;
     }
+
 
     .search-box {
       background:white;border-radius:14px;
@@ -108,10 +111,12 @@
     }
     .search-box button:hover {transform:scale(1.05);}
 
+
     #noResults {
       text-align:center;color:#00BFA6;font-weight:600;
       margin-top:38px;font-size:1.18rem;
     }
+
 
     #resultsContainer {
       display:grid;
@@ -119,6 +124,7 @@
       gap:22px;
       margin-top:20px;
     }
+
 
     .card {
       background:white;border-radius:14px;
@@ -148,6 +154,7 @@
     }
     .view-btn:hover {transform:scale(1.05);}
 
+
     /* Footer */
     .footer {
       background:#2D3436;
@@ -157,6 +164,36 @@
       flex-shrink: 0;
     }
     .footer h3 {color:#00BFA6;}
+
+
+    /* Skeleton Loading */
+    .skeleton {
+      position: relative;
+      overflow: hidden;
+    }
+    .skeleton-img {
+      width: 100%;
+      height: 175px;
+      background: #eee;
+      border-radius: 14px 14px 0 0;
+    }
+    .skeleton-line {
+      height: 12px;
+      background: #eee;
+      border-radius: 6px;
+      margin: 8px 0;
+    }
+    .skeleton::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -150px;
+      width: 100px; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: shimmer 1.3s infinite;
+    }
+    @keyframes shimmer {
+      100% { left: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -182,9 +219,9 @@
   <section class="page-content">
     <div class="search-box">
       <label>Date:</label>
-      <input type="date" id="tripDate">
+      <input type="date" id="tripDate" />
       <label>Destination:</label>
-      <input type="text" id="destination" placeholder="e.g. Jaipur, Goa, Delhi">
+      <input type="text" id="destination" placeholder="e.g. Jaipur, Goa, Delhi" />
       <button onclick="searchTrips()">🔍 Search</button>
     </div>
     <p id="noResults" style="display:none;">No travelers found for this trip 😔</p>
@@ -197,6 +234,7 @@
   </footer>
 
   <script>
+    // Redirect if user not logged in
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
       alert("Please log in first to access this page.");
@@ -211,30 +249,37 @@
       ? "http://localhost:5001"
       : "https://travelbuddy-hluu.onrender.com";
 
-    window.addEventListener("load", async () => {
-      try {
-        const res = await fetch(`${baseURL}/api/get-all-users`);
-        const data = await res.json();
-        if (data.success && data.users?.length > 0) {
-          renderUsers(data.users.slice(0, 10));
-        } else {
-          document.getElementById("noResults").style.display = "block";
-        }
-      } catch (err) {
-        console.error("Error fetching users:", err);
-        alert("Unable to fetch user profiles. Please try again later.");
-      }
-    });
+    const container = document.getElementById("resultsContainer");
+    const noResults = document.getElementById("noResults");
 
-    function renderUsers(users) {
-      const container = document.getElementById("resultsContainer");
+    // Fetch early to wake backend
+    fetch(`${baseURL}/api/ping`).catch(() => {});
+
+    // Show skeleton placeholders
+    function showSkeletons(count = 6) {
       container.innerHTML = "";
+      for (let i = 0; i < count; i++) {
+        container.innerHTML += `
+          <div class="card skeleton">
+            <div class="skeleton-img"></div>
+            <div class="card-content">
+              <div class="skeleton-line" style="width:60%"></div>
+              <div class="skeleton-line" style="width:80%"></div>
+              <div class="skeleton-line" style="width:70%"></div>
+            </div>
+          </div>`;
+      }
+    }
+
+    // Improved user render: build HTML string once
+    function renderUsers(users) {
+      let html = "";
       users.forEach(user => {
         const trip = user.trips && user.trips[0] ? user.trips[0] : { date: "N/A", destination: "Not Added" };
         const img = user.img || "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=facearea&w=400&h=300&facepad=2";
-        container.innerHTML += `
+        html += `
           <div class="card">
-            <img src="${img}" alt="${user.firstName}">
+            <img src="${img}" alt="${user.firstName}" loading="lazy">
             <div class="card-content">
               <h2>${user.firstName || "Unknown"} ${user.lastName || ""}</h2>
               <p><b>College:</b> ${user.college || "Not Mentioned"}</p>
@@ -244,8 +289,61 @@
             </div>
           </div>`;
       });
+      container.innerHTML = html;
     }
 
+    // Load all users with retry on page load
+    window.addEventListener("load", async () => {
+      showSkeletons();
+      noResults.style.display = "block";
+      noResults.textContent = "⏳ Connecting to server... please wait";
+
+      let attempt = 0;
+      let loaded = false;
+
+      while (attempt < 2 && !loaded) {
+        try {
+          const res = await fetch(`${baseURL}/api/get-all-users`);
+          const data = await res.json();
+
+          if (data.success && data.users?.length > 0) {
+            renderUsers(data.users.slice(0, 10));
+            noResults.style.display = "none";
+            loaded = true;
+          } else {
+            noResults.style.display = "block";
+            noResults.textContent = "No travelers found 😔";
+          }
+        } catch (err) {
+          attempt++;
+          console.warn(`Attempt ${attempt} failed, retrying...`);
+          noResults.style.display = "block";
+          noResults.textContent = "⚙️ Server waking up... retrying in 3 seconds";
+
+          if (attempt < 2) {
+            await new Promise(resolve => setTimeout(resolve, 3000)); // wait 3 sec
+          } else {
+            noResults.textContent = "❌ Unable to reach server. Please refresh after a few seconds.";
+          }
+        }
+      }
+    });
+
+    // Fetch with timeout utility to prevent hanging
+    async function fetchWithTimeout(url, options = {}, timeout = 5000) {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      try {
+        const response = await fetch(url, { ...options, signal: controller.signal });
+        clearTimeout(id);
+        return response;
+      } catch (e) {
+        clearTimeout(id);
+        throw e;
+      }
+    }
+
+    // Search trips optimized
     async function searchTrips() {
       const date = document.getElementById("tripDate").value;
       const destination = document.getElementById("destination").value.trim();
@@ -253,27 +351,30 @@
         alert("Please enter both date and destination.");
         return;
       }
+      showSkeletons(4);
+      noResults.style.display = "none";
 
       try {
-        const res = await fetch(`${baseURL}/api/find-users-by-trip`, {
+        const res = await fetchWithTimeout(`${baseURL}/api/find-users-by-trip`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ date, destination })
-        });
-        const data = await res.json();
-        const noResults = document.getElementById("noResults");
-        const container = document.getElementById("resultsContainer");
+          body: JSON.stringify({ date, destination }),
+        }, 5000);
 
+        const data = await res.json();
         if (!data.success || !data.users?.length) {
           container.innerHTML = "";
           noResults.style.display = "block";
+          noResults.textContent = "No travelers found for this trip 😔";
         } else {
           noResults.style.display = "none";
           renderUsers(data.users);
         }
       } catch (err) {
         console.error("❌ Fetch Error:", err);
-        alert("Unable to connect to server. Please try again later.");
+        container.innerHTML = "";
+        noResults.style.display = "block";
+        noResults.textContent = "❌ Unable to connect. Please try again later.";
       }
     }
   </script>
